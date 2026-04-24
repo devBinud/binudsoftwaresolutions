@@ -2,6 +2,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
 import { HiCheckCircle } from 'react-icons/hi';
+import binud from '../assets/team/binud.png';
 
 const blobPath = 'M44,-58.5C56.6,-50.3,65.8,-36.2,69.2,-20.8C72.6,-5.4,70.2,11.3,63.1,25.4C56,39.5,44.2,51,30.3,57.8C16.4,64.6,0.4,66.7,-15.2,63.2C-30.8,59.7,-46,50.6,-56.3,37.5C-66.6,24.4,-72,7.3,-70.1,-9C-68.2,-25.3,-59,-40.8,-46.3,-49C-33.6,-57.2,-16.8,-58.1,0,-58.1C16.8,-58.1,31.4,-66.7,44,-58.5Z';
 
@@ -93,7 +94,7 @@ const TeamSection = () => {
 
               {/* Photo */}
               <img
-                src="/src/assets/team/binud.png"
+                src={binud}
                 alt="Binud Panging"
                 className="relative z-10 w-full h-full object-contain object-bottom"
               />
