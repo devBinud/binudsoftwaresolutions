@@ -73,14 +73,6 @@ const Navbar = () => {
               alt="Binud Software Solutions"
               className="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             />
-            <div className="flex flex-col">
-              <span className="font-black text-[#191919] text-xl tracking-tight leading-none">
-                Binud
-              </span>
-              <span className="text-[9px] text-[#475569] uppercase tracking-[0.2em] font-extrabold leading-none mt-1.5">
-                Software Solutions
-              </span>
-            </div>
           </Link>
 
           {/* ── Desktop Links ── */}

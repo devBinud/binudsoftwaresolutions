@@ -44,23 +44,12 @@ const StatsSection = () => {
                 Projects
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="text-left">
-                <span className="text-[10px] md:text-xs text-slate-600 font-black tracking-wider uppercase block leading-tight">
-                  Projects Completed
-                </span>
-                <span className="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase block tracking-widest mt-0.5">
-                  Guwahati & Globally
-                </span>
-              </div>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] shrink-0" />
-            </div>
           </div>
 
           {/* Watermark Block (Right) */}
           <div className="md:col-span-6 flex justify-start md:justify-end select-none pointer-events-none md:absolute md:right-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit">
             <span className="text-purple-600/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-purple-600/[0.07] font-sans">
-              Fun Numbers
+              Globally completed
             </span>
           </div>
         </motion.div>
@@ -73,7 +62,7 @@ const StatsSection = () => {
           {/* Watermark Block (Left) */}
           <div className="md:col-span-6 flex justify-start select-none pointer-events-none md:absolute md:left-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit order-last md:order-first">
             <span className="text-purple-600/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-purple-600/[0.07] font-sans">
-              Fun Numbers
+              INDUSTRY EXPERIENCE
             </span>
           </div>
 
@@ -86,17 +75,6 @@ const StatsSection = () => {
               <span className="text-xs md:text-sm text-slate-400 font-bold uppercase tracking-widest ml-2.5">
                 Years
               </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-left">
-                <span className="text-[10px] md:text-xs text-slate-600 font-black tracking-wider uppercase block leading-tight">
-                  Industry Experience
-                </span>
-                <span className="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase block tracking-widest mt-0.5">
-                  In Software Development
-                </span>
-              </div>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] shrink-0" />
             </div>
           </div>
         </motion.div>
@@ -116,23 +94,12 @@ const StatsSection = () => {
                 Clients
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="text-left">
-                <span className="text-[10px] md:text-xs text-slate-600 font-black tracking-wider uppercase block leading-tight">
-                  Happy Clients
-                </span>
-                <span className="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase block tracking-widest mt-0.5">
-                  Trusted Worldwide
-                </span>
-              </div>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] shrink-0" />
-            </div>
           </div>
 
           {/* Watermark Block (Right) */}
           <div className="md:col-span-6 flex justify-start md:justify-end select-none pointer-events-none md:absolute md:right-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit">
             <span className="text-purple-600/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-purple-600/[0.07] font-sans">
-              Fun Numbers
+              HAPPY CLIENTS
             </span>
           </div>
         </motion.div>

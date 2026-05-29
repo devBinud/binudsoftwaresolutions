@@ -94,9 +94,9 @@ const HeroSection = () => {
             variants={itemVariants}
             className="text-white text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-black leading-[1.1] tracking-tight mb-6 font-sans"
           >
-            Your Vision <br className="hidden sm:inline" />
+           We offer Software & Mobile App Development <br className="hidden sm:inline" />
             with AI-Driven <br />
-            Innovation.
+            Solutions
           </motion.h1>
 
           {/* Sleek Subtext Description */}
@@ -105,7 +105,7 @@ const HeroSection = () => {
             className="text-slate-300 text-base sm:text-lg mb-8 max-w-xl font-medium leading-relaxed"
           >
             In today's competitive business, the demand for efficient and
-            cost-effective IT solutions for your company.
+            cost-effective IT solutions for your business
           </motion.p>
 
           {/* Premium Glowing Gradient Button */}
@@ -142,7 +142,7 @@ const HeroSection = () => {
             </div>
 
             <span className="text-slate-300 text-xs sm:text-sm font-semibold tracking-wide ml-4 hover:text-white transition-colors duration-200 cursor-default">
-              Join our 50503+ Satisfied World Clients
+              Join our 33+ Satisfied World Clients
             </span>
           </motion.div>
         </motion.div>
