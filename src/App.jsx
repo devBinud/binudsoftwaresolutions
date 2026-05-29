@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
-import CustomCursor from './components/CustomCursor';
 
 // Public pages
 import Home from './pages/Home';
@@ -26,7 +25,6 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <CustomCursor />
         <ScrollToTop />
         <Toaster
           position="top-right"

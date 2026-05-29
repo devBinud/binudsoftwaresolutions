@@ -10,7 +10,6 @@
 * {
   scroll-behavior: smooth;
   box-sizing: border-box;
-  cursor: none !important;
 }
 
 html {
@@ -20,7 +19,7 @@ html {
 body {
   background-color: #ffffff;
   color: #1a1a2e;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -189,4 +188,9 @@ body {
   background: #e8f2fb;
   color: #005d9e;
   font-weight: 600;
+}
+
+/* Site-wide Typography Override */
+.scnsoft-font {
+  font-family: 'DM Sans', system-ui, sans-serif !important;
 }

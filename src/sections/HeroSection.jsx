@@ -1,145 +1,183 @@
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { HiArrowRight } from 'react-icons/hi';
-import { FaCode, FaMobileAlt, FaCloud, FaRobot } from 'react-icons/fa';
-
-const services = [
-  { icon: FaCode,      label: 'Web Development' },
-  { icon: FaMobileAlt, label: 'Mobile Apps' },
-  { icon: FaCloud,     label: 'Cloud Solutions' },
-  { icon: FaRobot,     label: 'AI & Automation' },
-];
+import { FaYoutube, FaInstagram, FaTwitter, FaFacebookF } from 'react-icons/fa';
+import heroImage from '../assets/hero-image.png';
+import heroMainBg from '../assets/hero-main-bg.png';
+import binud from '../assets/team/binud.png';
 
 const HeroSection = () => {
+  // Stagger animation container
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  // Standard slide up animation for items
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 70,
+        damping: 15,
+      },
+    },
+  };
+
   return (
-    <section className="relative pt-40 pb-20 overflow-hidden bg-[#f0f7ff]">
+    <section
+      className="relative min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-[#0a0316] select-none"
+      style={{
+        backgroundImage: `url(${heroMainBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Dynamic Glowing Ambient Blobs for Volume & Depth */}
+      <div className="absolute top-1/4 right-1/4 w-[350px] h-[350px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[8000ms]" />
+      <div className="absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[90px] pointer-events-none animate-pulse duration-[6000ms]" />
 
-      {/* Light dot-grid pattern */}
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #93c5fd 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-        }}
-      />
+      {/* ── Left Social Sidebar (no background image) ── */}
+      <div className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center">
+        <div className="flex flex-col items-center gap-6">
+          {/* Vertical rotated text */}
+          <span className="[writing-mode:vertical-lr] rotate-180 text-white/50 text-[10px] tracking-[0.25em] font-extrabold uppercase select-none">
+            Follow Us On
+          </span>
 
-      {/* Soft colour blobs */}
-      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-3xl" />
-      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-sky-100/60 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-indigo-50/50 rounded-full blur-3xl" />
+          {/* Small separation line */}
+          <div className="w-[1px] h-12 bg-white/20" />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-          {/* Left Content */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="badge mb-5 inline-block">
-                🚀 Trusted Software Partner
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl font-bold text-[#0f172a] leading-tight mb-5"
-            >
-              We Build Digital Solutions That{' '}
-              <span className="text-[#005d9e]">Drive Growth</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-[#64748b] text-lg leading-relaxed mb-8 max-w-lg"
-            >
-              Binud Software Solutions delivers cutting-edge web, mobile, and enterprise software
-              tailored to your business. From idea to launch — we've got you covered.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap gap-3 mb-10"
-            >
-              <Link to="/contact" className="btn-primary">
-                Start Your Project <HiArrowRight />
-              </Link>
-              <Link to="/portfolio" className="btn-outline">
-                View Our Work
-              </Link>
-            </motion.div>
-
-            {/* Trust indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap items-center gap-6"
-            >
-              {[
-                { num: '50+', label: 'Projects' },
-                { num: '30+', label: 'Clients' },
-                { num: '5+', label: 'Years' },
-                { num: '99%', label: 'Satisfaction' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <div className="text-xl font-bold text-[#005d9e]">{s.num}</div>
-                  <div className="text-xs text-[#94a3b8] font-medium">{s.label}</div>
-                </div>
-              ))}
-            </motion.div>
+          {/* Icon Circle Buttons */}
+          <div className="flex flex-col gap-3">
+            {[
+              { Icon: FaYoutube, url: 'https://youtube.com', color: 'hover:text-red-500' },
+              { Icon: FaInstagram, url: 'https://instagram.com', color: 'hover:text-pink-500' },
+              { Icon: FaTwitter, url: 'https://twitter.com', color: 'hover:text-sky-400' },
+              { Icon: FaFacebookF, url: 'https://facebook.com', color: 'hover:text-blue-500' },
+            ].map(({ Icon, url, color }, index) => (
+              <a
+                key={index}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                className={`w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/60 ${color} hover:bg-white/10 hover:border-white/30 transition-all duration-300 shadow-sm`}
+              >
+                <Icon size={14} />
+              </a>
+            ))}
           </div>
+        </div>
+      </div>
 
-          {/* Right — Clean card, no logo, no animations */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative hidden lg:block"
+      {/* ── Main Layout Container ── */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full z-10 relative">
+
+        {/* Left Column: Text & Content */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="lg:col-span-7 flex flex-col justify-center text-left"
+        >
+          {/* Futuristic Title */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-white text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-black leading-[1.1] tracking-tight mb-6 font-sans"
           >
-            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl p-8">
+            Your Vision <br className="hidden sm:inline" />
+            with AI-Driven <br />
+            Innovation.
+          </motion.h1>
 
-              <h3 className="text-[#0f172a] font-bold text-xl mb-1">Binud Software Solutions</h3>
-              <p className="text-[#64748b] text-sm mb-6">Your trusted technology partner for digital transformation.</p>
+          {/* Sleek Subtext Description */}
+          <motion.p
+            variants={itemVariants}
+            className="text-slate-300 text-base sm:text-lg mb-8 max-w-xl font-medium leading-relaxed"
+          >
+            In today's competitive business, the demand for efficient and
+            cost-effective IT solutions for your company.
+          </motion.p>
 
-              {/* Service cards */}
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                {services.map(({ icon: Icon, label }) => (
-                  <div
-                    key={label}
-                    className="bg-[#f0f7ff] rounded-2xl border border-blue-100 p-4 flex items-center gap-3"
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-[#005d9e] flex items-center justify-center shrink-0">
-                      <Icon size={17} className="text-white" />
-                    </div>
-                    <span className="text-[#0f172a] text-xs font-semibold leading-snug">{label}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Status row */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-semibold text-[#0f172a]">Available for Projects</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span>⭐</span>
-                  <span className="text-xs font-bold text-[#0f172a]">5.0 Client Rating</span>
-                </div>
-              </div>
-            </div>
+          {/* Premium Glowing Gradient Button */}
+          <motion.div variants={itemVariants} className="mb-10">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-[#9b51e0] to-[#3081ec] text-white font-bold text-sm uppercase tracking-wider rounded-lg shadow-[0_4px_24px_rgba(155,81,224,0.4)] hover:shadow-[0_8px_32px_rgba(155,81,224,0.65)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+            >
+              Get Started
+            </Link>
           </motion.div>
 
-        </div>
+          {/* Satisfied Clients overlapping avatars */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center"
+          >
+            <div className="flex -space-x-3.5 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80"
+                alt="Client 1"
+                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80"
+                alt="Client 2"
+                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg"
+              />
+              <img
+                src={binud}
+                alt="Client 3"
+                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg bg-slate-900"
+              />
+            </div>
+
+            <span className="text-slate-300 text-xs sm:text-sm font-semibold tracking-wide ml-4 hover:text-white transition-colors duration-200 cursor-default">
+              Join our 50503+ Satisfied World Clients
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* Right Column: AI Cybernetic Woman Illustration */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="lg:col-span-5 flex justify-center lg:justify-end relative"
+        >
+          {/* Subtle Cyber Glow Backdrop */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-blue-500/15 rounded-full blur-[80px] pointer-events-none mix-blend-screen" />
+
+          {/* Cyber Character with premium smooth hover animation */}
+          <motion.img
+            src={heroImage}
+            alt="AI Cybernetic Character"
+            className="w-[85%] md:w-[70%] lg:w-[95%] h-auto object-contain drop-shadow-[0_12px_40px_rgba(138,43,226,0.35)] relative z-10"
+            animate={{
+              y: [0, -14, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </motion.div>
+
+      </div>
+
+      {/* ── Absolute Background Watermark ── */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-black text-[7vw] sm:text-[8vw] tracking-[0.25em] text-white/[0.03] uppercase select-none pointer-events-none whitespace-nowrap z-0 font-sans">
+        BINUD SOFTWARE
       </div>
     </section>
   );

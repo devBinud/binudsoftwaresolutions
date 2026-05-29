@@ -1,192 +1,228 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiMenuAlt3, HiX, HiPhone, HiMail, HiClock, HiLocationMarker } from 'react-icons/hi';
-import { motion, AnimatePresence } from 'framer-motion';
-import AnnouncementBar from './AnnouncementBar';
-
-const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Services', path: '/services' },
-  { name: 'Portfolio', path: '/portfolio' },
-  { name: 'Contact', path: '/contact' },
-];
-
-/** Returns current Guwahati (IST, UTC+5:30) time as a 12-hour string */
-const getGuwahatiTime = () => {
-  return new Date().toLocaleTimeString('en-IN', {
-    timeZone: 'Asia/Kolkata',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true,
-  });
-};
+import { HiMenuAlt3, HiX, HiMail, HiPhone } from 'react-icons/hi';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showBar, setShowBar] = useState(true);
-  const [currentTime, setCurrentTime] = useState(getGuwahatiTime);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
 
+  /* ── Scroll listener ── */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => setMenuOpen(false), [location]);
-
-  // Tick every second to keep the clock live
+  /* ── Close drawer on route change ── */
   useEffect(() => {
-    const id = setInterval(() => setCurrentTime(getGuwahatiTime()), 1000);
-    return () => clearInterval(id);
-  }, []);
+    setDrawerOpen(false);
+  }, [location]);
+
+  /* ── Lock body scroll when drawer is open ── */
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [drawerOpen]);
+
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Projects', path: '/portfolio' },
+    { name: 'Case Studies', path: '/portfolio?tab=case-studies' },
+    { name: 'Blog', path: '/about?tab=blog' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  const isLinkActive = (linkPath) => {
+    const current = location.pathname + location.search;
+    if (linkPath.includes('?')) {
+      return current === linkPath;
+    }
+    return current === linkPath || (location.pathname === linkPath && !location.search);
+  };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-shadow duration-300 ${
-      scrolled ? 'shadow-sm' : 'shadow-none'
-    }`}>
+    <>
+      {/* ═══════════════════════════════════════════════════════
+          TOP NAVBAR BAR
+      ═══════════════════════════════════════════════════════ */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none ${
+          scrolled
+            ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-slate-100'
+            : 'border-b border-slate-200/60'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
-      {/* ── Top info bar ── */}
-      <div className="bg-[#003f6e] text-white text-xs hidden md:block">
-        <div className="max-w-6xl mx-auto px-6 h-9 flex items-center justify-between">
-          {/* Left — location + live clock */}
-          <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5 text-blue-200">
-              <HiLocationMarker size={13} className="shrink-0" />
-              Guwahati, Assam, India
-            </span>
-            <span className="flex items-center gap-1.5 text-blue-200">
-              <HiClock size={13} className="shrink-0" />
-              <span className="tabular-nums font-medium text-white">{currentTime}</span>
-              <span className="text-blue-300">(IST)</span>
-            </span>
-          </div>
-
-          {/* Right — contact details */}
-          <div className="flex items-center gap-5">
-            <a
-              href="tel:+919706393924"
-              className="flex items-center gap-1.5 text-blue-200 hover:text-white transition-colors"
-            >
-              <HiPhone size={13} className="shrink-0" />
-              +91 97063 393924
-            </a>
-            <a
-              href="mailto:binudsoftwaresolutions@gmail.com"
-              className="flex items-center gap-1.5 text-blue-200 hover:text-white transition-colors"
-            >
-              <HiMail size={13} className="shrink-0" />
-              binudsoftwaresolutions@gmail.com
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Announcement bar */}
-      <AnimatePresence>
-        {showBar && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden"
-          >
-            <AnnouncementBar onClose={() => setShowBar(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main nav row */}
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="Binud Software Solutions" className="h-14 w-auto object-contain" />
-        </Link>
-
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const isActive = location.pathname === link.path;
-            return (
-              <Link
-                key={link.path}
-                to={link.path}
-                className="relative px-4 py-2 text-sm font-medium group"
-              >
-                <span className={`transition-colors duration-200 ${
-                  isActive ? 'text-[#005d9e]' : 'text-[#475569] group-hover:text-[#005d9e]'
-                }`}>
-                  {link.name}
-                </span>
-
-                {/* Active dot */}
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-dot"
-                    className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#005d9e]"
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link to="/contact" className="btn-primary text-sm py-2 px-5">
-            Get a Quote
+          {/* ── Logo ── */}
+          <Link to="/" className="flex items-center gap-3 shrink-0 group">
+            <img
+              src="/logo.png"
+              alt="Binud Software Solutions"
+              className="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+            <div className="flex flex-col">
+              <span className="font-black text-[#191919] text-xl tracking-tight leading-none">
+                Binud
+              </span>
+              <span className="text-[9px] text-[#475569] uppercase tracking-[0.2em] font-extrabold leading-none mt-1.5">
+                Software Solutions
+              </span>
+            </div>
           </Link>
+
+          {/* ── Desktop Links ── */}
+          <div className="hidden xl:flex items-center gap-8 h-full">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`text-[14.5px] font-bold tracking-wide transition-colors duration-200 py-2 ${
+                  isLinkActive(link.path)
+                    ? 'text-[#9b51e0]'
+                    : 'text-slate-800 hover:text-[#9b51e0]'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* ── Right side actions ── */}
+          <div className="flex items-center gap-4 shrink-0">
+            <Link
+              to="/contact"
+              className="hidden md:block bg-gradient-to-r from-[#9b51e0] to-[#3081ec] text-white font-extrabold text-[12px] uppercase tracking-wider px-6 py-2.5 rounded-full shadow-[0_4px_18px_rgba(155,81,224,0.3)] hover:shadow-[0_6px_24px_rgba(155,81,224,0.5)] hover:scale-[1.03] transition-all duration-300 text-center"
+            >
+              Contact us
+            </Link>
+
+            {/* Hamburger Toggle */}
+            <button
+              className="xl:hidden p-2 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
+              onClick={openDrawer}
+              aria-label="Open menu"
+            >
+              <HiMenuAlt3 size={20} />
+            </button>
+          </div>
+
+        </div>
+      </nav>
+
+      {/* ═══════════════════════════════════════════════════════
+          MOBILE DRAWER — Backdrop + Slide Panel
+      ═══════════════════════════════════════════════════════ */}
+
+      {/* Backdrop overlay */}
+      <div
+        onClick={closeDrawer}
+        className="fixed inset-0 z-[998]"
+        style={{
+          background: 'rgba(15, 23, 42, 0.45)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          opacity: drawerOpen ? 1 : 0,
+          pointerEvents: drawerOpen ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease',
+        }}
+      />
+
+      {/* Slide-out Drawer */}
+      <div
+        className="fixed top-0 left-0 bottom-0 z-[999] flex flex-col"
+        style={{
+          width: '290px',
+          maxWidth: '80vw',
+          height: '100vh',
+          background: '#ffffff',
+          boxShadow: drawerOpen ? '4px 0 25px rgba(0,0,0,0.12)' : 'none',
+          transform: drawerOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform',
+        }}
+      >
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between p-6 pb-5 border-b border-slate-100">
+          <Link to="/" className="flex items-center gap-2" onClick={closeDrawer}>
+            <img
+              src="/logo.png"
+              alt="Binud Software Solutions"
+              className="h-8 w-auto object-contain"
+            />
+            <span className="font-black text-[#191919] text-base tracking-tight leading-none">
+              Binud
+            </span>
+          </Link>
+          <button
+            onClick={closeDrawer}
+            className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-500 transition-colors"
+            aria-label="Close menu"
+          >
+            <HiX size={18} />
+          </button>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden p-2 rounded-lg text-[#475569] hover:bg-gray-100 transition-colors"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15 }}
-            className="md:hidden bg-white border-t border-gray-100 shadow-lg"
-          >
-            <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
-              {navLinks.map((link) => (
+        {/* Drawer Navigation Links */}
+        <div className="flex-1 overflow-y-auto p-6 pt-4">
+          <div className="flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.path);
+              return (
                 <Link
-                  key={link.path}
+                  key={link.name}
                   to={link.path}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    location.pathname === link.path
-                      ? 'text-[#005d9e] bg-[#e8f2fb]'
-                      : 'text-[#475569] hover:bg-gray-50'
+                  onClick={closeDrawer}
+                  className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-200 ${
+                    active
+                      ? 'bg-[#9b51e0]/8 text-[#9b51e0]'
+                      : 'text-slate-800 hover:bg-slate-50 hover:text-[#9b51e0]'
                   }`}
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  <span className="opacity-30 text-xs">→</span>
                 </Link>
-              ))}
-              <div className="pt-2 border-t border-gray-100 mt-1">
-                <Link to="/contact" className="btn-primary w-full justify-center text-sm">
-                  Get a Quote
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Drawer Footer */}
+        <div className="p-6 border-t border-slate-100 bg-[#fbfbfe]">
+          <div className="flex flex-col gap-3.5 text-xs text-slate-500 font-bold">
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider font-extrabold px-1">
+              Connect with us
+            </span>
+            <a
+              href="mailto:binudsoftwaresolutions@gmail.com"
+              className="flex items-center gap-2.5 px-1 hover:text-[#9b51e0] transition-colors"
+            >
+              <HiMail className="text-sm text-slate-400 shrink-0" />
+              <span className="truncate">binudsoftwaresolutions@gmail.com</span>
+            </a>
+            <a
+              href="tel:+919706393924"
+              className="flex items-center gap-2.5 px-1 hover:text-[#9b51e0] transition-colors"
+            >
+              <HiPhone className="text-sm text-slate-400 shrink-0" />
+              <span>+91 97063 93924</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
