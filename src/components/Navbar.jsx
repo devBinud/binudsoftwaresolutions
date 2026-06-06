@@ -9,7 +9,9 @@ const Navbar = () => {
 
   /* ── Scroll listener ── */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -40,7 +42,6 @@ const Navbar = () => {
     { name: 'Services', path: '/services' },
     { name: 'Projects', path: '/portfolio' },
     { name: 'Case Studies', path: '/portfolio?tab=case-studies' },
-    { name: 'Blog', path: '/about?tab=blog' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -58,11 +59,10 @@ const Navbar = () => {
           TOP NAVBAR BAR
       ═══════════════════════════════════════════════════════ */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none ${
-          scrolled
-            ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-slate-100'
-            : 'border-b border-slate-200/60'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none font-sans ${scrolled
+          ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-slate-100'
+          : 'border-b border-slate-200/60'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
@@ -81,11 +81,10 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[14.5px] font-bold tracking-wide transition-colors duration-200 py-2 ${
-                  isLinkActive(link.path)
-                    ? 'text-[#9b51e0]'
-                    : 'text-slate-800 hover:text-[#9b51e0]'
-                }`}
+                className={`text-[14.5px] font-sans font-bold tracking-wide transition-colors duration-200 py-2 ${isLinkActive(link.path)
+                  ? 'text-[#274e85]'
+                  : 'text-slate-800 hover:text-[#274e85]'
+                  }`}
               >
                 {link.name}
               </Link>
@@ -96,7 +95,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4 shrink-0">
             <Link
               to="/contact"
-              className="hidden md:block bg-gradient-to-r from-[#9b51e0] to-[#3081ec] text-white font-extrabold text-[12px] uppercase tracking-wider px-6 py-2.5 rounded-full shadow-[0_4px_18px_rgba(155,81,224,0.3)] hover:shadow-[0_6px_24px_rgba(155,81,224,0.5)] hover:scale-[1.03] transition-all duration-300 text-center"
+              className="hidden md:block bg-[#695dd3] text-white font-sans font-extrabold text-[12px] uppercase tracking-wider px-6 py-2.5 rounded-full shadow-[0_4px_18px_rgba(105,93,211,0.25)] hover:shadow-[0_6px_24px_rgba(105,93,211,0.45)] hover:scale-[1.03] hover:bg-[#574cbd] transition-all duration-300 text-center"
             >
               Contact us
             </Link>
@@ -148,15 +147,12 @@ const Navbar = () => {
       >
         {/* Drawer Header */}
         <div className="flex items-center justify-between p-6 pb-5 border-b border-slate-100">
-          <Link to="/" className="flex items-center gap-2" onClick={closeDrawer}>
+          <Link to="/" className="flex items-center" onClick={closeDrawer}>
             <img
               src="/logo.png"
               alt="Binud Software Solutions"
-              className="h-8 w-auto object-contain"
+              className="h-9 w-auto object-contain"
             />
-            <span className="font-black text-[#191919] text-base tracking-tight leading-none">
-              Binud
-            </span>
           </Link>
           <button
             onClick={closeDrawer}
@@ -169,7 +165,7 @@ const Navbar = () => {
 
         {/* Drawer Navigation Links */}
         <div className="flex-1 overflow-y-auto p-6 pt-4">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {navLinks.map((link) => {
               const active = isLinkActive(link.path);
               return (
@@ -177,14 +173,13 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   onClick={closeDrawer}
-                  className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  className={`flex items-center rounded-xl text-sm font-sans font-bold transition-all duration-300 py-3.5 ${
                     active
-                      ? 'bg-[#9b51e0]/8 text-[#9b51e0]'
-                      : 'text-slate-800 hover:bg-slate-50 hover:text-[#9b51e0]'
+                      ? 'bg-[#274e85]/8 text-[#274e85] pl-6 pr-4'
+                      : 'text-slate-800 hover:bg-slate-50/80 hover:text-[#274e85] pl-4 pr-4 hover:pl-6'
                   }`}
                 >
                   <span>{link.name}</span>
-                  <span className="opacity-30 text-xs">→</span>
                 </Link>
               );
             })}
@@ -199,14 +194,14 @@ const Navbar = () => {
             </span>
             <a
               href="mailto:binudsoftwaresolutions@gmail.com"
-              className="flex items-center gap-2.5 px-1 hover:text-[#9b51e0] transition-colors"
+              className="flex items-center gap-2.5 px-1 hover:text-[#274e85] transition-colors"
             >
               <HiMail className="text-sm text-slate-400 shrink-0" />
               <span className="truncate">binudsoftwaresolutions@gmail.com</span>
             </a>
             <a
               href="tel:+919706393924"
-              className="flex items-center gap-2.5 px-1 hover:text-[#9b51e0] transition-colors"
+              className="flex items-center gap-2.5 px-1 hover:text-[#274e85] transition-colors"
             >
               <HiPhone className="text-sm text-slate-400 shrink-0" />
               <span>+91 97063 93924</span>

@@ -30,7 +30,7 @@ const AnnouncementBar = ({ onClose }) => {
   }, []);
 
   return (
-    <div className="bg-[#005d9e] text-white px-4 py-2.5 flex items-center justify-center gap-4 relative">
+    <div className="bg-[#274e85] text-white px-4 py-2.5 flex items-center justify-center gap-4 relative">
       {/* Message */}
       <div className="flex items-center gap-2 text-sm font-medium">
         <span>🎯</span>
@@ -58,7 +58,7 @@ const AnnouncementBar = ({ onClose }) => {
       {/* CTA */}
       <Link
         to="/contact"
-        className="bg-white text-[#005d9e] text-xs font-bold px-4 py-1.5 rounded-full hover:bg-blue-50 transition-colors whitespace-nowrap"
+        className="bg-white text-[#274e85] text-xs font-bold px-4 py-1.5 rounded-full hover:bg-blue-50 transition-colors whitespace-nowrap"
       >
         Grab Now →
       </Link>

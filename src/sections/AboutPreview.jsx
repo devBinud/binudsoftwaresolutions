@@ -20,8 +20,11 @@ const AboutPreview = () => {
             className="flex flex-col text-left"
           >
             <h2 className="text-[#191919] text-3xl sm:text-[36px] lg:text-[40px] font-black leading-[1.15] tracking-tight font-sans">
-              Top Web & Mobile Application Development, Custom Software Engineering & IT Consulting Company, Building Smart Solutions For A Smarter World.
+              Top Web & Mobile Application Development, Custom Software Engineering & IT Consulting Company,
             </h2>
+            <p className="text-slate-400 text-3xl sm:text-[36px] lg:text-[40px] font-black leading-[1.15] tracking-tight font-sans mt-0">
+              Building Smart Solutions For A Smarter World.
+            </p>
             {/* Short clean horizontal divider in #191919 */}
             <div className="w-16 h-[3px] bg-[#191919] mt-8" />
           </motion.div>

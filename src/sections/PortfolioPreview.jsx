@@ -10,8 +10,8 @@ const projects = [
     category: 'Web Development',
     desc: 'Full-stack e-commerce with real-time inventory, payment gateway, and admin dashboard.',
     tags: ['React', 'Node.js', 'MongoDB'],
-    bg: '#e8f2fb',
-    accent: '#005d9e',
+    bg: '#e8eef7',
+    accent: '#274e85',
   },
   {
     title: 'Healthcare Mobile App',
@@ -19,7 +19,7 @@ const projects = [
     desc: 'Patient management app with appointment booking and telemedicine features.',
     tags: ['Flutter', 'Firebase'],
     bg: '#eff6ff',
-    accent: '#0073c4',
+    accent: '#274e85',
   },
   {
     title: 'SaaS Analytics Dashboard',
@@ -27,7 +27,7 @@ const projects = [
     desc: 'Real-time business analytics platform with custom charts and team collaboration.',
     tags: ['React', 'Python', 'AWS'],
     bg: '#f0f9ff',
-    accent: '#0284c7',
+    accent: '#274e85',
   },
 ];
 
@@ -70,7 +70,7 @@ const PortfolioPreview = () => {
                 >
                   {project.title[0]}
                 </div>
-                <div className="absolute inset-0 bg-[#005d9e]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#274e85]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <HiExternalLink size={26} className="text-white" />
                 </div>
               </div>

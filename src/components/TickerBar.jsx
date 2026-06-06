@@ -22,7 +22,7 @@ const TickerBar = () => {
   const doubled = [...items, ...items];
 
   return (
-    <div className="bg-[#005d9e] overflow-hidden py-2.5 select-none">
+    <div className="bg-[#274e85] overflow-hidden py-2.5 select-none">
       <div className="ticker-track">
         {doubled.map((item, i) => (
           <span key={i} className="flex items-center gap-2 px-5 text-white text-xs font-medium whitespace-nowrap">

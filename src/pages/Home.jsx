@@ -5,6 +5,7 @@ import HeroSection from '../sections/HeroSection';
 import StatsSection from '../sections/StatsSection';
 import AboutPreview from '../sections/AboutPreview';
 import ServicesPreview from '../sections/ServicesPreview';
+import ConnectSection from '../sections/ConnectSection';
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <StatsSection />
       <AboutPreview />
       <ServicesPreview />
+      <ConnectSection />
       <Footer />
     </div>
   );

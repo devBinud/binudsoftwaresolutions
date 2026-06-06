@@ -1,78 +1,8 @@
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { HiCheckCircle } from 'react-icons/hi';
-
-const values = [
-  { num: '01', title: 'Innovation', desc: 'We stay ahead of the curve, adopting the latest technologies to deliver cutting-edge solutions.' },
-  { num: '02', title: 'Integrity', desc: 'Transparent communication and honest relationships are the foundation of everything we do.' },
-  { num: '03', title: 'Excellence', desc: 'We hold ourselves to the highest standards in code quality, design, and delivery.' },
-  { num: '04', title: 'Collaboration', desc: 'We work as an extension of your team, not just a vendor.' },
-];
-
-const blogPosts = [
-  {
-    title: 'The Future of AI in Custom Software Development',
-    category: 'Technology',
-    date: 'May 28, 2026',
-    author: 'Binud Dev Team',
-    desc: 'How intelligent AI and modern LLMs are transforming software engineering productivity and delivery timelines.',
-    readTime: '5 min read',
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
-    accent: '#9b51e0'
-  },
-  {
-    title: 'Why Cloud Migration is Critical for Scalability',
-    category: 'Cloud Systems',
-    date: 'May 15, 2026',
-    author: 'Cloud Solutions Architect',
-    desc: 'A comprehensive guide on moving legacy server architectures to highly resilient, auto-scaling AWS environments.',
-    readTime: '8 min read',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
-    accent: '#3081ec'
-  },
-  {
-    title: 'Building Premium User Interfaces: A Design Philosophy',
-    category: 'UI/UX Design',
-    date: 'May 02, 2026',
-    author: 'Lead Designer',
-    desc: 'Exploring core design systems, typography hierarchies, micro-animations, and vibrant color harmonizations.',
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
-    accent: '#9b51e0'
-  },
-  {
-    title: 'Designing API Gateways for High Availability',
-    category: 'Backend Architecture',
-    date: 'April 20, 2026',
-    author: 'Senior Engineer',
-    desc: 'Best practices for implementing reverse proxies, rate limiting, and caching for modern microservices architectures.',
-    readTime: '10 min read',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
-    accent: '#3081ec'
-  },
-  {
-    title: 'Securing React Applications in Production',
-    category: 'Cybersecurity',
-    date: 'April 08, 2026',
-    author: 'Security Lead',
-    desc: 'Essential strategies for preventing XSS, securing token storage, and configuring robust Content Security Policies.',
-    readTime: '7 min read',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80',
-    accent: '#9b51e0'
-  },
-  {
-    title: 'Agile Software Delivery: Lessons from the Trenches',
-    category: 'Agile PM',
-    date: 'March 25, 2026',
-    author: 'Product Manager',
-    desc: 'How transparent sprints, daily standups, and rigorous code reviews empower rapid high-quality product shipments.',
-    readTime: '6 min read',
-    image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80',
-    accent: '#3081ec'
-  }
-];
+import ConnectSection from '../sections/ConnectSection';
 
 const About = () => {
   const location = useLocation();
@@ -80,178 +10,199 @@ const About = () => {
   const isBlog = queryParams.get('tab') === 'blog';
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-sans">
       <Navbar />
 
-      <section 
-        className="relative pt-44 pb-24 bg-cover bg-center select-none overflow-hidden"
-        style={{ 
-          backgroundImage: `url('${isBlog ? 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1600&q=80' : 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80'}')` 
-        }}
-      >
-        <div className="absolute inset-0 bg-slate-950/75 z-0" />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col text-left"
-          >
-            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300 mb-6 select-none">
-              <Link to="/" className="hover:text-[#9b51e0] transition-colors">Home</Link>
-              <span className="text-slate-400">/</span>
-              <span className="text-white">{isBlog ? 'Blog' : 'About Us'}</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-5 tracking-tight leading-tight max-w-4xl">
-              {isBlog ? 'Our ' : 'We Are '}<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#3081ec]">{isBlog ? 'Blog' : 'Binud Software Solutions'}</span>
-            </h1>
-
-            <div className="w-16 h-[3px] bg-gradient-to-r from-[#9b51e0] to-[#3081ec] mb-6 rounded-full" />
-
-            <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-              {isBlog
-                ? "Insights, research papers, and technical guides from our elite software engineering team."
-                : "A passionate team of software engineers, designers, and strategists on a mission to help businesses thrive in the digital age."
-              }
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {isBlog ? (
-        <section className="py-16 md:py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {blogPosts.map((post, i) => (
-                <motion.div
-                  key={post.title}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
-                  className="card overflow-hidden group hover:scale-[1.02] hover:shadow-lg transition-all duration-300 bg-white flex flex-col h-full"
-                >
-                  <div className="h-52 overflow-hidden relative select-none shrink-0 bg-slate-100">
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-                    <span className="absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full text-white bg-white/10 backdrop-blur-md border border-white/10">
-                      {post.category}
-                    </span>
-                    <span className="absolute bottom-4 right-4 text-[10px] font-bold text-slate-200">
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  <div className="p-6 flex flex-col justify-between flex-grow">
-                    <div>
-                      <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 mb-3 uppercase tracking-wider">
-                        <span>{post.date}</span>
-                        <span className="text-[#9b51e0]">•</span>
-                        <span>{post.author}</span>
-                      </div>
-                      <h3 className="text-[#191919] group-hover:text-[#9b51e0] font-black text-lg leading-tight mb-2.5 transition-colors duration-200 font-sans">
-                        {post.title}
-                      </h3>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-5 font-medium line-clamp-3">
-                        {post.desc}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#9b51e0] group-hover:text-[#3081ec] transition-colors duration-300">
-                      Read Article <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : (
+        /* Blog View */
         <>
-          <section className="py-16 md:py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }} 
-                whileInView={{ opacity: 1, x: 0 }} 
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <span className="badge mb-3">Our Story</span>
-                <h2 className="text-[#191919] text-3xl md:text-[38px] font-black leading-tight tracking-tight font-sans mb-5">
-                  From a Vision to a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#3081ec]">Trusted Partner</span>
-                </h2>
-                <p className="text-slate-600 leading-relaxed mb-4 font-medium text-sm md:text-base">
-                  Binud Software Solutions was founded with a simple belief: every business deserves access to
-                  world-class software. We started small, taking on projects that others wouldn't, and delivering
-                  results that spoke for themselves.
-                </p>
-                <p className="text-slate-600 leading-relaxed mb-6 font-medium text-sm md:text-base">
-                  Today, we've grown into a full-service software company serving clients across industries —
-                  from startups to established enterprises. Our commitment to quality and client success has never wavered.
-                </p>
-                <ul className="space-y-3">
-                  {['Client-first approach', 'Agile & transparent process', 'Continuous learning & improvement', 'Long-term partnerships'].map((item) => (
-                    <li key={item} className="flex items-center gap-2.5 text-slate-700 text-sm font-semibold">
-                      <HiCheckCircle className="text-[#9b51e0] shrink-0" size={19} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
+          {/* Blog Hero Header */}
+          <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="grid grid-cols-2 gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="flex flex-col text-left"
               >
-                {[
-                  { num: '50+', label: 'Projects Delivered' },
-                  { num: '30+', label: 'Happy Clients' },
-                  { num: '5+', label: 'Years Experience' },
-                  { num: '10+', label: 'Team Members' },
-                ].map((stat) => (
-                  <div key={stat.label} className="card p-6 text-center hover:scale-[1.03] transition-transform duration-300 bg-white border border-slate-100">
-                    <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#3081ec] mb-1">{stat.num}</div>
-                    <div className="text-slate-500 font-bold text-xs uppercase tracking-wide">{stat.label}</div>
-                  </div>
-                ))}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#3E4265] mb-5 tracking-tight leading-tight">
+                  Our <span className="text-[#274e85]">Blog</span>
+                </h1>
+                <div className="w-16 h-[3px] bg-[#274e85] mb-6 rounded-full" />
+                <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
+                  Insights, research papers, and technical guides from our elite software engineering team.
+                </p>
               </motion.div>
             </div>
           </section>
 
-          <section className="py-16 md:py-24 bg-[#faf9ff]">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
-              <div className="text-left mb-12">
-                <span className="badge mb-3">Our Values</span>
-                <h2 className="text-[#191919] text-3xl md:text-[38px] font-black leading-tight tracking-tight font-sans">What We Stand For</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {values.map((v, i) => (
-                  <motion.div
-                    key={v.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.08 }}
-                    className="card p-6 bg-white hover:scale-[1.03] transition-transform duration-300 border border-slate-100"
+          {/* Placeholder Grid Section */}
+          <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+            {/* Subtle background glow effect */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#274e85]/5 rounded-full blur-[120px] pointer-events-none select-none" />
+
+            <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center relative z-10">
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, type: 'spring', stiffness: 80 }}
+                className="rounded-3xl p-[1px] bg-gradient-to-br from-[#274e85]/20 to-[#695dd3]/20 hover:from-[#274e85] hover:to-[#695dd3] transition-all duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(39,78,133,0.12)] max-w-xl w-full group"
+              >
+                <div className="bg-white rounded-[23px] p-10 md:p-14 flex flex-col items-center justify-center relative overflow-hidden">
+
+                  {/* Top status indicator badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-extrabold uppercase tracking-widest text-[#274e85] mb-8 select-none">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#274e85] animate-pulse" />
+                    Under Construction
+                  </div>
+
+                  {/* Blog/Article Icon with pulse animation */}
+                  <div className="w-20 h-20 rounded-2xl bg-[#274e85]/5 flex items-center justify-center text-[#274e85] mb-8 border border-[#274e85]/10 relative group-hover:scale-105 transition-all duration-300">
+                    <svg className="w-9 h-9 animate-pulse" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                  </div>
+
+                  <h3 className="text-[#191919] font-black text-2xl md:text-3xl tracking-tight mb-4 select-none font-sans">
+                    We are working on this page
+                  </h3>
+
+                  <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium mb-8 max-w-sm">
+                    We are currently preparing detailed technical articles, engineering tutorials, and industry insights from our dev team.
+                  </p>
+
+                  {/* Action Button */}
+                  <Link
+                    to="/"
+                    className="bg-[#274e85] hover:bg-[#1d3d6b] text-white font-sans font-bold text-xs uppercase tracking-wider px-8 py-3 rounded-full shadow-[0_4px_18px_rgba(39,78,133,0.2)] hover:shadow-[0_6px_24px_rgba(39,78,133,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                   >
-                    <div className="text-[#9b51e0] font-black text-2xl mb-3">{v.num}</div>
-                    <h3 className="text-[#191919] font-black mb-2 text-base leading-tight">{v.title}</h3>
-                    <p className="text-slate-600 text-sm leading-relaxed font-medium">{v.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
+                    Go Back Home
+                  </Link>
+                </div>
+              </motion.div>
+
             </div>
           </section>
         </>
+      ) : (
+        /* About Us View */
+        <>
+          {/* Hero Header Section (utilizing the AboutPreview layout without the button) */}
+          <section className="relative pt-36 pb-24 bg-white overflow-hidden select-none">
+            <div className="max-w-7xl mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+
+                {/* Left Column: Heading */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="flex flex-col text-left"
+                >
+                  <h1 className="text-[#3E4265] text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight">
+                    Top Web & Mobile Application Development, Custom Software Engineering & IT Consulting Company,
+                  </h1>
+                  <p className="text-slate-400 text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight mt-0">
+                    Building Smart Solutions For A Smarter World.
+                  </p>
+                  <div className="w-16 h-[3px] bg-[#274e85] mt-8 rounded-full" />
+                </motion.div>
+
+                {/* Right Column: Narrative Block */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                  className="flex flex-col text-left lg:pt-2"
+                >
+                  <p className="text-slate-500 text-base md:text-[17px] leading-relaxed font-medium mb-6">
+                    Founded in the year 2021, <strong className="text-[#3E4265] font-bold">Binud Software Solutions</strong> is
+                    a leading Custom Software, Mobile App, and Web development agency helping global businesses
+                    execute digital transformation.
+                  </p>
+
+                  <p className="text-slate-500 text-base md:text-[17px] leading-relaxed font-medium">
+                    Being a true technological companion, we help startups and enterprise-level businesses
+                    architect high-performance digital platforms to become recognized industry leaders.
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          {/* Vision & Mission Section (TechVariable Minimal Style) */}
+          <section className="py-20 md:py-28 bg-white select-none border-t border-slate-100">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
+              
+              {/* Centered Pill Tag */}
+              <div className="inline-flex items-center gap-2 px-4 py-1 text-xs font-bold uppercase tracking-wider text-[#695dd3] bg-white border border-[#695dd3]/30 rounded-full mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#695dd3]" />
+                Purpose &amp; Focus
+              </div>
+
+              {/* Headline */}
+              <h2 className="text-[#191919] text-3xl sm:text-[40px] font-black leading-tight tracking-tight font-sans mb-6">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#695dd3] to-[#8075e3]">Vision &amp; Mission</span>
+              </h2>
+
+              {/* Subtitle */}
+              <p className="text-slate-500 font-medium text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-20">
+                We align our engineering principles with your business goals, ensuring every line of code we write translates to scalable, long-term success.
+              </p>
+
+              {/* Grid Column Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 max-w-4xl mx-auto text-left">
+                
+                {/* Column 1: Our Mission */}
+                <div className="flex flex-col items-start pr-0 md:pr-12">
+                  {/* Circular Icon Container */}
+                  <div className="w-12 h-12 rounded-full border border-[#695dd3]/20 bg-[#695dd3]/5 flex items-center justify-center text-[#695dd3] mb-6">
+                    {/* Rocket Icon */}
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699-2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                    </svg>
+                  </div>
+                  
+                  <h3 className="text-[#191919] font-black text-xl mb-3 font-sans tracking-tight">
+                    Our Mission
+                  </h3>
+                  
+                  <p className="text-slate-500 font-medium text-[15px] leading-relaxed">
+                    To build robust, scalable, and high-performance digital products that empower startups and enterprise businesses to innovate, execute, and lead in a rapidly evolving technological landscape.
+                  </p>
+                </div>
+
+                {/* Column 2: Our Vision */}
+                <div className="flex flex-col items-start pt-8 md:pt-0 md:pl-16 border-t md:border-t-0 md:border-l border-slate-100">
+                  {/* Circular Icon Container */}
+                  <div className="w-12 h-12 rounded-full border border-[#274e85]/20 bg-[#274e85]/5 flex items-center justify-center text-[#274e85] mb-6">
+                    {/* Eye Icon */}
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  
+                  <h3 className="text-[#191919] font-black text-xl mb-3 font-sans tracking-tight">
+                    Our Vision
+                  </h3>
+                  
+                  <p className="text-slate-500 font-medium text-[15px] leading-relaxed">
+                    To be a global benchmark for engineering excellence, trusted for designing smart, future-proof software architectures that drive positive business outcomes and meaningful societal impact.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+        </>
       )}
+
+      {/* Stay Connected & Founder Section */}
+      <ConnectSection hideForm={true} />
 
       <Footer />
     </div>

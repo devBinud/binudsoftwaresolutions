@@ -37,7 +37,7 @@ const WhyUsSection = () => {
             <span className="badge mb-3">Why Choose Us</span>
             <h2 className="section-title mb-4">
               We Don't Just Build Software,<br />
-              We Build <span className="text-[#005d9e]">Partnerships</span>
+              We Build <span className="text-[#274e85]">Partnerships</span>
             </h2>
             <p className="text-[#64748b] leading-relaxed mb-7">
               At Binud Software Solutions, we take the time to understand your business, your goals,
@@ -46,7 +46,7 @@ const WhyUsSection = () => {
             <ul className="space-y-3">
               {points.map((point) => (
                 <li key={point} className="flex items-center gap-3 text-[#475569] text-sm">
-                  <HiCheckCircle className="text-[#005d9e] shrink-0" size={18} />
+                  <HiCheckCircle className="text-[#274e85] shrink-0" size={18} />
                   {point}
                 </li>
               ))}
@@ -63,8 +63,8 @@ const WhyUsSection = () => {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="card p-5"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#e8f2fb] flex items-center justify-center mb-3">
-                  <reason.icon size={17} className="text-[#005d9e]" />
+                <div className="w-10 h-10 rounded-xl bg-[#e8eef7] flex items-center justify-center mb-3">
+                  <reason.icon size={17} className="text-[#274e85]" />
                 </div>
                 <h4 className="text-[#0f172a] font-semibold text-sm mb-1.5">{reason.title}</h4>
                 <p className="text-[#64748b] text-xs leading-relaxed">{reason.desc}</p>

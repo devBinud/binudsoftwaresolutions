@@ -52,7 +52,7 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.4, delay: i * 0.1 }}
               className="card p-6 relative"
             >
-              <FaQuoteRight size={20} className="text-[#005d9e] opacity-20 absolute top-5 right-5" />
+              <FaQuoteRight size={20} className="text-[#274e85] opacity-20 absolute top-5 right-5" />
 
               <div className="flex gap-0.5 mb-4">
                 {Array.from({ length: t.rating }).map((_, j) => (
@@ -63,7 +63,7 @@ const TestimonialsSection = () => {
               <p className="text-[#475569] text-sm leading-relaxed mb-5">{t.text}</p>
 
               <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                <div className="w-9 h-9 rounded-full bg-[#005d9e] flex items-center justify-center text-white text-sm font-bold shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#274e85] flex items-center justify-center text-white text-sm font-bold shrink-0">
                   {t.name[0]}
                 </div>
                 <div>

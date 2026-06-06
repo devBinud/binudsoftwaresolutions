@@ -15,7 +15,7 @@ const CTASection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="bg-[#005d9e] rounded-2xl px-10 py-14 text-center relative overflow-hidden"
+          className="bg-[#274e85] rounded-2xl px-10 py-14 text-center relative overflow-hidden"
         >
           {/* Subtle pattern */}
           <div className="absolute inset-0 opacity-10"
@@ -37,7 +37,7 @@ const CTASection = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/contact"
-                className="bg-white text-[#005d9e] font-semibold px-7 py-3 rounded-lg hover:bg-blue-50 transition-all inline-flex items-center justify-center gap-2 text-sm">
+                className="bg-white text-[#274e85] font-semibold px-7 py-3 rounded-lg hover:bg-blue-50 transition-all inline-flex items-center justify-center gap-2 text-sm">
                 Start Your Project <HiArrowRight />
               </Link>
               <Link to="/services"

@@ -32,7 +32,7 @@ function App() {
             style: {
               background: '#111827',
               color: '#e2e8f0',
-              border: '1px solid #005d9e',
+              border: '1px solid #274e85',
             },
           }}
         />

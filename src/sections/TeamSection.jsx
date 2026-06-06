@@ -43,7 +43,7 @@ const TeamSection = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xs font-semibold text-[#005d9e] uppercase tracking-widest mb-3">
+            <p className="text-xs font-semibold text-[#274e85] uppercase tracking-widest mb-3">
               Founder & CEO
             </p>
             <h3 className="text-3xl font-bold text-[#0f172a] mb-5 leading-snug">
@@ -66,7 +66,7 @@ const TeamSection = () => {
             <ul className="space-y-2.5">
               {highlights.map((item) => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-[#334155]">
-                  <HiCheckCircle className="text-[#005d9e] shrink-0" size={17} />
+                  <HiCheckCircle className="text-[#274e85] shrink-0" size={17} />
                   {item}
                 </li>
               ))}
@@ -89,7 +89,7 @@ const TeamSection = () => {
                 style={{ bottom: '60px' }}
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d={blobPath} fill="#dbeafe" />
+                <path d={blobPath} fill="#e8eef7" />
               </svg>
 
               {/* Photo */}
@@ -100,7 +100,7 @@ const TeamSection = () => {
               />
 
               {/* Ground shadow */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-4 bg-[#005d9e]/10 rounded-full blur-md z-20" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-4 bg-[#274e85]/10 rounded-full blur-md z-20" />
             </div>
 
             {/* Signature — directly below the image */}
@@ -119,7 +119,7 @@ const TeamSection = () => {
                   <a
                     key={j}
                     href="#"
-                    className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-[#94a3b8] hover:bg-[#005d9e] hover:text-white transition-all"
+                    className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-[#94a3b8] hover:bg-[#274e85] hover:text-white transition-all"
                   >
                     <Icon size={13} />
                   </a>

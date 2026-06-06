@@ -1,76 +1,83 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { FaCode, FaMobileAlt, FaPaintBrush, FaCloud, FaRobot, FaChartLine, FaDatabase, FaShieldAlt } from 'react-icons/fa';
+import ConnectSection from '../sections/ConnectSection';
 
 const services = [
   {
-    icon: FaCode,
     title: 'Web Development',
-    desc: 'We build fast, scalable, and SEO-optimized web applications using the latest frameworks like React, Next.js, and Vue. From landing pages to complex enterprise portals.',
+    desc: 'Custom web apps built with modern frameworks. Fast, highly scalable, and SEO-optimized from landing pages to complex enterprise portals.',
+    image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: 'Popular',
     features: ['Custom Web Apps', 'E-Commerce Platforms', 'CMS Development', 'API Development', 'Progressive Web Apps'],
   },
   {
-    icon: FaMobileAlt,
-    title: 'Mobile App Development',
-    desc: 'Native and cross-platform mobile applications for iOS and Android. We use Flutter and React Native to deliver smooth, performant apps that users love.',
+    title: 'Mobile Apps',
+    desc: 'Native and cross-platform apps for iOS and Android using Flutter and React Native. Smooth, performant apps that users love.',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: 'Hot',
     features: ['iOS & Android Apps', 'Cross-Platform (Flutter)', 'App Store Deployment', 'Push Notifications', 'Offline Support'],
   },
   {
-    icon: FaPaintBrush,
     title: 'UI/UX Design',
-    desc: 'Beautiful, intuitive interfaces designed with your users in mind. We create wireframes, prototypes, and pixel-perfect designs that convert.',
+    desc: 'Beautiful, intuitive interfaces designed with premium user experience in mind. Wireframes, interactive prototypes, and pixel-perfect design systems.',
+    image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: 'New',
     features: ['User Research', 'Wireframing', 'Prototyping', 'Design Systems', 'Usability Testing'],
   },
   {
-    icon: FaCloud,
     title: 'Cloud Solutions',
-    desc: 'Scalable cloud infrastructure and DevOps services on AWS, GCP, and Azure. We handle deployment, monitoring, and optimization.',
+    desc: 'Scalable cloud infrastructure on AWS, GCP, and Azure with full DevOps support. Deployment, containerization, and cost optimization.',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: '15% OFF',
     features: ['Cloud Migration', 'CI/CD Pipelines', 'Docker & Kubernetes', 'Serverless Architecture', 'Cost Optimization'],
   },
   {
-    icon: FaRobot,
     title: 'AI & Automation',
-    desc: 'Leverage the power of AI to automate processes, gain insights, and build intelligent features into your products.',
+    desc: 'Intelligent automation and AI-powered features to supercharge your business. Chatbots, predictive analysis, and intelligent workflows.',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: 'Hot',
     features: ['Chatbots & Assistants', 'Machine Learning', 'Data Analytics', 'Process Automation', 'NLP Solutions'],
   },
   {
-    icon: FaChartLine,
     title: 'IT Consulting',
-    desc: 'Strategic technology consulting to help you make the right decisions. We assess your current setup and recommend the best path forward.',
+    desc: 'Strategic technology consulting to help you make the right technical decisions. Tech stack assessment, project rescue, and architecture reviews.',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&h=350&q=80',
+    badge: 'Free Audit',
     features: ['Tech Stack Assessment', 'Digital Transformation', 'Architecture Review', 'Team Augmentation', 'Project Rescue'],
-  },
-  {
-    icon: FaDatabase,
-    title: 'Database Design',
-    desc: 'Robust, optimized database architecture for your applications. SQL, NoSQL, and everything in between.',
-    features: ['Schema Design', 'Performance Tuning', 'Data Migration', 'Backup & Recovery', 'Real-time Databases'],
-  },
-  {
-    icon: FaShieldAlt,
-    title: 'Cybersecurity',
-    desc: 'Protect your digital assets with our security audits, penetration testing, and secure development practices.',
-    features: ['Security Audits', 'Penetration Testing', 'SSL & Encryption', 'GDPR Compliance', 'Vulnerability Assessment'],
   },
 ];
 
 const Services = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 85,
+        damping: 15,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-sans">
       <Navbar />
 
-      {/* ── IMAGE HERO BANNER (Hyperlink InfoSystem Style) ── */}
-      <section 
-        className="relative pt-44 pb-24 bg-cover bg-center select-none overflow-hidden"
-        style={{ 
-          backgroundImage: `url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80')` 
-        }}
-      >
-        {/* Dark Translucent Mask Overlay */}
-        <div className="absolute inset-0 bg-slate-950/75 z-0" />
-        
-        {/* Symmetrical Left-Aligned Container */}
+      {/* Hero Header Section */}
+      <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
@@ -78,62 +85,92 @@ const Services = () => {
             transition={{ duration: 0.6 }}
             className="flex flex-col text-left"
           >
-            {/* Modern Spaced-out Breadcrumbs */}
-            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-slate-300 mb-6 select-none">
-              <Link to="/" className="hover:text-[#9b51e0] transition-colors">Home</Link>
-              <span className="text-slate-400">/</span>
-              <span className="text-white">Services</span>
-            </div>
-
-            {/* Giant Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-5 tracking-tight leading-tight max-w-4xl">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#3081ec]">Services</span>
+            <h1 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
+              Top-Notch Web, Mobile & AI Solutions
             </h1>
-
-            {/* Underline Divider */}
-            <div className="w-16 h-[3px] bg-gradient-to-r from-[#9b51e0] to-[#3081ec] mb-6 rounded-full" />
-
-            {/* Description */}
-            <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-              Comprehensive software solutions tailored to your business needs. We cover the full spectrum
-              of digital development — from design to deployment.
+            <p className="text-slate-400 text-3xl sm:text-[42px] lg:text-[48px] font-black leading-[1.15] tracking-tight mt-0 mb-6 max-w-4xl">
+              for Startups &amp; Enterprises!
+            </p>
+            <div className="w-16 h-[3px] bg-[#274e85] mb-8 rounded-full" />
+            <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
+              We architect high-performance digital platforms, helping global businesses execute seamless digital transformation from design to deployment.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {services.map((service, i) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: (i % 2) * 0.08 }}
-              className="card p-7 flex gap-5 hover:scale-[1.02] hover:shadow-lg transition-all duration-300"
-            >
-              {/* Icon Container with Theme Gradient Background */}
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#9b51e0]/8 to-[#3081ec]/8 flex items-center justify-center shrink-0 border border-[#9b51e0]/10 text-[#9b51e0]">
-                <service.icon size={20} />
-              </div>
-              <div>
-                <h3 className="text-[#191919] font-black text-lg mb-2 leading-snug">{service.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed mb-4 font-medium">{service.desc}</p>
-                <ul className="grid grid-cols-2 gap-2">
-                  {service.features.map((f) => (
-                    <li key={f} className="text-xs text-slate-700 font-semibold flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#9b51e0] shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
+      {/* Services Cards Grid */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          >
+            {services.map((service) => (
+              <motion.div
+                key={service.title}
+                variants={cardVariants}
+                className="rounded-2xl p-[1px] bg-gradient-to-br from-[#274e85]/20 to-[#3E4265]/20 hover:from-[#274e85] hover:to-[#3E4265] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_12px_40px_rgba(39,78,133,0.08)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer group relative overflow-hidden"
+              >
+                <div className="w-full h-full rounded-2xl bg-white p-8 flex flex-col justify-between min-h-[290px] select-none text-left relative overflow-hidden">
+                  
+                  <div>
+                    {/* Diagonal Corner Ribbon */}
+                    {service.badge && (
+                      <div className="absolute top-0 right-0 overflow-hidden w-20 h-20 pointer-events-none z-20">
+                        <div className="absolute top-3 right-[-30px] rotate-45 bg-[#695dd3] text-white text-[8px] font-black uppercase tracking-widest text-center py-1 w-28 shadow-[0_2px_10px_rgba(105,93,211,0.35)]">
+                          {service.badge}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Low-opacity background image watermark */}
+                    <div
+                      className="absolute right-0 bottom-0 w-44 h-44 opacity-[0.08] pointer-events-none select-none rounded-br-2xl overflow-hidden"
+                      style={{
+                        maskImage: 'radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%)',
+                        WebkitMaskImage: 'radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%)'
+                      }}
+                    >
+                      <img
+                        src={service.image}
+                        alt=""
+                        className="w-full h-full object-cover object-center filter grayscale mix-blend-multiply group-hover:scale-105 group-hover:opacity-100 transition-all duration-700"
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative z-10 pr-4">
+                      <h3 className="text-[#191919] text-xl font-black tracking-tight mb-3 leading-snug">
+                        {service.title}
+                      </h3>
+                      <p className="text-slate-500 text-[14.5px] leading-relaxed font-medium mb-6">
+                        {service.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Features List */}
+                  <ul className="grid grid-cols-1 gap-2.5 pt-4 border-t border-slate-100 relative z-10">
+                    {service.features.map((f) => (
+                      <li key={f} className="text-xs text-slate-600 font-bold flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#274e85] shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
+      {/* Stay Connected Section */}
+      <ConnectSection onlySocials={true} />
 
       <Footer />
     </div>

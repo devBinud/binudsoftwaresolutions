@@ -1,184 +1,163 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaYoutube, FaInstagram, FaTwitter, FaFacebookF } from 'react-icons/fa';
-import heroImage from '../assets/hero-image.png';
-import heroMainBg from '../assets/hero-main-bg.png';
-import binud from '../assets/team/binud.png';
+import { useState, useEffect } from 'react';
+import heroImage from '../assets/hero_image.png';
+import heroBgImage from '../assets/founder_section_bg.jpg';
+
+const rotatingWords = ['Software', 'Mobile Apps', 'AI Solutions', 'Web Platforms', 'Cloud Systems'];
 
 const HeroSection = () => {
-  // Stagger animation container
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const [wordIndex, setWordIndex] = useState(0);
 
-  // Standard slide up animation for items
-  const itemVariants = {
+  useEffect(() => {
+    const t = setInterval(() => {
+      setWordIndex((i) => (i + 1) % rotatingWords.length);
+    }, 2400);
+    return () => clearInterval(t);
+  }, []);
+
+  const containerVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
-        stiffness: 70,
-        damping: 15,
-      },
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1],
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
     },
   };
 
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-[#0a0316] select-none"
-      style={{
-        backgroundImage: `url(${heroMainBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      {/* Dynamic Glowing Ambient Blobs for Volume & Depth */}
-      <div className="absolute top-1/4 right-1/4 w-[350px] h-[350px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[8000ms]" />
-      <div className="absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[90px] pointer-events-none animate-pulse duration-[6000ms]" />
+    <section className="relative min-h-screen bg-white flex items-center justify-center pt-28 pb-16 select-none overflow-hidden">
 
-      {/* ── Left Social Sidebar (no background image) ── */}
-      <div className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 flex-col items-center">
-        <div className="flex flex-col items-center gap-6">
-          {/* Vertical rotated text */}
-          <span className="[writing-mode:vertical-lr] rotate-180 text-white/50 text-[10px] tracking-[0.25em] font-extrabold uppercase select-none">
-            Follow Us On
-          </span>
-
-          {/* Small separation line */}
-          <div className="w-[1px] h-12 bg-white/20" />
-
-          {/* Icon Circle Buttons */}
-          <div className="flex flex-col gap-3">
-            {[
-              { Icon: FaYoutube, url: 'https://youtube.com', color: 'hover:text-red-500' },
-              { Icon: FaInstagram, url: 'https://instagram.com', color: 'hover:text-pink-500' },
-              { Icon: FaTwitter, url: 'https://twitter.com', color: 'hover:text-sky-400' },
-              { Icon: FaFacebookF, url: 'https://facebook.com', color: 'hover:text-blue-500' },
-            ].map(({ Icon, url, color }, index) => (
-              <a
-                key={index}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                className={`w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/60 ${color} hover:bg-white/10 hover:border-white/30 transition-all duration-300 shadow-sm`}
-              >
-                <Icon size={14} />
-              </a>
-            ))}
-          </div>
-        </div>
+      {/* Subtle background watermark image (Light Theme) */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.08] mix-blend-multiply">
+        <img
+          src={heroBgImage}
+          alt=""
+          className="w-full h-full object-cover object-center invert hue-rotate-180"
+        />
       </div>
 
-      {/* ── Main Layout Container ── */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full z-10 relative">
+      {/* Ambient background blob for soft depth */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#274e85] rounded-full blur-[140px] pointer-events-none" style={{ opacity: 0.04 }} />
 
-        {/* Left Column: Text & Content */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="lg:col-span-7 flex flex-col justify-center text-left"
-        >
-          {/* Futuristic Title */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-white text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-black leading-[1.1] tracking-tight mb-6 font-sans"
-          >
-           We offer Software & Mobile App Development <br className="hidden sm:inline" />
-            with AI-Driven <br />
-            Solutions
-          </motion.h1>
+      {/* Hero content container */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-7xl mx-auto px-6 md:px-12 w-full z-10 relative"
+      >
 
-          {/* Sleek Subtext Description */}
-          <motion.p
-            variants={itemVariants}
-            className="text-slate-300 text-base sm:text-lg mb-8 max-w-xl font-medium leading-relaxed"
-          >
-            In today's competitive business, the demand for efficient and
-            cost-effective IT solutions for your business
-          </motion.p>
+        {/* Hero Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-          {/* Premium Glowing Gradient Button */}
-          <motion.div variants={itemVariants} className="mb-10">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-gradient-to-r from-[#9b51e0] to-[#3081ec] text-white font-bold text-sm uppercase tracking-wider rounded-lg shadow-[0_4px_24px_rgba(155,81,224,0.4)] hover:shadow-[0_8px_32px_rgba(155,81,224,0.65)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+          {/* Left Column: Headline, Description, Buttons, Trust Widget */}
+          <div className="lg:col-span-6 flex flex-col text-left">
+
+            {/* Headline with custom inline rotating word badge */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-[#3E4265] font-black tracking-tight font-sans leading-[1.15] mb-6"
+              style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)' }}
             >
-              Get Started
-            </Link>
-          </motion.div>
+              We Build World-Class{' '}
+              <span className="inline-block relative overflow-hidden align-middle mx-1.5 bg-[#695dd3] text-white rounded-full text-[0.8em] font-bold shadow-[0_4px_15px_rgba(105,93,211,0.15)]" style={{ minWidth: '7.8em', height: '1.45em' }}>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={wordIndex}
+                    initial={{ y: 15, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -15, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                    className="absolute inset-0 flex items-center justify-center text-center whitespace-nowrap"
+                  >
+                    {rotatingWords[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+              <br />
+              For Your Business Growth
+            </motion.h1>
 
-          {/* Satisfied Clients overlapping avatars */}
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center"
-          >
-            <div className="flex -space-x-3.5 overflow-hidden">
+            {/* Description */}
+            <motion.p
+              variants={itemVariants}
+              className="text-slate-500 text-base md:text-[17px] leading-relaxed mb-8 max-w-xl font-medium"
+            >
+              From MVPs to enterprise-grade platforms — we craft scalable, beautiful digital products that drive real business success.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-5 mb-12"
+            >
+              <Link
+                to="/contact"
+                className="bg-[#695dd3] hover:bg-[#574cbd] text-white font-bold text-xs sm:text-sm px-8 py-4 rounded-full shadow-[0_4px_22px_rgba(105,93,211,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              >
+                Start a Conversation
+              </Link>
+              <Link
+                to="/services"
+                className="text-[#3E4265] hover:text-[#695dd3] font-bold text-xs sm:text-sm border-b-2 border-slate-200 hover:border-[#695dd3] transition-all duration-300 pb-0.5"
+              >
+                View Our Services
+              </Link>
+            </motion.div>
+
+            {/* Trust Widget */}
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center gap-4 bg-slate-50/80 border border-slate-100 rounded-2xl p-4 max-w-md shadow-sm"
+            >
+              <div className="flex -space-x-3 shrink-0">
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#274e85] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">BS</div>
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#3E4265] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">AI</div>
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#695dd3] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">WD</div>
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-[#3E4265] mb-0.5">Solutions built on scale & trust</h4>
+                <p className="text-[10px] text-slate-400 font-medium leading-relaxed">Providing high-performance web, mobile & AI systems globally.</p>
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* Right Column: Hero Workflow Image - Slowly rotating */}
+          <div className="lg:col-span-6 relative w-full flex items-center justify-center">
+            <div className="relative w-full max-w-[480px] flex items-center justify-center">
+              {/* Soft ambient glow behind the image - static */}
+              <div className="absolute inset-0 scale-90 bg-gradient-to-br from-[#695dd3]/20 to-[#274e85]/10 rounded-full blur-3xl -z-10" />
+
+              {/* Slowly rotating image */}
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80"
-                alt="Client 1"
-                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80"
-                alt="Client 2"
-                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg"
-              />
-              <img
-                src={binud}
-                alt="Client 3"
-                className="w-10 h-10 rounded-full border-2 border-[#0a0316] object-cover shadow-lg bg-slate-900"
+                src={heroImage}
+                alt="Our Agile Workflow in 4 Steps"
+                className="w-full h-auto object-contain drop-shadow-[0_12px_40px_rgba(105,93,211,0.12)]"
+                style={{ animation: 'heroSpin 28s linear infinite' }}
               />
             </div>
+          </div>
 
-            <span className="text-slate-300 text-xs sm:text-sm font-semibold tracking-wide ml-4 hover:text-white transition-colors duration-200 cursor-default">
-              Join our 33+ Satisfied World Clients
-            </span>
-          </motion.div>
-        </motion.div>
+        </div>
 
-        {/* Right Column: AI Cybernetic Woman Illustration */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-          className="lg:col-span-5 flex justify-center lg:justify-end relative"
-        >
-          {/* Subtle Cyber Glow Backdrop */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-blue-500/15 rounded-full blur-[80px] pointer-events-none mix-blend-screen" />
+      </motion.div>
 
-          {/* Cyber Character with premium smooth hover animation */}
-          <motion.img
-            src={heroImage}
-            alt="AI Cybernetic Character"
-            className="w-[85%] md:w-[70%] lg:w-[95%] h-auto object-contain drop-shadow-[0_12px_40px_rgba(138,43,226,0.35)] relative z-10"
-            animate={{
-              y: [0, -14, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-        </motion.div>
-
-      </div>
-
-      {/* ── Absolute Background Watermark ── */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-black text-[7vw] sm:text-[8vw] tracking-[0.25em] text-white/[0.03] uppercase select-none pointer-events-none whitespace-nowrap z-0 font-sans">
-        BINUD SOFTWARE
-      </div>
     </section>
   );
 };
