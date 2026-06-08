@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
@@ -8,45 +8,90 @@ import { db } from '../firebase/config';
 import toast from 'react-hot-toast';
 import binud from '../assets/team/binud.png';
 import founderSectionBg from '../assets/founder_section_bg.jpg';
-import bssGmb from '../assets/bss_gmb.png';
-
 const socials = [
   { name: 'Facebook', icon: FaFacebook, href: 'https://facebook.com' },
   { name: 'Instagram', icon: FaInstagram, href: 'https://instagram.com' },
   { name: 'LinkedIn', icon: FaLinkedin, href: 'https://linkedin.com' },
 ];
 
-const ConnectSection = ({ hideVision = false, onlySocials = false, hideForm = false, showQR = false }) => {
+const ConnectSection = ({ hideVision = false, onlySocials = false, hideForm = false }) => {
   const shouldHideVision = hideVision || onlySocials;
   const shouldHideForm = onlySocials || hideForm;
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
-  const [countryCode, setCountryCode] = useState({ code: '+61', flag: '🇦🇺' });
-  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-
+  
   const countries = [
-    { code: '+61', flag: '🇦🇺', name: 'Australia' },
-    { code: '+91', flag: '🇮🇳', name: 'India' },
-    { code: '+1', flag: '🇺🇸', name: 'United States' },
-    { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
+    { code: '+91', flag: '🇮🇳', name: 'India', placeholder: '98765 43210' },
+    { code: '+61', flag: '🇦🇺', name: 'Australia', placeholder: '0416 555 222' },
+    { code: '+1', flag: '🇺🇸', name: 'United States', placeholder: '201 555 0123' },
+    { code: '+44', flag: '🇬🇧', name: 'United Kingdom', placeholder: '7911 123456' },
   ];
 
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // null | 'success' | 'error'
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowCountryDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const onSubmit = async (data) => {
+    setSubmitStatus(null);
     try {
-      const fullPhone = `${countryCode.code} ${data.phone || ''}`.trim();
-      await addDoc(collection(db, 'messages'), {
-        purpose: data.purpose,
-        name: data.name,
-        email: data.email,
-        phone: fullPhone,
-        message: data.message,
-        createdAt: serverTimestamp(),
-        read: false,
+      const fullPhone = `${selectedCountry.code} ${data.phone || ''}`.trim();
+
+      // 1. Send email via SMTP (Vercel Serverless Function)
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          purpose: data.purpose,
+          name: data.name,
+          email: data.email,
+          phone: fullPhone,
+          message: data.message,
+        }),
       });
-      toast.success("Request sent successfully! We'll get back to you soon.");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send email');
+      }
+
+      // 2. Also save to Firestore 'messages' collection for Admin Dashboard
+      try {
+        await addDoc(collection(db, 'messages'), {
+          purpose: data.purpose,
+          name: data.name,
+          email: data.email,
+          phone: fullPhone,
+          message: data.message,
+          createdAt: serverTimestamp(),
+          read: false,
+        });
+      } catch (dbError) {
+        // Non-critical: email already sent, just log the DB error
+        console.warn('Firestore save failed (non-critical):', dbError);
+      }
+
+      setSubmitStatus('success');
+      toast.success('✅ Message sent! We\'ll get back to you soon.');
       reset();
+      setSelectedCountry(countries[0]);
+      // Auto-clear success message after 6 seconds
+      setTimeout(() => setSubmitStatus(null), 6000);
     } catch (error) {
-      console.error('Firebase error: ', error);
-      toast.error('Failed to send request. Please try again.');
+      console.error('Submission error:', error);
+      setSubmitStatus('error');
+      toast.error('❌ Failed to send. Please try again or email us directly.');
     }
   };
 
@@ -212,47 +257,62 @@ const ConnectSection = ({ hideVision = false, onlySocials = false, hideForm = fa
                 </div>
 
                 {/* Phone Number with custom flag dropdown */}
-                <div className="relative flex items-end border-b border-slate-200 focus-within:border-[#3E4265] transition-all duration-300">
-                  <div className="relative pb-1">
-                    <button
-                      type="button"
-                      onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                      className="flex items-center gap-1.5 pb-3 pr-1 text-slate-800 hover:text-slate-600 font-sans text-base sm:text-[17px] font-medium focus:outline-none cursor-pointer"
-                    >
-                      <span>{countryCode.flag}</span>
-                      <span>{countryCode.code}</span>
-                      <span className="text-[9px] text-slate-400 ml-0.5">▼</span>
-                    </button>
+                <div className="relative">
+                  <div className="flex items-end border-b border-slate-200 focus-within:border-[#3E4265] transition-all duration-300">
+                    <div ref={dropdownRef} className="relative pb-1">
+                      <button
+                        type="button"
+                        onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                        className="flex items-center gap-1.5 pb-3 pr-1 text-slate-800 hover:text-slate-600 font-sans text-base sm:text-[17px] font-medium focus:outline-none cursor-pointer"
+                      >
+                        <span>{selectedCountry.flag}</span>
+                        <span>{selectedCountry.code}</span>
+                        <span className="text-[9px] text-slate-400 ml-0.5">▼</span>
+                      </button>
+                      
+                      {showCountryDropdown && (
+                        <div className="absolute left-0 bottom-full mb-2 bg-white border border-slate-100 rounded-xl shadow-lg z-50 py-1.5 min-w-[160px]">
+                          {countries.map((c) => (
+                            <button
+                              key={c.code}
+                              type="button"
+                              onClick={() => {
+                                setSelectedCountry(c);
+                                setShowCountryDropdown(false);
+                              }}
+                              className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-medium cursor-pointer"
+                            >
+                              <span>{c.flag}</span>
+                              <span>{c.code}</span>
+                              <span className="text-slate-400 font-sans">({c.name})</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     
-                    {showCountryDropdown && (
-                      <div className="absolute left-0 bottom-full mb-2 bg-white border border-slate-100 rounded-xl shadow-lg z-50 py-1.5 min-w-[160px]">
-                        {countries.map((c) => (
-                          <button
-                            key={c.code}
-                            type="button"
-                            onClick={() => {
-                              setCountryCode({ code: c.code, flag: c.flag });
-                              setShowCountryDropdown(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-medium cursor-pointer"
-                          >
-                            <span>{c.flag}</span>
-                            <span>{c.code}</span>
-                            <span className="text-slate-400">({c.name})</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    <div className="h-5 w-[1px] bg-slate-200 mx-2 mb-3.5" />
+                    
+                    <input 
+                      type="tel" 
+                      maxLength={10}
+                      onKeyPress={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      {...register('phone', {
+                        required: 'Phone number is required',
+                        pattern: {
+                          value: /^[0-9]{10}$/,
+                          message: 'Phone number must be exactly 10 digits'
+                        }
+                      })}
+                      placeholder=""
+                      className="w-full bg-transparent pb-3 text-slate-800 placeholder-slate-400 focus:outline-none font-sans text-base sm:text-[17px]"
+                    />
                   </div>
-                  
-                  <div className="h-5 w-[1px] bg-slate-200 mx-2 mb-3.5" />
-                  
-                  <input 
-                    type="tel" 
-                    {...register('phone')}
-                    placeholder="0416555222"
-                    className="w-full bg-transparent pb-3 text-slate-800 placeholder-slate-400 focus:outline-none font-sans text-base sm:text-[17px]"
-                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1 font-semibold absolute">{errors.phone.message}</p>}
                 </div>
               </div>
 
@@ -267,15 +327,41 @@ const ConnectSection = ({ hideVision = false, onlySocials = false, hideForm = fa
                 {errors.message && <p className="text-red-500 text-xs mt-1 font-semibold absolute">{errors.message.message}</p>}
               </div>
 
-              {/* Send Request Button */}
-              <div className="text-left">
+              {/* Send Request Button + Status Message */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="border border-[#3E4265] text-[#3E4265] font-bold text-xs sm:text-[13px] tracking-wider px-9 py-3.5 rounded-full hover:bg-[#3E4265] hover:text-white transition-all duration-300 disabled:opacity-50 cursor-pointer select-none uppercase"
+                  className="border border-[#3E4265] text-[#3E4265] font-bold text-xs sm:text-[13px] tracking-wider px-9 py-3.5 rounded-full hover:bg-[#3E4265] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none uppercase w-fit"
                 >
-                  {isSubmitting ? 'SENDING...' : 'SEND REQUEST'}
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                      </svg>
+                      SENDING...
+                    </span>
+                  ) : 'SEND REQUEST'}
                 </button>
+
+                {/* Inline Status Message */}
+                {submitStatus === 'success' && (
+                  <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm animate-fadeIn">
+                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Message sent! We'll get back to you soon.</span>
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="flex items-center gap-2 text-red-500 font-semibold text-sm animate-fadeIn">
+                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <span>Failed to send. Please try again or email <a href="mailto:binudp.dev@gmail.com" className="underline">binudp.dev@gmail.com</a>.</span>
+                  </div>
+                )}
               </div>
             </form>
           )}

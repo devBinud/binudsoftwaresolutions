@@ -13,7 +13,7 @@ const services = [
     title: 'Mobile Apps',
     desc: 'Native and cross-platform apps for iOS and Android using Flutter and React Native.',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Hot',
+    badge: '15% OFF',
   },
   {
     title: 'UI/UX Design',
@@ -31,7 +31,7 @@ const services = [
     title: 'AI & Automation',
     desc: 'Intelligent automation and AI-powered features to supercharge your business.',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Hot',
+    badge: '20% OFF',
   },
   {
     title: 'IT Consulting',

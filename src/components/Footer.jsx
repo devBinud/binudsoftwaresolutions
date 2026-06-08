@@ -166,7 +166,7 @@ const Footer = () => {
 
               {/* Email Card */}
               <a
-                href="mailto:binudsoftwaresolutions@gmail.com"
+                href="mailto:binudp.dev@gmail.com"
                 className="group bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4 flex items-start gap-4 hover:bg-white/[0.06] hover:border-white/15 hover:translate-y-[-2px] transition-all duration-300 shadow-sm"
               >
                 <div className="w-9 h-9 rounded-xl bg-white/5 text-slate-300 shrink-0 border border-white/10 flex items-center justify-center group-hover:bg-[#695dd3] group-hover:border-[#695dd3] group-hover:text-white group-hover:shadow-[0_4px_12px_rgba(105,93,211,0.3)] transition-all duration-300 shrink-0">
@@ -175,7 +175,7 @@ const Footer = () => {
                 <div className="min-w-0">
                   <h5 className="text-[11px] uppercase tracking-wider font-extrabold text-slate-500 mb-1">Email Us</h5>
                   <span className="text-slate-300 text-[13.5px] font-bold group-hover:text-white transition-colors duration-200 break-all">
-                    binudsoftwaresolutions@gmail.com
+                    binudp.dev@gmail.com
                   </span>
                 </div>
               </a>

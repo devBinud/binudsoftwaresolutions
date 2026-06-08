@@ -193,11 +193,11 @@ const Navbar = () => {
               Connect with us
             </span>
             <a
-              href="mailto:binudsoftwaresolutions@gmail.com"
+              href="mailto:binudp.dev@gmail.com"
               className="flex items-center gap-2.5 px-1 hover:text-[#274e85] transition-colors"
             >
               <HiMail className="text-sm text-slate-400 shrink-0" />
-              <span className="truncate">binudsoftwaresolutions@gmail.com</span>
+              <span className="truncate">binudp.dev@gmail.com</span>
             </a>
             <a
               href="tel:+919706393924"
