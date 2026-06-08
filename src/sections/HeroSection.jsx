@@ -54,6 +54,56 @@ const HeroSection = () => {
       {/* Ambient background blob for soft depth */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#274e85] rounded-full blur-[140px] pointer-events-none" style={{ opacity: 0.04 }} />
 
+      {/* Modern decorative SVG line curves */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice"
+        viewBox="0 0 1440 900"
+      >
+        {/* Top-left large sweeping arc */}
+        <path
+          d="M -80 320 C 120 100, 400 80, 680 260 S 1100 480, 1520 300"
+          fill="none"
+          stroke="#695dd3"
+          strokeWidth="1.2"
+          strokeOpacity="0.12"
+        />
+        {/* Slightly offset second arc below */}
+        <path
+          d="M -80 400 C 140 180, 420 160, 700 340 S 1120 560, 1520 380"
+          fill="none"
+          stroke="#274e85"
+          strokeWidth="0.8"
+          strokeOpacity="0.09"
+        />
+        {/* Bottom-right sweeping curve */}
+        <path
+          d="M 200 900 C 400 700, 700 650, 900 750 S 1200 880, 1520 720"
+          fill="none"
+          stroke="#695dd3"
+          strokeWidth="1"
+          strokeOpacity="0.10"
+        />
+        {/* Tight curve top-right corner */}
+        <path
+          d="M 900 -40 C 1050 80, 1200 200, 1520 180"
+          fill="none"
+          stroke="#3E4265"
+          strokeWidth="1"
+          strokeOpacity="0.08"
+        />
+        {/* Diagonal crossing line — subtle */}
+        <path
+          d="M 0 700 C 200 500, 600 300, 1000 180 S 1300 80, 1520 40"
+          fill="none"
+          stroke="#695dd3"
+          strokeWidth="0.6"
+          strokeOpacity="0.07"
+          strokeDasharray="6 10"
+        />
+      </svg>
+
       {/* Hero content container */}
       <motion.div
         variants={containerVariants}

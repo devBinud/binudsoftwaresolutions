@@ -8,6 +8,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
+import NewsMedia from './pages/NewsMedia';
 
 // Admin pages
 import AdminLogin from './pages/admin/AdminLogin';
@@ -43,6 +44,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/news-media" element={<NewsMedia />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />

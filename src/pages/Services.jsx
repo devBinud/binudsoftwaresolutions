@@ -15,7 +15,7 @@ const services = [
     title: 'Mobile Apps',
     desc: 'Native and cross-platform apps for iOS and Android using Flutter and React Native. Smooth, performant apps that users love.',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Hot',
+    badge: '15%',
     features: ['iOS & Android Apps', 'Cross-Platform (Flutter)', 'App Store Deployment', 'Push Notifications', 'Offline Support'],
   },
   {
@@ -36,7 +36,7 @@ const services = [
     title: 'AI & Automation',
     desc: 'Intelligent automation and AI-powered features to supercharge your business. Chatbots, predictive analysis, and intelligent workflows.',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Hot',
+    badge: '20%',
     features: ['Chatbots & Assistants', 'Machine Learning', 'Data Analytics', 'Process Automation', 'NLP Solutions'],
   },
   {
@@ -79,8 +79,8 @@ const Services = () => {
       {/* Hero Header Section */}
       <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="flex flex-col text-left"
@@ -116,7 +116,7 @@ const Services = () => {
                 className="rounded-2xl p-[1px] bg-gradient-to-br from-[#274e85]/20 to-[#3E4265]/20 hover:from-[#274e85] hover:to-[#3E4265] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_12px_40px_rgba(39,78,133,0.08)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer group relative overflow-hidden"
               >
                 <div className="w-full h-full rounded-2xl bg-white p-8 flex flex-col justify-between min-h-[290px] select-none text-left relative overflow-hidden">
-                  
+
                   <div>
                     {/* Diagonal Corner Ribbon */}
                     {service.badge && (

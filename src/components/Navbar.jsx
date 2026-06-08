@@ -42,6 +42,7 @@ const Navbar = () => {
     { name: 'Services', path: '/services' },
     { name: 'Projects', path: '/portfolio' },
     { name: 'Case Studies', path: '/portfolio?tab=case-studies' },
+    { name: 'News & Media', path: '/news-media' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -60,8 +61,8 @@ const Navbar = () => {
       ═══════════════════════════════════════════════════════ */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none font-sans ${scrolled
-          ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-slate-100'
-          : 'border-b border-slate-200/60'
+          ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
+          : ''
           }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
