@@ -3,6 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
+import bannerBgImage from '../assets/bg1.jpg';
 
 const About = () => {
   const location = useLocation();
@@ -13,21 +14,54 @@ const About = () => {
     <div className="min-h-screen bg-white font-sans">
       <Navbar />
 
+      {/* ── Breadcrumb Banner ── */}
+      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={bannerBgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-35" 
+          />
+          {/* Solid gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
+            {isBlog ? 'Our Blog' : 'About Us'}
+          </h1>
+          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            {isBlog ? (
+              <>
+                <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+                <span>/</span>
+                <span className="text-white">Blog</span>
+              </>
+            ) : (
+              <span className="text-white">About Us</span>
+            )}
+          </nav>
+        </div>
+      </section>
+
       {isBlog ? (
         /* Blog View */
         <>
-          {/* Blog Hero Header */}
-          <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
+          {/* Blog Introduction Header */}
+          <section className="relative pt-16 pb-8 bg-white overflow-hidden select-none">
             <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5 }}
                 className="flex flex-col text-left"
               >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#3E4265] mb-5 tracking-tight leading-tight">
-                  Our <span className="text-[#274e85]">Blog</span>
-                </h1>
+                <h2 className="text-[#3E4265] text-2xl md:text-3xl font-black mb-3 tracking-tight leading-tight">
+                  Insights &amp; Engineering Perspectives
+                </h2>
                 <div className="w-16 h-[3px] bg-[#274e85] mb-6 rounded-full" />
                 <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
                   Insights, research papers, and technical guides from our elite software engineering team.
@@ -90,7 +124,7 @@ const About = () => {
         /* About Us View */
         <>
           {/* Hero Header Section (utilizing the AboutPreview layout without the button) */}
-          <section className="relative pt-36 pb-24 bg-white overflow-hidden select-none">
+          <section className="relative pt-16 pb-24 bg-white overflow-hidden select-none">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 

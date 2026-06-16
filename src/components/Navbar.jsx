@@ -40,8 +40,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Projects', path: '/portfolio' },
-    { name: 'Case Studies', path: '/portfolio?tab=case-studies' },
+    { name: 'Case Studies', path: '/portfolio' },
     { name: 'News & Media', path: '/news-media' },
     { name: 'Contact', path: '/contact' },
   ];

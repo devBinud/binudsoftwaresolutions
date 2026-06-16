@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
+import bannerBgImage from '../assets/bg2.jpg';
 
 const services = [
   {
@@ -76,8 +78,33 @@ const Services = () => {
     <div className="min-h-screen bg-white font-sans">
       <Navbar />
 
+      {/* ── Breadcrumb Banner ── */}
+      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={bannerBgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-35" 
+          />
+          {/* Solid gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
+            Our Services
+          </h1>
+          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-white">Services</span>
+          </nav>
+        </div>
+      </section>
+
       {/* Hero Header Section */}
-      <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
+      <section className="relative pt-16 pb-16 bg-white overflow-hidden select-none">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

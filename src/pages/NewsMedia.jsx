@@ -1,68 +1,50 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { HiPhotograph, HiPlay, HiX, HiArrowLeft, HiArrowRight } from 'react-icons/hi';
 
-// Placeholder gallery items — replace with real content later
+// Import local images from assets/gallery
+import img1 from '../assets/gallery/1.jpeg';
+import img2 from '../assets/gallery/2.jpeg';
+import img3 from '../assets/gallery/3.jpeg';
+import bannerBgImage from '../assets/bg4.jpg';
+
+/**
+ * TO ADD MORE PHOTOS IN THE FUTURE:
+ * 1. Place the new image in `src/assets/gallery/` (e.g., `4.jpeg`).
+ * 2. Import it at the top: `import img4 from '../assets/gallery/4.jpeg';`
+ * 3. Add a new object to the `galleryItems` array below:
+ *    {
+ *      id: 4,
+ *      type: 'image',
+ *      span: 'col-span-1 row-span-1', // or desired span class (e.g. col-span-2 row-span-1)
+ *      label: 'Full Name — Professional Title',
+ *      src: img4,
+ *    }
+ */
 const galleryItems = [
   {
     id: 1,
     type: 'image',
-    span: 'col-span-2 row-span-2',
-    label: 'Company Event',
-    src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&h=900&q=85',
+    label: 'Full Team of Codepilot Technologies',
+    src: img1,
   },
   {
     id: 2,
     type: 'image',
-    span: 'col-span-1 row-span-1',
-    label: 'Team Meeting',
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&h=600&q=85',
+    label: 'Core Development Team Sync',
+    src: img2,
   },
   {
     id: 3,
-    type: 'video',
-    span: 'col-span-1 row-span-1',
-    label: 'Product Demo',
-    src: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&h=600&q=85',
-  },
-  {
-    id: 4,
     type: 'image',
-    span: 'col-span-1 row-span-1',
-    label: 'Award Night',
-    src: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800&h=600&q=85',
-  },
-  {
-    id: 5,
-    type: 'image',
-    span: 'col-span-2 row-span-1',
-    label: 'Office Life',
-    src: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&h=600&q=85',
-  },
-  {
-    id: 6,
-    type: 'image',
-    span: 'col-span-1 row-span-1',
-    label: 'Workshop',
-    src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&h=600&q=85',
-  },
-  {
-    id: 7,
-    type: 'video',
-    span: 'col-span-1 row-span-1',
-    label: 'Client Visit',
-    src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&h=600&q=85',
-  },
-  {
-    id: 8,
-    type: 'image',
-    span: 'col-span-1 row-span-1',
-    label: 'Launch Event',
-    src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&h=600&q=85',
+    label: "Fun Reel Concept: The 'Angry Team'",
+    src: img3,
   },
 ];
+
 
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.97 },
@@ -203,24 +185,28 @@ const NewsMedia = () => {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* ── Hero Header ── */}
-      <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 400">
-          <path d="M -80 200 C 200 60, 500 40, 780 160 S 1200 320, 1520 180" fill="none" stroke="#695dd3" strokeWidth="1.2" strokeOpacity="0.10" />
-          <path d="M -80 280 C 200 140, 500 120, 780 240 S 1200 400, 1520 260" fill="none" stroke="#274e85" strokeWidth="0.8" strokeOpacity="0.08" />
-          <path d="M 900 -20 C 1050 60, 1250 140, 1520 120" fill="none" stroke="#695dd3" strokeWidth="1" strokeOpacity="0.07" />
-        </svg>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-[#695dd3] text-sm font-bold tracking-widest uppercase mb-4">Press / Stories / Coverage</p>
-            <h1 className="text-[#0f172a] text-4xl sm:text-5xl lg:text-[56px] font-black leading-tight tracking-tight mb-5">
-              News &amp; Media
-            </h1>
-            <p className="text-slate-400 text-4xl sm:text-5xl lg:text-[56px] font-black leading-tight tracking-tight">
-              Our story, in pictures.
-            </p>
-            <div className="w-16 h-[3px] bg-[#695dd3] mt-8 rounded-full" />
-          </motion.div>
+      {/* ── Breadcrumb Banner ── */}
+      <section className="relative bg-slate-900 text-white pt-32 pb-14 select-none overflow-hidden border-b border-slate-800">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={bannerBgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-45" 
+          />
+          {/* Solid gradient overlay to guarantee perfect contrast and corporate look */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/85 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">
+            News &amp; Media
+          </h1>
+          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-white">News &amp; Media</span>
+          </nav>
         </div>
       </section>
 
@@ -236,19 +222,16 @@ const NewsMedia = () => {
             className="flex items-center justify-between mb-10"
           >
             <div>
-              <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">Media Gallery</h2>
+              <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">Past Experiences &amp; Memories</h2>
               <p className="text-slate-400 text-sm font-medium mt-1">Click any image to open · ← → to navigate</p>
             </div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest border border-slate-200 rounded-full px-4 py-2 bg-white">
-              Placeholder
+              Memories
             </span>
           </motion.div>
 
-          {/* Grid — 2 cols on mobile, 4 cols on desktop */}
-          <div
-            className="grid gap-3 grid-cols-2 lg:grid-cols-4"
-            style={{ gridAutoRows: '180px' }}
-          >
+          {/* Grid — 1 col on mobile, 2 cols on tablet, 3 cols on desktop */}
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start">
             {galleryItems.map((item, i) => (
               <motion.div
                 key={item.id}
@@ -258,47 +241,32 @@ const NewsMedia = () => {
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
                 onClick={() => openLightbox(i)}
-                className={`relative group rounded-2xl overflow-hidden cursor-zoom-in ${item.span}`}
+                className="group rounded-2xl overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col"
               >
-                <img
-                  src={item.src}
-                  alt={item.label}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  draggable={false}
-                />
+                {/* Image container showing the image with uniform aspect ratio */}
+                <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border-b border-slate-100">
+                  <img
+                    src={item.src}
+                    alt={item.label}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                    draggable={false}
+                  />
+                </div>
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                {/* Video badge */}
-                {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <HiPlay size={22} className="text-[#695dd3] ml-0.5" />
-                    </div>
-                  </div>
-                )}
-
-                {/* Label */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="flex items-center gap-2">
-                    {item.type === 'image' ? <HiPhotograph size={14} className="text-white/80" /> : <HiPlay size={14} className="text-white/80" />}
-                    <span className="text-white text-xs font-bold">{item.label}</span>
-                  </div>
+                {/* Info footer always visible */}
+                <div className="p-5 bg-white flex flex-col flex-1">
+                  <h3 className="text-slate-800 text-[15px] font-black leading-snug tracking-tight">
+                    {item.label}
+                  </h3>
+                  <p className="text-slate-400 text-xs font-medium mt-1">
+                    Memories of working at Codepilot Technologies
+                  </p>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-center text-slate-400 text-sm font-medium mt-10"
-          >
-            Real photos and videos will be added here soon. Stay tuned! 📸
-          </motion.p>
+
 
         </div>
       </section>

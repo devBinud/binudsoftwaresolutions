@@ -1,16 +1,43 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
 import bssGmb from '../assets/bss_gmb.png';
+import bannerBgImage from '../assets/bg3.jpg';
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+
+      {/* ── Breadcrumb Banner ── */}
+      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={bannerBgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-35" 
+          />
+          {/* Solid gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
+            Contact Us
+          </h1>
+          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-white">Contact Us</span>
+          </nav>
+        </div>
+      </section>
       
       {/* Contact Form Section */}
-      <div className="pt-20">
+      <div className="pt-12">
         <ConnectSection hideVision={true} />
       </div>
 

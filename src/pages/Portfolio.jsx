@@ -1,107 +1,213 @@
 import { motion } from 'framer-motion';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
+import { 
+  FaAndroid, 
+  FaApple, 
+  FaArrowRight, 
+  FaCode,
+  FaReact,
+  FaLaravel,
+  FaDatabase,
+  FaCreditCard,
+  FaNodeJs,
+  FaServer,
+  FaLock 
+} from 'react-icons/fa';
+
+// Import banner background image
+import bannerBgImage from '../assets/bg5.jpg';
+
+// Import assets for Kangkan Case Study
+import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
+import kangkanPreview from '../assets/case_studies/kangkan_screenshot/1.webp';
+
+// Import assets for GiveTheNeedy Case Study
+import gtnLogo from '../assets/case_studies/givetheneedy_screenshot/logo.webp';
+import gtnPreview from '../assets/case_studies/givetheneedy_screenshot/1.webp';
+
+const getTechIcon = (tech) => {
+  const t = tech.toLowerCase();
+  if (t.includes('react')) return FaReact;
+  if (t.includes('laravel')) return FaLaravel;
+  if (t.includes('node')) return FaNodeJs;
+  if (t.includes('mongodb') || t.includes('mysql') || t.includes('database') || t.includes('nosql')) return FaDatabase;
+  if (t.includes('razorpay') || t.includes('gateway') || t.includes('payment') || t.includes('credit')) return FaCreditCard;
+  if (t.includes('express') || t.includes('server')) return FaServer;
+  if (t.includes('auth') || t.includes('security') || t.includes('lock') || t.includes('verified')) return FaLock;
+  return FaCode;
+};
+
+const getTechColor = (tech) => {
+  const t = tech.toLowerCase();
+  if (t.includes('react')) return '#61dafb';
+  if (t.includes('laravel')) return '#ff2d20';
+  if (t.includes('node')) return '#339933';
+  if (t.includes('mongodb')) return '#47a248';
+  if (t.includes('mysql')) return '#00758f';
+  if (t.includes('database') || t.includes('nosql')) return '#00758f';
+  if (t.includes('razorpay') || t.includes('gateway') || t.includes('payment') || t.includes('credit')) return '#0854d4';
+  if (t.includes('express')) return '#303030';
+  if (t.includes('auth') || t.includes('security') || t.includes('lock') || t.includes('verified')) return '#10b981';
+  return '#0ea5e9';
+};
 
 const Portfolio = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const isCaseStudies = queryParams.get('tab') === 'case-studies';
+  // Static Case Studies Data
+  const caseStudies = [
+    {
+      id: 'kangkan',
+      title: 'Kangkan: A Scalable Mobile-First E-commerce Platform',
+      subtitle: 'React Native & Laravel Production Architecture',
+      description: 'A premium, culture-inspired mobile e-commerce platform designed to handle massive concurrent traffic, utilizing a stateless backend API and optimized Razorpay checkout integrations.',
+      logo: kangkanLogo,
+      preview: kangkanPreview,
+      primaryColor: '#274e85',
+      platform: 'Android & iOS Mobile App',
+      tech: ['React Native', 'Laravel PHP', 'MySQL Database', 'Razorpay Gateway', 'RESTful APIs'],
+    },
+    {
+      id: 'givetheneedy',
+      title: 'GiveTheNeedy: A Purpose-Driven Social Impact App',
+      subtitle: 'Event-Driven Node.js & MongoDB Platform',
+      description: 'A transparent donation and community contribution platform connecting donors directly to verified beneficiaries, complete with real-time updates and an intuitive mobile user experience.',
+      logo: gtnLogo,
+      preview: gtnPreview,
+      primaryColor: '#695dd3',
+      platform: 'Android & iOS Mobile App',
+      tech: ['React Native', 'Node.js', 'MongoDB NoSQL', 'Express API', 'Verified Auth'],
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-slate-50/50 font-sans">
       <Navbar />
 
-      {/* Hero Header Section */}
-      <section className="relative pt-36 pb-16 bg-white overflow-hidden select-none">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col text-left"
-          >
-            {isCaseStudies ? (
-              <>
-                <h1 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
-                  Real-World Success Stories
-                </h1>
-                <p className="text-slate-400 text-3xl sm:text-[42px] lg:text-[48px] font-black leading-[1.15] tracking-tight mt-0 mb-6 max-w-4xl">
-                  and Engineering Milestones!
-                </p>
-                <div className="w-16 h-[3px] bg-[#274e85] mb-8 rounded-full" />
-                <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-                  Discover how we architect complex digital solutions, resolve critical business problems, and scale infrastructure to support global growth.
-                </p>
-              </>
-            ) : (
-              <>
-                <h1 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
-                  Top-Notch Engineered Projects
-                </h1>
-                <p className="text-slate-400 text-3xl sm:text-[42px] lg:text-[48px] font-black leading-[1.15] tracking-tight mt-0 mb-6 max-w-4xl">
-                  for Startups &amp; Enterprises!
-                </p>
-                <div className="w-16 h-[3px] bg-[#274e85] mb-8 rounded-full" />
-                <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-                  A showcase of premium software applications, custom engineering, and smart digital systems we've built for scale and performance.
-                </p>
-              </>
-            )}
-          </motion.div>
+      {/* ── Breadcrumb Banner ── */}
+      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img 
+            src={bannerBgImage} 
+            alt="" 
+            className="w-full h-full object-cover opacity-35" 
+          />
+          {/* Solid gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
+            Case Studies
+          </h1>
+          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-white">Case Studies</span>
+          </nav>
         </div>
       </section>
 
-      {/* Placeholder Grid Section */}
-      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        {/* Subtle background glow effect */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#274e85]/5 rounded-full blur-[120px] pointer-events-none select-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center relative z-10">
+      {/* Case Studies Grid Section */}
+      <section className="py-16 bg-transparent relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           
+          {/* Section Introduction */}
+          <div className="text-left mb-12 select-none max-w-4xl">
+            <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight mb-3">
+              Real-World Success Stories &amp; Engineering Milestones
+            </h2>
+            <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">
+              Discover how we architect complex digital solutions, resolve critical business problems, and scale mobile infrastructure to support global growth and social impact.
+            </p>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, type: 'spring', stiffness: 80 }}
-            className="rounded-3xl p-[1px] bg-gradient-to-br from-[#274e85]/20 to-[#695dd3]/20 hover:from-[#274e85] hover:to-[#695dd3] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(39,78,133,0.12)] max-w-xl w-full group"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-10"
           >
-            <div className="bg-white rounded-[23px] p-10 md:p-14 flex flex-col items-center justify-center relative overflow-hidden">
-              
-              {/* Top status indicator badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-extrabold uppercase tracking-widest text-[#274e85] mb-8 select-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#274e85] animate-pulse" />
-                Under Construction
-              </div>
-
-              {/* Engineering Gear Icon with rotating animation */}
-              <div className="w-20 h-20 rounded-2xl bg-[#274e85]/5 flex items-center justify-center text-[#274e85] mb-8 border border-[#274e85]/10 relative group-hover:scale-105 transition-all duration-300">
-                <svg className="w-9 h-9 animate-[spin_12s_linear_infinite]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              
-              <h3 className="text-[#191919] font-black text-2xl md:text-3xl tracking-tight mb-4 select-none font-sans">
-                We are working on this page
-              </h3>
-              
-              <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium mb-8 max-w-sm">
-                {isCaseStudies 
-                  ? "We are currently preparing detailed success stories, architectural insights, and case studies of our premium software systems."
-                  : "We are actively updating this section with a showcase of our custom engineering projects, enterprise solutions, and web systems."
-                }
-              </p>
-
-              {/* Action Button */}
-              <Link
-                to="/"
-                className="bg-[#274e85] hover:bg-[#1d3d6b] text-white font-sans font-bold text-xs uppercase tracking-wider px-8 py-3 rounded-full shadow-[0_4px_18px_rgba(39,78,133,0.2)] hover:shadow-[0_6px_24px_rgba(39,78,133,0.35)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            {caseStudies.map((cs) => (
+              <div
+                key={cs.id}
+                className="bg-white border border-slate-100 rounded-3xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow duration-300 flex flex-col h-full text-left relative overflow-hidden"
               >
-                Go Back Home
-              </Link>
-            </div>
+                {/* Diagonal Ribbon */}
+                <div className="absolute top-4 right-[-35px] rotate-45 bg-[#695dd3] text-white text-[8px] font-black uppercase tracking-widest text-center py-1 w-36 shadow-[0_2px_10px_rgba(105,93,211,0.35)]">
+                  Android &amp; iOS
+                </div>
+
+                {/* Logo & Platform Icons Header */}
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-50">
+                  <div className="flex items-center gap-4">
+                    <div className="w-20 h-20 rounded-2xl bg-slate-50 p-3.5 border border-slate-100/80 flex items-center justify-center shadow-sm shrink-0">
+                      <img src={cs.logo} alt={cs.title} className="w-full h-full object-contain" />
+                    </div>
+                    {/* Platform Indicators */}
+                    <div className="flex flex-col gap-1 select-none">
+                      <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">Platforms</span>
+                      <div className="flex gap-1.5 mt-0.5">
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-[#3DDC84]" title="Android App">
+                          <FaAndroid size={13} />
+                          <span className="text-[10px] font-bold text-slate-600">Android</span>
+                        </div>
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-800" title="iOS App">
+                          <FaApple size={13} />
+                          <span className="text-[10px] font-bold text-slate-600">iOS</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col flex-grow">
+                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight hover:text-[#274e85] transition-colors duration-300 mb-2 leading-tight">
+                    {cs.title}
+                  </h3>
+                  <p className="text-xs font-bold text-slate-400 mb-4 tracking-wide">{cs.subtitle}</p>
+                  
+                  <p className="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
+                    {cs.description}
+                  </p>
+
+                  {/* Technologies label with icon */}
+                  <div className="flex items-center gap-1.5 text-slate-400 font-bold text-[11px] mb-3 mt-auto select-none">
+                    <FaCode size={13} className="text-slate-400" />
+                    <span>Technologies</span>
+                  </div>
+
+                  {/* Tech stack badges */}
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {cs.tech.map((techItem) => {
+                      const TechIcon = getTechIcon(techItem);
+                      const techColor = getTechColor(techItem);
+                      return (
+                        <span 
+                          key={techItem}
+                          className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                        >
+                          <TechIcon style={{ color: techColor }} size={11} />
+                          {techItem}
+                        </span>
+                      );
+                    })}
+                  </div>
+
+                  {/* Action Button */}
+                  <Link
+                    to={`/portfolio/case-study/${cs.id}`}
+                    className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-xs uppercase tracking-wider border-2 border-[#274e85] text-[#274e85] hover:bg-[#274e85] hover:text-white hover:shadow-[0_4px_12px_rgba(39,78,133,0.1)] transition-all duration-300"
+                  >
+                    Explore Case Study
+                    <FaArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            ))}
           </motion.div>
 
         </div>
