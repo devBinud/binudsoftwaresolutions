@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
-import { 
-  FaAndroid, 
-  FaApple, 
-  FaArrowRight, 
+import {
+  FaAndroid,
+  FaApple,
+  FaArrowRight,
   FaCode,
   FaReact,
   FaLaravel,
@@ -14,7 +14,7 @@ import {
   FaCreditCard,
   FaNodeJs,
   FaServer,
-  FaLock 
+  FaLock
 } from 'react-icons/fa';
 
 // Import banner background image
@@ -86,13 +86,13 @@ const Portfolio = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white pt-28 pb-14 select-none overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={bannerBgImage} 
-            alt="" 
-            className="w-full h-full object-cover opacity-35" 
+          <img
+            src={bannerBgImage}
+            alt=""
+            className="w-full h-full object-cover opacity-35"
           />
           {/* Solid gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
@@ -113,7 +113,7 @@ const Portfolio = () => {
       {/* Case Studies Grid Section */}
       <section className="py-16 bg-transparent relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          
+
           {/* Section Introduction */}
           <div className="text-left mb-12 select-none max-w-4xl">
             <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight mb-3">
@@ -169,41 +169,50 @@ const Portfolio = () => {
                     {cs.title}
                   </h3>
                   <p className="text-xs font-bold text-slate-400 mb-4 tracking-wide">{cs.subtitle}</p>
-                  
+
                   <p className="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
                     {cs.description}
                   </p>
 
                   {/* Technologies label with icon */}
-                  <div className="flex items-center gap-1.5 text-slate-400 font-bold text-[11px] mb-3 mt-auto select-none">
-                    <FaCode size={13} className="text-slate-400" />
+                  <div className="flex items-center gap-1 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider mb-3 mt-auto select-none">
+                    <FaCode size={11} className="text-[#695dd3]/70" />
                     <span>Technologies</span>
                   </div>
 
-                  {/* Tech stack badges */}
-                  <div className="flex flex-wrap gap-2 mb-8">
+                  {/* Tech stack badges - Square Card Type */}
+                  <div className="flex flex-wrap gap-3 mb-8">
                     {cs.tech.map((techItem) => {
                       const TechIcon = getTechIcon(techItem);
                       const techColor = getTechColor(techItem);
                       return (
-                        <span 
+                        <div 
                           key={techItem}
-                          className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                          className="flex flex-col items-center justify-center p-2.5 rounded-2xl bg-slate-50 border border-slate-100/80 w-[84px] h-[84px] text-center select-none cursor-default"
                         >
-                          <TechIcon style={{ color: techColor }} size={11} />
-                          {techItem}
-                        </span>
+                          <TechIcon style={{ color: techColor }} size={22} className="mb-1.5" />
+                          <span className="text-[9.5px] font-bold text-slate-500 leading-tight font-sans">
+                            {techItem}
+                          </span>
+                        </div>
                       );
                     })}
                   </div>
 
                   {/* Action Button */}
                   <Link
-                    to={`/portfolio/case-study/${cs.id}`}
-                    className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-xs uppercase tracking-wider border-2 border-[#274e85] text-[#274e85] hover:bg-[#274e85] hover:text-white hover:shadow-[0_4px_12px_rgba(39,78,133,0.1)] transition-all duration-300"
+                    to={`/case-studies/case-study/${cs.id}`}
+                    className="inline-flex items-center gap-4 group/btn cursor-pointer w-fit mt-auto pt-4"
                   >
-                    Explore Case Study
-                    <FaArrowRight className="w-3.5 h-3.5" />
+                    {/* Circular Arrow button */}
+                    <div className="w-12 h-12 rounded-full border border-[#191919] group-hover/btn:border-[#695dd3] text-[#191919] group-hover/btn:bg-[#695dd3] group-hover/btn:text-white flex items-center justify-center transition-all duration-300 shrink-0">
+                      <FaArrowRight size={14} className="transform group-hover/btn:translate-x-0.5 transition-transform" />
+                    </div>
+                    
+                    {/* Link Label */}
+                    <span className="text-[#191919] group-hover/btn:text-[#695dd3] font-bold text-xs sm:text-[13px] tracking-wider uppercase transition-colors duration-300">
+                      Explore Case Study
+                    </span>
                   </Link>
                 </div>
               </div>

@@ -284,7 +284,7 @@ const CaseStudyDetails = () => {
   const data = caseStudiesData[id];
 
   if (!data) {
-    return <Navigate to="/portfolio" replace />;
+    return <Navigate to="/case-studies" replace />;
   }
 
   return (
@@ -292,7 +292,7 @@ const CaseStudyDetails = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-8 select-none overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white pt-28 pb-14 select-none overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
@@ -311,7 +311,7 @@ const CaseStudyDetails = () => {
           <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/portfolio" className="hover:text-white transition-colors">Case Studies</Link>
+            <Link to="/case-studies" className="hover:text-white transition-colors">Case Studies</Link>
             <span>/</span>
             <span className="text-white">{id === 'kangkan' ? 'Kangkan' : 'GiveTheNeedy'}</span>
           </nav>

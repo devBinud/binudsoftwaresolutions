@@ -48,7 +48,7 @@ const StatsSection = () => {
 
           {/* Watermark Block (Right) */}
           <div className="md:col-span-6 flex justify-start md:justify-end select-none pointer-events-none md:absolute md:right-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit">
-            <span className="text-[#274e85]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#274e85]/[0.09] font-sans">
+            <span className="text-[#695dd3]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#695dd3]/[0.09] font-sans">
               Globally completed
             </span>
           </div>
@@ -61,7 +61,7 @@ const StatsSection = () => {
         >
           {/* Watermark Block (Left) */}
           <div className="md:col-span-6 flex justify-start select-none pointer-events-none md:absolute md:left-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit order-last md:order-first">
-            <span className="text-[#274e85]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#274e85]/[0.09] font-sans">
+            <span className="text-[#695dd3]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#695dd3]/[0.09] font-sans">
               INDUSTRY EXPERIENCE
             </span>
           </div>
@@ -98,7 +98,7 @@ const StatsSection = () => {
 
           {/* Watermark Block (Right) */}
           <div className="md:col-span-6 flex justify-start md:justify-end select-none pointer-events-none md:absolute md:right-12 md:top-1/2 md:-translate-y-1/2 overflow-hidden w-full md:w-auto h-fit">
-            <span className="text-[#274e85]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#274e85]/[0.09] font-sans">
+            <span className="text-[#695dd3]/[0.05] font-black text-[11vw] md:text-[5rem] xl:text-[5.8rem] uppercase tracking-[0.08em] whitespace-nowrap leading-none transition-transform duration-700 group-hover:scale-[1.03] group-hover:text-[#695dd3]/[0.09] font-sans">
               HAPPY CLIENTS
             </span>
           </div>

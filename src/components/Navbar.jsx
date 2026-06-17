@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiMenuAlt3, HiX, HiMail, HiPhone } from 'react-icons/hi';
+import { HiMenuAlt3, HiX, HiMail, HiPhone, HiArrowRight } from 'react-icons/hi';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -40,8 +40,9 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Case Studies', path: '/portfolio' },
-    { name: 'News & Media', path: '/news-media' },
+    { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Gallery', path: '/gallery' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -56,15 +57,18 @@ const Navbar = () => {
   return (
     <>
       {/* ═══════════════════════════════════════════════════════
-          TOP NAVBAR BAR
+          MAIN NAVBAR
       ═══════════════════════════════════════════════════════ */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none font-sans ${scrolled
-          ? 'shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
-          : ''
-          }`}
+        className={`fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 select-none font-sans top-0 border-b ${
+          scrolled
+            ? 'border-transparent shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
+            : 'border-slate-100'
+        }`}
       >
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className={`max-w-7xl mx-auto px-6 transition-all duration-300 flex items-center justify-between ${
+          scrolled ? 'h-16' : 'h-20'
+        }`}>
 
           {/* ── Logo ── */}
           <Link to="/" className="flex items-center gap-3 shrink-0 group">
@@ -82,8 +86,8 @@ const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 className={`text-[14.5px] font-sans font-bold tracking-wide transition-colors duration-200 py-2 ${isLinkActive(link.path)
-                  ? 'text-[#274e85]'
-                  : 'text-slate-800 hover:text-[#274e85]'
+                  ? 'text-[#695dd3]'
+                  : 'text-slate-800 hover:text-[#695dd3]'
                   }`}
               >
                 {link.name}
@@ -175,8 +179,8 @@ const Navbar = () => {
                   onClick={closeDrawer}
                   className={`flex items-center rounded-xl text-sm font-sans font-bold transition-all duration-300 py-3.5 ${
                     active
-                      ? 'bg-[#274e85]/8 text-[#274e85] pl-6 pr-4'
-                      : 'text-slate-800 hover:bg-slate-50/80 hover:text-[#274e85] pl-4 pr-4 hover:pl-6'
+                      ? 'bg-[#695dd3]/8 text-[#695dd3] pl-6 pr-4'
+                      : 'text-slate-800 hover:bg-slate-50/80 hover:text-[#695dd3] pl-4 pr-4 hover:pl-6'
                   }`}
                 >
                   <span>{link.name}</span>
@@ -194,14 +198,14 @@ const Navbar = () => {
             </span>
             <a
               href="mailto:binudp.dev@gmail.com"
-              className="flex items-center gap-2.5 px-1 hover:text-[#274e85] transition-colors"
+              className="flex items-center gap-2.5 px-1 hover:text-[#695dd3] transition-colors"
             >
               <HiMail className="text-sm text-slate-400 shrink-0" />
               <span className="truncate">binudp.dev@gmail.com</span>
             </a>
             <a
               href="tel:+919706393924"
-              className="flex items-center gap-2.5 px-1 hover:text-[#274e85] transition-colors"
+              className="flex items-center gap-2.5 px-1 hover:text-[#695dd3] transition-colors"
             >
               <HiPhone className="text-sm text-slate-400 shrink-0" />
               <span>+91 97063 93924</span>

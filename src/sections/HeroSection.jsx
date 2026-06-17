@@ -51,8 +51,9 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Ambient background blob for soft depth */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#274e85] rounded-full blur-[140px] pointer-events-none" style={{ opacity: 0.04 }} />
+      {/* Ambient background blobs for soft depth */}
+      <div className="absolute top-12 left-1/4 w-[500px] h-[300px] bg-[#695dd3] rounded-full blur-[130px] pointer-events-none opacity-[0.06]" />
+      <div className="absolute top-24 right-1/4 w-[400px] h-[300px] bg-[#8075e3] rounded-full blur-[130px] pointer-events-none opacity-[0.05]" />
 
       {/* Modern decorative SVG line curves */}
       <svg
@@ -73,7 +74,7 @@ const HeroSection = () => {
         <path
           d="M -80 400 C 140 180, 420 160, 700 340 S 1120 560, 1520 380"
           fill="none"
-          stroke="#274e85"
+          stroke="#695dd3"
           strokeWidth="0.8"
           strokeOpacity="0.09"
         />
@@ -125,7 +126,7 @@ const HeroSection = () => {
               style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)' }}
             >
               We Build World-Class{' '}
-              <span className="inline-block relative overflow-hidden align-middle mx-1.5 bg-[#695dd3] text-white rounded-full text-[0.8em] font-bold shadow-[0_4px_15px_rgba(105,93,211,0.15)]" style={{ minWidth: '7.8em', height: '1.45em' }}>
+              <span className="inline-block relative overflow-hidden align-middle mx-1.5 bg-gradient-to-r from-[#695dd3] to-[#8075e3] border border-white/10 text-white rounded-full text-[0.8em] font-bold shadow-[0_4px_15px_rgba(105,93,211,0.2)]" style={{ minWidth: '7.8em', height: '1.45em' }}>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={wordIndex}
@@ -176,7 +177,7 @@ const HeroSection = () => {
               className="flex items-center gap-4 bg-slate-50/80 border border-slate-100 rounded-2xl p-4 max-w-md shadow-sm"
             >
               <div className="flex -space-x-3 shrink-0">
-                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#274e85] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">BS</div>
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#8075e3] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">BS</div>
                 <div className="w-10 h-10 rounded-full border-2 border-white bg-[#3E4265] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">AI</div>
                 <div className="w-10 h-10 rounded-full border-2 border-white bg-[#695dd3] flex items-center justify-center text-white text-[10px] font-bold shadow-sm">WD</div>
               </div>
@@ -192,7 +193,7 @@ const HeroSection = () => {
           <div className="lg:col-span-6 relative w-full flex items-center justify-center">
             <div className="relative w-full max-w-[480px] flex items-center justify-center">
               {/* Soft ambient glow behind the image - static */}
-              <div className="absolute inset-0 scale-90 bg-gradient-to-br from-[#695dd3]/20 to-[#274e85]/10 rounded-full blur-3xl -z-10" />
+              <div className="absolute inset-0 scale-90 bg-gradient-to-br from-[#695dd3]/20 to-[#8075e3]/10 rounded-full blur-3xl -z-10" />
 
               {/* Slowly rotating image */}
               <img

@@ -6,6 +6,7 @@ import StatsSection from '../sections/StatsSection';
 import AboutPreview from '../sections/AboutPreview';
 import ServicesPreview from '../sections/ServicesPreview';
 import TestimonialsSection from '../sections/TestimonialsSection';
+import LatestBlogsSection from '../sections/LatestBlogsSection';
 import ConnectSection from '../sections/ConnectSection';
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
       <AboutPreview />
       <ServicesPreview />
       <TestimonialsSection />
+      <LatestBlogsSection />
       <ConnectSection />
       <Footer />
     </div>

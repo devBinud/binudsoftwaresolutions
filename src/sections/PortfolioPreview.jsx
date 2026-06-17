@@ -98,7 +98,7 @@ const PortfolioPreview = () => {
           transition={{ delay: 0.5 }}
           className="text-center mt-10"
         >
-          <Link to="/portfolio" className="btn-outline">
+          <Link to="/case-studies" className="btn-outline">
             View All Projects <HiArrowRight />
           </Link>
         </motion.div>

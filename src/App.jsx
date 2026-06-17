@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 
@@ -9,7 +9,9 @@ import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
 import CaseStudyDetails from './pages/CaseStudyDetails';
 import Contact from './pages/Contact';
-import NewsMedia from './pages/NewsMedia';
+import Gallery from './pages/Gallery';
+import Blog from './pages/Blog';
+import BlogDetails from './pages/BlogDetails';
 
 // Admin pages
 import AdminLogin from './pages/admin/AdminLogin';
@@ -22,6 +24,11 @@ import AdminMessages from './pages/admin/AdminMessages';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
+
+const PortfolioRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={`/case-studies/case-study/${id}`} replace />;
+};
 
 function App() {
   return (
@@ -43,10 +50,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/portfolio/case-study/:id" element={<CaseStudyDetails />} />
+          <Route path="/case-studies" element={<Portfolio />} />
+          <Route path="/case-studies/case-study/:id" element={<CaseStudyDetails />} />
+          <Route path="/portfolio" element={<Navigate to="/case-studies" replace />} />
+          <Route path="/portfolio/case-study/:id" element={<PortfolioRedirect />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/news-media" element={<NewsMedia />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogDetails />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
