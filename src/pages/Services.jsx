@@ -1,10 +1,95 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { HiChevronRight } from 'react-icons/hi';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
 import bannerBgImage from '../assets/bg2.jpg';
+
+const servicesJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': 'https://binudsoftwaresolutions.in/services#services',
+      'name': 'Custom Software & Mobile App Development Services',
+      'provider': {
+        '@type': 'Organization',
+        'name': 'Binud Software Solutions',
+        'url': 'https://binudsoftwaresolutions.in/'
+      },
+      'serviceType': 'Software Development',
+      'description': 'End-to-end software engineering: Custom Web Apps, Cross-Platform Mobile Apps (Flutter, React Native), UI/UX Design, Cloud DevOps, AI Automation, and IT Consulting.',
+      'areaServed': 'Worldwide',
+      'hasOfferCatalog': {
+        '@type': 'OfferCatalog',
+        'name': 'Technology Services',
+        'itemListElement': [
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'Custom Web Application Development'
+            }
+          },
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'Mobile App Development (iOS & Android)'
+            }
+          },
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'UI/UX Interface & Interaction Design'
+            }
+          },
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'Cloud Solutions, DevOps & Microservices'
+            }
+          },
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'AI & Intelligent Workflow Automation'
+            }
+          },
+          {
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': 'Strategic IT Consulting & Architecture Reviews'
+            }
+          }
+        ]
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Services',
+          'item': 'https://binudsoftwaresolutions.in/services'
+        }
+      ]
+    }
+  ]
+};
 
 const services = [
   {
@@ -78,6 +163,21 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans">
+      <SEOHead
+        title="Software Development Services | Web, Mobile, Cloud & IT Consulting"
+        description="Explore our end-to-end technology services: custom web apps, cross-platform mobile apps (Flutter, React Native), UI/UX design, cloud DevOps on AWS, AI chatbots, and IT consulting."
+        keywords={[
+          'software development services',
+          'custom web application development',
+          'mobile app development Flutter React Native',
+          'UI UX design systems',
+          'cloud solutions AWS DevOps',
+          'AI chatbots workflow automation',
+          'IT consulting Guwahati Assam'
+        ]}
+        canonicalPath="/services"
+        jsonLd={servicesJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}

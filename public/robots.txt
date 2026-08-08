@@ -1,0 +1,27 @@
+# robots.txt for Binud Software Solutions
+# Website: https://binudsoftwaresolutions.in
+
+User-agent: *
+Allow: /
+Allow: /services
+Allow: /services/ai-automation
+Allow: /case-studies
+Allow: /case-studies/case-study/
+Allow: /blog
+Allow: /blog/
+Allow: /about
+Allow: /contact
+Allow: /gallery
+Allow: /coding-guides
+
+# Disallow restricted administrative portals
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/*
+
+# Crawl Delay
+Crawl-delay: 1
+
+# Sitemap Location
+Sitemap: https://binudsoftwaresolutions.in/sitemap.xml
+

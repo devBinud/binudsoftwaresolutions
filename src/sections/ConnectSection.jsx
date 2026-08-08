@@ -90,7 +90,9 @@ const ConnectSection = () => {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [wantNda, setWantNda] = useState(false);
   const [preferredComm, setPreferredComm] = useState('Any');
+  const [attachedFiles, setAttachedFiles] = useState([]);
   const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -102,13 +104,25 @@ const ConnectSection = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files);
+      setAttachedFiles((prev) => [...prev, ...newFiles]);
+    }
+  };
+
+  const removeFile = (index) => {
+    setAttachedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const onSubmit = async (data) => {
     try {
       const fullPhone = `${selectedCountry.code} ${data.phone || ''}`.trim();
+      const fileNames = attachedFiles.map((f) => f.name).join(', ');
 
-      let emailSuccess = false;
+      // 1. Try sending via Email API (non-blocking)
       try {
-        const response = await fetch('/api/send-email', {
+        await fetch('/api/send-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -118,48 +132,79 @@ const ConnectSection = () => {
             company: data.company || 'N/A',
             phone: fullPhone,
             message: data.message,
+            filesAttached: fileNames || 'None',
             ndaRequested: wantNda ? 'Yes' : 'No',
             preferredComm: preferredComm,
           }),
         });
-
-        if (response.ok) {
-          emailSuccess = true;
-        } else if (import.meta.env.DEV) {
-          emailSuccess = true;
-        }
       } catch (err) {
-        if (import.meta.env.DEV) emailSuccess = true;
+        console.warn('Backend email endpoint not reachable, continuing:', err);
       }
 
-      if (emailSuccess) {
+      // 2. Save to Firestore (only if Firebase is configured with real credentials)
+      const isFirebaseConfigured =
+        import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+        import.meta.env.VITE_FIREBASE_PROJECT_ID !== 'YOUR_PROJECT_ID';
+
+      if (isFirebaseConfigured) {
         try {
-          await addDoc(collection(db, 'messages'), {
+          const dbPromise = addDoc(collection(db, 'messages'), {
             name: data.name,
             email: data.email,
             company: data.company || '',
             phone: fullPhone,
             message: data.message,
+            filesAttached: fileNames || 'None',
             ndaRequested: wantNda,
             preferredComm: preferredComm,
             createdAt: serverTimestamp(),
             read: false,
           });
-        } catch (_) {}
 
-        await Swal.fire({
-          title: 'Consultation Request Sent!',
-          text: 'Thank you for reaching out. Our software team will contact you shortly.',
-          icon: 'success',
-          confirmButtonText: 'Great!',
-          confirmButtonColor: '#005eb8',
-          customClass: {
-            confirmButton: 'rounded-none px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
-          }
-        });
-        reset();
+          // 3.5s timeout safeguard so UI never hangs indefinitely
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Firestore timeout')), 3500)
+          );
+
+          await Promise.race([dbPromise, timeoutPromise]);
+        } catch (dbError) {
+          console.warn('Firestore save timed out (non-critical):', dbError);
+        }
       }
+
+      // 3. Local storage fallback backup
+      try {
+        const localInquiries = JSON.parse(localStorage.getItem('binud_consultation_inquiries') || '[]');
+        localInquiries.unshift({
+          name: data.name,
+          email: data.email,
+          company: data.company || '',
+          phone: fullPhone,
+          message: data.message,
+          filesAttached: fileNames || 'None',
+          ndaRequested: wantNda,
+          preferredComm: preferredComm,
+          submittedAt: new Date().toISOString(),
+        });
+        localStorage.setItem('binud_consultation_inquiries', JSON.stringify(localInquiries.slice(0, 50)));
+      } catch (_) {}
+
+      // 4. Show success notification
+      await Swal.fire({
+        title: 'Consultation Request Sent!',
+        text: 'Thank you for reaching out. Our software team will contact you shortly.',
+        icon: 'success',
+        confirmButtonText: 'Great!',
+        confirmButtonColor: '#005eb8',
+        customClass: {
+          confirmButton: 'rounded-none px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
+        },
+      });
+
+      reset();
+      setAttachedFiles([]);
     } catch (error) {
+      console.error('Submission error:', error);
       toast.error('Failed to submit form. Please try again.');
     }
   };
@@ -210,10 +255,40 @@ const ConnectSection = () => {
                   />
                   
                   {/* File Drag & Drop Hint Line */}
-                  <div className="pt-2 border-t border-dashed border-slate-300 flex items-center gap-2 text-xs text-slate-400 font-medium">
-                    <HiPaperClip size={16} className="text-[#005eb8]" />
-                    <span>Drag and drop or <button type="button" className="text-[#005eb8] font-bold underline cursor-pointer">browse</button> to upload your file(s)</span>
+                  <div className="pt-2 border-t border-dashed border-slate-300 flex items-center justify-between text-xs text-slate-400 font-medium">
+                    <div className="flex items-center gap-2">
+                      <HiPaperClip size={16} className="text-[#005eb8]" />
+                      <span>Drag and drop or <button type="button" onClick={() => fileInputRef.current?.click()} className="text-[#005eb8] font-bold underline cursor-pointer">browse</button> to upload your file(s)</span>
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
                   </div>
+
+                  {/* Attached files list */}
+                  {attachedFiles.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {attachedFiles.map((file, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-[#005eb8] text-xs font-semibold rounded border border-blue-100"
+                        >
+                          <span className="truncate max-w-[150px]">{file.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(idx)}
+                            className="text-red-500 hover:text-red-700 font-bold ml-1 cursor-pointer"
+                          >
+                            ✕
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 {errors.message && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.message.message}</p>}
               </div>

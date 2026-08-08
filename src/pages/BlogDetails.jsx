@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
@@ -22,6 +23,62 @@ const BlogDetails = () => {
     .filter(p => p.id !== post.id)
     .slice(0, 2);
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `https://binudsoftwaresolutions.in/blog/${post.id}#article`,
+        'headline': post.title,
+        'description': post.excerpt,
+        'image': post.image,
+        'datePublished': post.date,
+        'dateModified': post.date,
+        'author': {
+          '@type': 'Person',
+          'name': post.author.name,
+          'jobTitle': post.author.role
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'Binud Software Solutions',
+          'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://binudsoftwaresolutions.in/logo.png'
+          }
+        },
+        'mainEntityOfPage': {
+          '@type': 'WebPage',
+          '@id': `https://binudsoftwaresolutions.in/blog/${post.id}`
+        },
+        'keywords': post.tags.join(', ')
+      },
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://binudsoftwaresolutions.in/'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Blog',
+            'item': 'https://binudsoftwaresolutions.in/blog'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': post.title,
+            'item': `https://binudsoftwaresolutions.in/blog/${post.id}`
+          }
+        ]
+      }
+    ]
+  };
+
   // Share handler (using browser native share or copy url)
   const handleShare = () => {
     if (navigator.share) {
@@ -38,6 +95,17 @@ const BlogDetails = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
+      <SEOHead
+        title={`${post.title} | Binud Software Solutions Blog`}
+        description={post.excerpt}
+        keywords={post.tags}
+        canonicalPath={`/blog/${post.id}`}
+        ogImage={post.image}
+        ogType="article"
+        author={post.author.name}
+        publishedTime={post.date}
+        jsonLd={articleJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}

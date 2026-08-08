@@ -14,6 +14,7 @@ import Blog from './pages/Blog';
 import BlogDetails from './pages/BlogDetails';
 import AIAutomation from './pages/AIAutomation';
 import Tutorials from './pages/Tutorials';
+import NotFound from './pages/NotFound';
 
 // Admin pages
 import AdminLogin from './pages/admin/AdminLogin';
@@ -75,6 +76,9 @@ function App() {
           <Route path="/admin/team" element={<ProtectedRoute><AdminTeam /></ProtectedRoute>} />
           <Route path="/admin/testimonials" element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
           <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} />
+
+          {/* 404 Catch-All Route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

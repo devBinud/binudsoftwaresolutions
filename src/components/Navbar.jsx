@@ -62,8 +62,8 @@ const Navbar = () => {
       ═══════════════════════════════════════════════════════ */}
       <nav
         className={`fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 font-navbar top-0 border-b ${scrolled
-            ? 'border-transparent shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
-            : 'border-slate-100'
+          ? 'border-transparent shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
+          : 'border-slate-100'
           }`}
       >
         <div className={`max-w-7xl mx-auto px-6 transition-all duration-300 flex items-center justify-between ${scrolled ? 'h-16' : 'h-20'
@@ -84,9 +84,12 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[15px] 2xl:text-[16.5px] font-navbar font-bold transition-colors duration-200 py-2 whitespace-nowrap ${isLinkActive(link.path)
-                  ? 'text-[#005eb8]'
-                  : 'text-slate-700 hover:text-[#005eb8]'
+                style={{
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 600,
+                  color: isLinkActive(link.path) ? '#005eb8' : 'rgb(34, 34, 34)',
+                }}
+                className={`text-[15px] 2xl:text-[16px] transition-colors duration-200 py-2 whitespace-nowrap hover:text-[#005eb8] ${isLinkActive(link.path) ? 'font-bold' : ''
                   }`}
               >
                 {link.name}
@@ -98,14 +101,19 @@ const Navbar = () => {
           <div className="flex items-center gap-4 shrink-0">
             <Link
               to="/contact"
-              className="hidden md:block bg-[#f8c543] hover:bg-[#ebb52d] text-slate-700 font-navbar font-bold text-[13px] px-5 py-2 rounded-none border border-[#e0af34] transition-colors duration-200 text-center shadow-sm"
+              style={{
+                fontFamily: "'Open Sans', sans-serif",
+                fontWeight: 600,
+                color: 'rgb(34, 34, 34)',
+              }}
+              className="hidden md:block bg-[#f8c543] hover:bg-[#ebb52d] text-[13.5px] px-5 py-2 rounded-none border border-[#e0af34] transition-colors duration-200 text-center shadow-sm cursor-pointer"
             >
               Contact us
             </Link>
 
             {/* Hamburger Toggle */}
             <button
-              className="xl:hidden p-2 rounded-none border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors"
+              className="xl:hidden p-2 rounded-none border border-slate-200 text-[#222222] hover:bg-slate-50 transition-colors"
               onClick={openDrawer}
               aria-label="Open menu"
             >
@@ -175,11 +183,15 @@ const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   onClick={closeDrawer}
-                  className={`flex items-center text-sm font-navbar transition-all duration-200 py-3.5 px-5 rounded-none ${
-                    active
-                      ? 'bg-[#005eb8]/8 text-[#005eb8] font-extrabold'
-                      : 'text-slate-700 hover:bg-slate-50 hover:text-[#005eb8] font-bold'
-                  }`}
+                  style={{
+                    fontFamily: "'Open Sans', sans-serif",
+                    fontWeight: 600,
+                    color: active ? '#005eb8' : 'rgb(34, 34, 34)',
+                  }}
+                  className={`flex items-center text-sm transition-all duration-200 py-3.5 px-5 rounded-none ${active
+                      ? 'bg-[#005eb8]/8 font-bold'
+                      : 'hover:bg-slate-50 hover:text-[#005eb8]'
+                    }`}
                 >
                   <span>{link.name}</span>
                 </Link>

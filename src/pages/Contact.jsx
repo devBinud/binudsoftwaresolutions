@@ -1,14 +1,88 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
 import bssGmb from '../assets/bss_gmb.png';
 import bannerBgImage from '../assets/bg3.jpg';
 
+const contactJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ContactPage',
+      '@id': 'https://binudsoftwaresolutions.in/contact#contactpage',
+      'url': 'https://binudsoftwaresolutions.in/contact',
+      'name': 'Contact Binud Software Solutions',
+      'description': 'Schedule a direct 20-minute technical consultation with our software architects in Guwahati, Assam to discuss your project scope, timeline, and strategy.',
+      'mainEntity': {
+        '@type': 'LocalBusiness',
+        'name': 'Binud Software Solutions',
+        'image': 'https://binudsoftwaresolutions.in/hero_3d_illustration.png',
+        'telephone': '+91-9876543210',
+        'email': 'binudp.dev@gmail.com',
+        'address': {
+          '@type': 'PostalAddress',
+          'addressLocality': 'Guwahati',
+          'addressRegion': 'Assam',
+          'addressCountry': 'IN'
+        },
+        'geo': {
+          '@type': 'GeoCoordinates',
+          'latitude': 26.1445,
+          'longitude': 91.7362
+        },
+        'openingHoursSpecification': {
+          '@type': 'OpeningHoursSpecification',
+          'dayOfWeek': [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday'
+          ],
+          'opens': '09:00',
+          'closes': '18:00'
+        }
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Contact Us',
+          'item': 'https://binudsoftwaresolutions.in/contact'
+        }
+      ]
+    }
+  ]
+};
+
 const Contact = () => {
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title="Contact Us | Schedule a Consultation with Binud Software Solutions"
+        description="Get in touch with Binud Software Solutions in Guwahati, Assam. Schedule a 20-minute consultation for custom software development, mobile apps, or AI solutions."
+        keywords={[
+          'contact Binud Software Solutions',
+          'hire software developers Guwahati',
+          'schedule tech consultation',
+          'custom app development inquiry',
+          'software engineering Assam'
+        ]}
+        canonicalPath="/contact"
+        jsonLd={contactJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}

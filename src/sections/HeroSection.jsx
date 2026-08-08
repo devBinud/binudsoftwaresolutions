@@ -75,8 +75,9 @@ const HeroSection = () => {
         <div className="absolute inset-0 z-0">
           <img
             src={bgImage}
-            alt="Hero Background"
+            alt="Binud Software Solutions - Enterprise Software Development, Mobile Apps and AI Engineering"
             className="w-full h-full object-cover object-center"
+            fetchpriority="high"
           />
           {/* Executive Light Overlay for Maximum Text Contrast & Elegance */}
           <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/40" />
@@ -143,10 +144,15 @@ const HeroSection = () => {
             >
               <Link
                 to="/contact"
-                className="flex-1 sm:flex-initial justify-center bg-[#f8c543] hover:bg-[#ebb52d] text-slate-900 font-extrabold text-[11px] xs:text-xs sm:text-sm px-3.5 sm:px-8 py-3 sm:py-4 rounded-none border border-[#e0af34] uppercase tracking-wider inline-flex items-center gap-1.5 sm:gap-2 transition-colors duration-200 shadow-sm whitespace-nowrap"
+                style={{
+                  fontFamily: "'Open Sans', sans-serif",
+                  fontWeight: 600,
+                  color: 'rgb(34, 34, 34)',
+                }}
+                className="flex-1 sm:flex-initial justify-center bg-[#f8c543] hover:bg-[#ebb52d] text-[12px] sm:text-[14px] px-4 sm:px-8 py-3 sm:py-4 rounded-none border border-[#e0af34] uppercase tracking-wider inline-flex items-center gap-1.5 sm:gap-2 transition-colors duration-200 shadow-sm whitespace-nowrap cursor-pointer"
               >
                 <span>Start a Project</span>
-                <HiArrowRight size={14} className="shrink-0" />
+                <HiArrowRight size={14} className="shrink-0 text-[#222222]" />
               </Link>
               <Link
                 to="/services"

@@ -1,9 +1,22 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { HiX, HiArrowLeft, HiArrowRight } from 'react-icons/hi';
+import { 
+  HiX, 
+  HiArrowLeft, 
+  HiArrowRight, 
+  HiLockClosed, 
+  HiLockOpen, 
+  HiShieldCheck, 
+  HiKey, 
+  HiCheckCircle, 
+  HiExclamationCircle,
+  HiEye,
+  HiEyeOff
+} from 'react-icons/hi';
 
 // Import local images from assets/gallery
 import img1 from '../assets/gallery/1.jpeg';
@@ -35,18 +48,10 @@ import hostel20 from '../assets/gallery/hostel_memories/20.jpeg';
 import hostel21 from '../assets/gallery/hostel_memories/21.jpeg';
 
 /**
- * TO ADD MORE PHOTOS IN THE FUTURE:
- * 1. Place the new image in `src/assets/gallery/` (e.g., `4.jpeg`).
- * 2. Import it at the top: `import img4 from '../assets/gallery/4.jpeg';`
- * 3. Add a new object to the `galleryItems` array below:
- *    {
- *      id: 4,
- *      type: 'image',
- *      span: 'col-span-1 row-span-1', // or desired span class (e.g. col-span-2 row-span-1)
- *      label: 'Full Name — Professional Title',
- *      src: img4,
- *    }
+ * Secret passcode for academic/hostel memories
  */
+const ACADEMIC_ACCESS_PIN = '393924';
+
 const galleryItems = [
   {
     id: 1,
@@ -242,13 +247,12 @@ const galleryItems = [
   },
 ];
 
-
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.97 },
   visible: (i) => ({
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.45, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.45, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
@@ -284,7 +288,8 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  const item = items[current];
+  const item = items[current] || items[0];
+  if (!item) return null;
 
   return (
     <motion.div
@@ -367,29 +372,211 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Thumbnail strip - hidden on mobile to avoid overflow of 24 dots */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 hidden md:flex gap-2">
-        {items.map((t, i) => (
-          <button
-            key={t.id}
-            onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === current ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`}
-          />
-        ))}
-      </div>
+      {/* Thumbnail strip - hidden on mobile */}
+      {items.length <= 30 && (
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 hidden md:flex gap-1.5 max-w-[90vw] overflow-x-auto py-1">
+          {items.map((t, i) => (
+            <button
+              key={t.id || i}
+              onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${i === current ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </motion.div>
   );
+};
+
+const galleryJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ImageGallery',
+      '@id': 'https://binudsoftwaresolutions.in/gallery#gallery',
+      'name': 'Team Memories Gallery',
+      'url': 'https://binudsoftwaresolutions.in/gallery',
+      'description': 'A visual journey through professional teamwork at Codepilot Technologies and the foundation of Binud Software Solutions.',
+      'creator': {
+        '@type': 'Organization',
+        'name': 'Binud Software Solutions'
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Gallery',
+          'item': 'https://binudsoftwaresolutions.in/gallery'
+        }
+      ]
+    }
+  ]
 };
 
 // ── Main Page ────────────────────────────────────────────────
 const Gallery = () => {
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  const openLightbox = (i) => setLightboxIndex(i);
+  // Passcode unlock state
+  const [isUnlocked, setIsUnlocked] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('academic_memories_unlocked') === 'true';
+    }
+    return false;
+  });
+
+  const [pinDigits, setPinDigits] = useState(['', '', '', '', '', '']);
+  const [pinError, setPinError] = useState('');
+  const [pinSuccess, setPinSuccess] = useState(false);
+  const [showPinMask, setShowPinMask] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
+  const inputRefs = useRef([]);
+
+  const professionalItems = galleryItems.filter(item => item.category === 'professional');
+  const collegeItems = galleryItems.filter(item => item.category === 'college');
+
+  // Active items for Lightbox (only expose college items when unlocked)
+  const activeItems = isUnlocked ? galleryItems : professionalItems;
+
+  const openLightbox = (item) => {
+    const idx = activeItems.findIndex(x => x.id === item.id);
+    if (idx !== -1) {
+      setLightboxIndex(idx);
+    }
+  };
+
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+
+  const verifyPin = (enteredPin) => {
+    if (enteredPin.length < 6) {
+      setPinError('Please enter all 6 digits.');
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
+      return;
+    }
+
+    if (enteredPin === ACADEMIC_ACCESS_PIN) {
+      setPinSuccess(true);
+      setPinError('');
+      setTimeout(() => {
+        setIsUnlocked(true);
+        sessionStorage.setItem('academic_memories_unlocked', 'true');
+        setPinSuccess(false);
+      }, 450);
+    } else {
+      setPinError('Incorrect 6-digit PIN. Access restricted.');
+      setIsShaking(true);
+      setTimeout(() => {
+        setIsShaking(false);
+        setPinDigits(['', '', '', '', '', '']);
+        inputRefs.current[0]?.focus();
+      }, 600);
+    }
+  };
+
+  const handlePinChange = (index, value) => {
+    const rawDigits = value.replace(/\D/g, '');
+    
+    // Paste or multiple digits typed
+    if (rawDigits.length > 1) {
+      const chars = rawDigits.slice(0, 6).split('');
+      const nextDigits = [...pinDigits];
+      chars.forEach((c, idx) => {
+        if (index + idx < 6) nextDigits[index + idx] = c;
+      });
+      setPinDigits(nextDigits);
+      setPinError('');
+      const nextFocus = Math.min(index + chars.length, 5);
+      inputRefs.current[nextFocus]?.focus();
+
+      if (nextDigits.join('').length === 6) {
+        verifyPin(nextDigits.join(''));
+      }
+      return;
+    }
+
+    const nextDigits = [...pinDigits];
+    nextDigits[index] = rawDigits.slice(-1);
+    setPinDigits(nextDigits);
+    setPinError('');
+
+    if (rawDigits && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+
+    const fullCode = nextDigits.join('');
+    if (fullCode.length === 6) {
+      verifyPin(fullCode);
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    if (e.key === 'Backspace') {
+      if (!pinDigits[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+      }
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    } else if (e.key === 'ArrowRight' && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      verifyPin(pinDigits.join(''));
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (pasted) {
+      const chars = pasted.split('');
+      const nextDigits = ['', '', '', '', '', ''];
+      chars.forEach((c, i) => {
+        if (i < 6) nextDigits[i] = c;
+      });
+      setPinDigits(nextDigits);
+      setPinError('');
+      if (chars.length < 6) {
+        inputRefs.current[chars.length]?.focus();
+      } else {
+        inputRefs.current[5]?.focus();
+        verifyPin(pasted);
+      }
+    }
+  };
+
+  const lockAcademicSection = () => {
+    setIsUnlocked(false);
+    setPinDigits(['', '', '', '', '', '']);
+    setPinError('');
+    setPinSuccess(false);
+    sessionStorage.removeItem('academic_memories_unlocked');
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <SEOHead
+        title="Team Gallery & Memories | Binud Software Solutions"
+        description="Explore our team journey, professional milestones at Codepilot Technologies, and gallery memories behind Binud Software Solutions."
+        keywords={[
+          'Binud Software Solutions team',
+          'Codepilot Technologies memories',
+          'software team culture',
+          'Guwahati software engineers'
+        ]}
+        canonicalPath="/gallery"
+        jsonLd={galleryJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
@@ -401,7 +588,7 @@ const Gallery = () => {
             alt=""
             className="w-full h-full object-cover opacity-45"
           />
-          {/* Solid gradient overlay to guarantee perfect contrast and corporate look */}
+          {/* Solid gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/85 to-transparent" />
         </div>
 
@@ -439,7 +626,7 @@ const Gallery = () => {
 
           {/* Grid — Professional */}
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start mb-16">
-            {galleryItems.filter(item => item.category === 'professional').map((item, i) => (
+            {professionalItems.map((item, i) => (
               <motion.div
                 key={item.id}
                 custom={i}
@@ -447,7 +634,7 @@ const Gallery = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
-                onClick={() => openLightbox(galleryItems.indexOf(item))}
+                onClick={() => openLightbox(item)}
                 className="group rounded-none overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
               >
                 <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border border-slate-100">
@@ -470,53 +657,210 @@ const Gallery = () => {
             ))}
           </div>
 
-          {/* Section 2: College Memories / Academic Foundations */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center justify-between mb-10 mt-16 text-left"
-          >
-            <div>
-              <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">Academic Days &amp; Hostel Memories</h2>
-              <p className="text-slate-500 text-[14.5px] italic mt-2 leading-relaxed max-w-2xl font-medium">
-                Before embarking on our professional careers, our foundational years were built during our academic and hostel days. This collection shares the personal academic moments, hostel life highlights, and <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#005eb8] not-italic font-bold">special memories</span> shared with close hostelmates and batch mates.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Grid — College */}
-          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start">
-            {galleryItems.filter(item => item.category === 'college').map((item, i) => (
+          {/* ── Section 2: Protected Academic & Hostel Memories ── */}
+          <div className="mt-16 pt-12 border-t border-slate-200/80">
+            {isUnlocked ? (
+              /* UNLOCKED VIEW */
               <motion.div
-                key={item.id}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-40px' }}
-                onClick={() => openLightbox(galleryItems.indexOf(item))}
-                className="group rounded-none overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border border-slate-100">
-                  <img
-                    src={item.src}
-                    alt={item.label}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-                    draggable={false}
-                  />
+                {/* Header with Lock Button */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 text-left">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">
+                        Academic Days &amp; Hostel Memories
+                      </h2>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+                        <HiCheckCircle className="text-emerald-600 text-sm" />
+                        Unlocked with PIN
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-[14.5px] italic mt-2 leading-relaxed max-w-2xl font-medium">
+                      Before embarking on our professional careers, our foundational years were built during our academic and hostel days. This collection shares personal academic moments, hostel life highlights, and <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#005eb8] not-italic font-bold">special memories</span> shared with close hostelmates and batch mates.
+                    </p>
+                  </div>
+
+                  {/* Re-Lock Button */}
+                  <button
+                    onClick={lockAcademicSection}
+                    className="self-start sm:self-center inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg shadow-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
+                    title="Lock and protect this section again"
+                  >
+                    <HiLockClosed className="text-[#005eb8] text-base" />
+                    Lock Archive
+                  </button>
                 </div>
-                <div className="pt-4 bg-white flex flex-col flex-1">
-                  <h3 className="text-slate-800 text-[15px] font-black leading-snug tracking-tight">
-                    {item.label}
-                  </h3>
-                  <p className="text-slate-400 text-xs font-medium mt-1">
-                    {item.sub || 'Past Experiences & Memories'}
-                  </p>
+
+                {/* Grid — College Photos */}
+                <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start">
+                  {collegeItems.map((item, i) => (
+                    <motion.div
+                      key={item.id}
+                      custom={i}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="visible"
+                      onClick={() => openLightbox(item)}
+                      className="group rounded-none overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                    >
+                      <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border border-slate-100">
+                        <img
+                          src={item.src}
+                          alt={item.label}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                          draggable={false}
+                        />
+                      </div>
+                      <div className="pt-4 bg-white flex flex-col flex-1">
+                        <h3 className="text-slate-800 text-[15px] font-black leading-snug tracking-tight">
+                          {item.label}
+                        </h3>
+                        <p className="text-slate-400 text-xs font-medium mt-1">
+                          {item.sub || 'Academic Days · Hostel Memories'}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
-            ))}
+            ) : (
+              /* LOCKED VIEW - PIN VERIFICATION CARD */
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="max-w-2xl mx-auto"
+              >
+                <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-3xl p-8 sm:p-12 shadow-lg shadow-slate-100/80 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
+                  
+                  {/* Security Icon Badge */}
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#133866] to-[#005eb8] text-white flex items-center justify-center mx-auto shadow-md shadow-[#005eb8]/20 mb-6">
+                    {pinSuccess ? (
+                      <HiLockOpen size={30} className="animate-bounce" />
+                    ) : (
+                      <HiLockClosed size={28} />
+                    )}
+                  </div>
+
+                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 mb-3 border border-slate-200">
+                    <HiShieldCheck className="text-[#005eb8] text-sm" />
+                    Private &amp; Protected Archive
+                  </div>
+
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
+                    Academic Days &amp; Hostel Memories
+                  </h3>
+                  
+                  <p className="text-slate-500 text-sm leading-relaxed max-w-lg mx-auto mb-8">
+                    This section contains personal memories and academic photographs. Enter the <span className="font-semibold text-slate-800">6-digit access PIN</span> to unlock and view the collection.
+                  </p>
+
+                  {/* 6-Digit PIN Input Box Group */}
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      verifyPin(pinDigits.join(''));
+                    }}
+                    className="flex flex-col items-center"
+                  >
+                    <div
+                      className="flex items-center justify-center gap-2 sm:gap-3 mb-6"
+                      onPaste={handlePaste}
+                    >
+                      {pinDigits.map((digit, index) => (
+                        <input
+                          key={index}
+                          ref={(el) => (inputRefs.current[index] = el)}
+                          type={showPinMask ? 'text' : 'password'}
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          onChange={(e) => handlePinChange(index, e.target.value)}
+                          onKeyDown={(e) => handleKeyDown(index, e)}
+                          autoComplete="off"
+                          className={`w-11 h-14 sm:w-13 sm:h-16 text-xl sm:text-2xl font-extrabold text-center rounded-xl transition-all duration-200 outline-none select-none font-mono ${
+                            digit
+                              ? 'bg-blue-50/50 border-2 border-[#005eb8] text-[#133866] shadow-sm'
+                              : 'bg-slate-50 border-2 border-slate-200 text-slate-800 focus:bg-white focus:border-[#005eb8] focus:ring-4 focus:ring-[#005eb8]/10'
+                          }`}
+                          aria-label={`Digit ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Toggle Pin Mask Visibility */}
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                      <button
+                        type="button"
+                        onClick={() => setShowPinMask(!showPinMask)}
+                        className="text-xs font-semibold text-slate-500 hover:text-slate-700 flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        {showPinMask ? (
+                          <>
+                            <HiEyeOff size={16} /> Hide Passcode
+                          </>
+                        ) : (
+                          <>
+                            <HiEye size={16} /> Show Passcode
+                          </>
+                        )}
+                      </button>
+
+                      {pinDigits.some(d => d !== '') && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPinDigits(['', '', '', '', '', '']);
+                            setPinError('');
+                            inputRefs.current[0]?.focus();
+                          }}
+                          className="text-xs font-semibold text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Feedback Messages */}
+                    {pinError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center gap-2 text-rose-600 text-xs sm:text-sm font-bold bg-rose-50 border border-rose-200 px-4 py-2.5 rounded-xl mb-6 shadow-xs"
+                      >
+                        <HiExclamationCircle className="text-base shrink-0" />
+                        <span>{pinError}</span>
+                      </motion.div>
+                    )}
+
+                    {pinSuccess && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex items-center gap-2 text-emerald-700 text-xs sm:text-sm font-bold bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl mb-6 shadow-xs"
+                      >
+                        <HiCheckCircle className="text-base shrink-0 text-emerald-600" />
+                        <span>Passcode verified! Unlocking memories...</span>
+                      </motion.div>
+                    )}
+
+                    {/* Unlock Action Button */}
+                    <button
+                      type="submit"
+                      disabled={pinSuccess}
+                      className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-gradient-to-r from-[#133866] to-[#005eb8] hover:from-[#0f2d52] hover:to-[#004b93] text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+                    >
+                      <HiKey className="text-base" />
+                      <span>Unlock Archive</span>
+                    </button>
+                  </form>
+                </div>
+              </motion.div>
+            )}
           </div>
 
         </div>
@@ -528,7 +872,7 @@ const Gallery = () => {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <Lightbox
-            items={galleryItems}
+            items={activeItems}
             activeIndex={lightboxIndex}
             onClose={closeLightbox}
           />
@@ -539,3 +883,4 @@ const Gallery = () => {
 };
 
 export default Gallery;
+

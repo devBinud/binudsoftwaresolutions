@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import {
@@ -11,6 +12,40 @@ import {
   HiCheck
 } from 'react-icons/hi';
 import bannerBgImage from '../assets/bg4.jpg';
+
+const tutorialsJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'TechArticle',
+      '@id': 'https://binudsoftwaresolutions.in/coding-guides#article',
+      'headline': 'Admin Developer Portal & SQL Database Vault',
+      'url': 'https://binudsoftwaresolutions.in/coding-guides',
+      'description': 'Internal developer resources, MySQL database reference commands, and backend engineering workflows for Binud Software Solutions engineers.',
+      'author': {
+        '@type': 'Organization',
+        'name': 'Binud Software Solutions'
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Coding Guides',
+          'item': 'https://binudsoftwaresolutions.in/coding-guides'
+        }
+      ]
+    }
+  ]
+};
 
 const DEFAULT_SQL_COMMANDS = [
   {
@@ -83,6 +118,18 @@ const Tutorials = () => {
   return (
     <div className="min-h-screen bg-slate-50/60 font-sans text-left flex flex-col justify-between">
       <div>
+        <SEOHead
+          title="Developer Portal & Coding Guides | Binud Software Solutions"
+          description="Internal developer portal, MySQL database commands vault, and engineering references for software developers."
+          keywords={[
+            'coding guides',
+            'SQL commands vault',
+            'MySQL developer cheatsheet',
+            'Binud Software Solutions developer portal'
+          ]}
+          canonicalPath="/coding-guides"
+          jsonLd={tutorialsJsonLd}
+        />
         <Navbar />
 
         {/* ── Breadcrumb Banner ── */}

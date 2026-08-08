@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
 import { 
   HiSparkles, 
   HiChatAlt2, 
@@ -27,6 +28,69 @@ import Swal from 'sweetalert2';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import bannerBgImage from '../assets/bg2.jpg';
+
+const aiAutomationJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': 'https://binudsoftwaresolutions.in/services/ai-automation#service',
+      'name': 'AI & Intelligent Workflow Automation Services',
+      'serviceType': 'Artificial Intelligence & RPA',
+      'provider': {
+        '@type': 'Organization',
+        'name': 'Binud Software Solutions',
+        'url': 'https://binudsoftwaresolutions.in/'
+      },
+      'description': 'Design, construct, and integrate custom AI systems, smart GPT-4 chatbots, official WhatsApp automation pipelines, and software RPA robots to streamline business capacity.',
+      'areaServed': 'Worldwide'
+    },
+    {
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'What AI tools and automation capabilities do you implement?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'We specialize in 24/7 AI customer support agents with Retrieval Augmented Generation (RAG), official WhatsApp Business API automation, auto-OCR document parsing, Robotic Process Automation (RPA), and custom GPT-4 integrations.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can AI chatbots integrate with our existing database and CRM?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes, we architect stateless API connectors and vector databases that sync seamlessly with your MySQL, MongoDB, PostgreSQL, Salesforce, HubSpot, or custom CRM systems.'
+          }
+        }
+      ]
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Services',
+          'item': 'https://binudsoftwaresolutions.in/services'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': 'AI & Automation',
+          'item': 'https://binudsoftwaresolutions.in/services/ai-automation'
+        }
+      ]
+    }
+  ]
+};
 
 // Flag Components for Phone Dropdown (Matching ConnectSection.jsx)
 const IndiaFlag = () => (
@@ -399,6 +463,21 @@ const AIAutomation = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#005eb8] selection:text-white overflow-hidden">
+      <SEOHead
+        title="AI & Automation Services | Custom Chatbots, GPT-4, WhatsApp & RPA"
+        description="Deploy intelligent AI chatbots, custom GPT-4 workflows, official WhatsApp automation, and Robotic Process Automation (RPA) to eliminate bottlenecks and scale business capacity."
+        keywords={[
+          'AI automation services',
+          'GPT-4 chatbot development',
+          'WhatsApp Business API automation',
+          'Robotic Process Automation RPA',
+          'OCR document parsing',
+          'custom LLM integration',
+          'AI customer support agent'
+        ]}
+        canonicalPath="/services/ai-automation"
+        jsonLd={aiAutomationJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}

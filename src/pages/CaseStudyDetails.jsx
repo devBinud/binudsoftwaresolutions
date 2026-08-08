@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { 
@@ -286,8 +287,80 @@ const CaseStudyDetails = () => {
     return <Navigate to="/case-studies" replace />;
   }
 
+  const caseStudyJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'SoftwareApplication',
+        'name': data.title,
+        'applicationCategory': 'BusinessApplication',
+        'operatingSystem': 'Android, iOS, Web',
+        'description': data.introduction,
+        'creator': {
+          '@type': 'Organization',
+          'name': 'Binud Software Solutions',
+          'url': 'https://binudsoftwaresolutions.in/'
+        }
+      },
+      {
+        '@type': 'Article',
+        'headline': data.title,
+        'description': data.subtitle,
+        'author': {
+          '@type': 'Organization',
+          'name': 'Binud Software Solutions'
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': 'Binud Software Solutions',
+          'logo': {
+            '@type': 'ImageObject',
+            'url': 'https://binudsoftwaresolutions.in/logo.png'
+          }
+        }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://binudsoftwaresolutions.in/'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Case Studies',
+            'item': 'https://binudsoftwaresolutions.in/case-studies'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': data.title,
+            'item': `https://binudsoftwaresolutions.in/case-studies/case-study/${id}`
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
+      <SEOHead
+        title={`${data.title} | Binud Software Solutions Case Study`}
+        description={data.introduction}
+        keywords={[
+          `${id} case study`,
+          data.meta.platform,
+          data.meta.tech,
+          'Binud Software Solutions production apps',
+          'mobile app architecture'
+        ]}
+        canonicalPath={`/case-studies/case-study/${id}`}
+        ogType="article"
+        jsonLd={caseStudyJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
@@ -378,7 +451,7 @@ const CaseStudyDetails = () => {
               <div className="bg-white border border-slate-100 rounded-3xl p-8 shadow-xl max-w-sm w-full relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full opacity-5 group-hover:scale-110 transition-transform duration-500" style={{ backgroundColor: data.primaryColor }} />
                 <div className="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center p-3.5 mb-6 mx-auto">
-                  <img src={data.logo} alt="Client Logo" className="w-full h-full object-contain" />
+                  <img src={data.logo} alt={`${data.title} - Official Client Application Logo`} className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-center font-black text-slate-800 text-lg tracking-tight mb-3">Technical Summary</h3>
                 <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -454,7 +527,7 @@ const CaseStudyDetails = () => {
               >
                 <img 
                   src={src} 
-                  alt={`App Screen ${index + 1}`}
+                  alt={`${data.title} - Production Mobile App Interface Screen ${index + 1}`}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />

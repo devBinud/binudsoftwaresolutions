@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
@@ -8,6 +9,52 @@ import { HiArrowRight, HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi'
 
 // Import banner background image
 import bannerBgImage from '../assets/bg4.jpg';
+
+const blogJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Blog',
+      '@id': 'https://binudsoftwaresolutions.in/blog#blog',
+      'name': 'Engineering Insights & Tech Perspectives | Binud Software Solutions',
+      'url': 'https://binudsoftwaresolutions.in/blog',
+      'description': 'Explore in-depth software engineering analysis, mobile performance architectures, headless Laravel systems, and AI automation tutorials written by our tech leads.',
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Binud Software Solutions',
+        'url': 'https://binudsoftwaresolutions.in/'
+      },
+      'blogPost': blogPosts.map((post) => ({
+        '@type': 'BlogPosting',
+        'headline': post.title,
+        'url': `https://binudsoftwaresolutions.in/blog/${post.id}`,
+        'datePublished': post.date,
+        'description': post.excerpt,
+        'author': {
+          '@type': 'Person',
+          'name': post.author.name
+        }
+      }))
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Blog',
+          'item': 'https://binudsoftwaresolutions.in/blog'
+        }
+      ]
+    }
+  ]
+};
 
 const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -37,6 +84,20 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
+      <SEOHead
+        title="Engineering Blog & Tech Perspectives | Binud Software Solutions"
+        description="Explore in-depth technical analysis, cross-platform mobile engineering, headless Laravel architecture, and AI automation tutorials written by our developers."
+        keywords={[
+          'software engineering blog',
+          'React Native architecture',
+          'Laravel headless CMS',
+          'AI automation SMB',
+          'UI UX design principles',
+          'Binud Software Solutions articles'
+        ]}
+        canonicalPath="/blog"
+        jsonLd={blogJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}

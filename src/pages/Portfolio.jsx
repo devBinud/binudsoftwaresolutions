@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import {
@@ -22,6 +23,54 @@ import bannerBgImage from '../assets/bg5.jpg';
 // Import assets for Kangkan Case Study
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
 import kangkanPreview from '../assets/case_studies/kangkan_screenshot/1.webp';
+
+const portfolioJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': 'https://binudsoftwaresolutions.in/case-studies#collection',
+      'name': 'Case Studies & Engineering Portfolio | Binud Software Solutions',
+      'url': 'https://binudsoftwaresolutions.in/case-studies',
+      'description': 'Explore live production case studies and applications engineered by Binud Software Solutions, featuring React Native, Laravel, Node.js, and cloud architectures.',
+      'mainEntity': {
+        '@type': 'ItemList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'url': 'https://binudsoftwaresolutions.in/case-studies/case-study/kangkan',
+            'name': 'Kangkan: Scalable Mobile-First E-commerce Platform'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'url': 'https://binudsoftwaresolutions.in/case-studies/case-study/givetheneedy',
+            'name': 'GiveTheNeedy: Purpose-Driven Social Impact App'
+          }
+        ]
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://binudsoftwaresolutions.in/'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Case Studies',
+          'item': 'https://binudsoftwaresolutions.in/case-studies'
+        }
+      ]
+    }
+  ]
+};
+
 const getTechIcon = (tech) => {
   const t = tech.toLowerCase();
   if (t.includes('react')) return FaReact;
@@ -66,6 +115,20 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans">
+      <SEOHead
+        title="Case Studies & Portfolio | Mobile Apps & Web Engineering Showcase"
+        description="Explore real-world case studies and production applications built by Binud Software Solutions, including Kangkan E-Commerce and GiveTheNeedy humanitarian platform."
+        keywords={[
+          'software case studies',
+          'React Native portfolio',
+          'Laravel production apps',
+          'e-commerce mobile architecture',
+          'social impact app development',
+          'Binud Software Solutions portfolio'
+        ]}
+        canonicalPath="/case-studies"
+        jsonLd={portfolioJsonLd}
+      />
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
