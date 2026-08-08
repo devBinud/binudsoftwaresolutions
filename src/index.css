@@ -252,3 +252,42 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
 .font-navbar {
   font-family: 'DM Sans', sans-serif !important;
 }
+
+/* Continuous running dashed line and beam animations */
+@keyframes flowDash {
+  0% {
+    stroke-dashoffset: 28;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-flow-dash {
+  animation: flowDash 0.9s linear infinite;
+}
+
+@keyframes pulseGlowBeam {
+  0% {
+    left: 10%;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+  100% {
+    left: 90%;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
+  }
+}
+
+.animate-glow-beam {
+  animation: pulseGlowBeam 2.5s ease-in-out infinite;
+}

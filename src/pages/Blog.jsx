@@ -207,7 +207,9 @@ const Blog = () => {
                     </p>
 
                     {/* Author profile & Action row */}
-                    <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div className="mt-auto pt-4 flex flex-col gap-4">
+                      <div className="-mx-6 border-t border-dashed border-slate-200" />
+                      <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <img
                           src={post.author.avatar}
@@ -225,6 +227,7 @@ const Blog = () => {
                       >
                         Read Post <HiArrowRight size={14} />
                       </Link>
+                      </div>
                     </div>
                   </div>
                 </motion.article>

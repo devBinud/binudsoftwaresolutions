@@ -11,6 +11,7 @@ import CTASection from '../sections/CTASection';
 import LatestBlogsSection from '../sections/LatestBlogsSection';
 import ConnectSection from '../sections/ConnectSection';
 
+
 const homeJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -108,6 +109,7 @@ const Home = () => {
       <AboutPreview />
       <ServicesPreview />
       <TestimonialsSection />
+
       <CTASection />
       <LatestBlogsSection />
       <ConnectSection />
