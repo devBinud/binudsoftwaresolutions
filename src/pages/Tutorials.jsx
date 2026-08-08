@@ -144,13 +144,8 @@ const Tutorials = () => {
           </div>
 
           <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-bold text-blue-200 mb-3 w-fit">
-              <HiShieldCheck className="text-emerald-400 text-sm" />
-              <span>Admin Developer Portal</span>
-            </div>
-
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 animate-fadeIn text-white">
-              Coding Guides &amp; SQL Vault
+              Coding Guides
             </h1>
             <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
               <Link to="/" className="hover:text-white transition-colors">Home</Link>
