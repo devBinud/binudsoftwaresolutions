@@ -547,12 +547,7 @@ const About = () => {
                     </p>
                   </div>
 
-                  <div
-                    className="text-[#005eb8] select-none tracking-normal edu-nsw-act-cursive mt-3 text-3xl sm:text-4xl"
-                    style={{ fontFamily: '"Edu NSW ACT Cursive", cursive', fontWeight: 400, fontStyle: 'normal' }}
-                  >
-                    Binud Panging
-                  </div>
+
                 </motion.div>
 
                 {/* Right Column: Founder Profile Card */}
