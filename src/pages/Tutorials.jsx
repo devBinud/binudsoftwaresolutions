@@ -9,7 +9,8 @@ import {
   HiLockClosed,
   HiShieldCheck,
   HiDuplicate,
-  HiCheck
+  HiCheck,
+  HiSparkles
 } from 'react-icons/hi';
 import bannerBgImage from '../assets/bg4.jpg';
 
@@ -158,6 +159,22 @@ const Tutorials = () => {
         {/* ── Main Section ── */}
         <section className="py-16 px-6 md:px-12">
           <div className="max-w-6xl mx-auto">
+
+            {/* One-Liner Info Banner with Yellow/Amber Background */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="max-w-3xl mx-auto mb-10 bg-amber-50 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center gap-3.5 text-left"
+            >
+              <div className="flex-1 text-xs sm:text-sm text-amber-950 font-medium leading-relaxed">
+                <span className="font-bold text-amber-900 mr-2 uppercase tracking-wide text-[11px] sm:text-xs bg-amber-200/70 px-2.5 py-0.5 rounded-md inline-block mb-1 sm:mb-0">
+                  Coming Soon
+                </span>
+                Our engineering team is actively curating high-impact coding guides and tutorials designed as per current market demand. Stay tuned and check back soon for the latest updates!
+              </div>
+            </motion.div>
+
             {!isUnlocked ? (
               /* ═══════════════════════════════════════════════════════
                  1. ADMIN OTP LOCK SCREEN

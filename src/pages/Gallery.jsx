@@ -657,16 +657,16 @@ const Gallery = () => {
             ))}
           </div>
 
-          {/* ── Section 2: Protected Academic & Hostel Memories ── */}
+          {/* ── Section 2: Protected Academic & Hostel Memories (Temporarily Commented Out) ──
           <div className="mt-16 pt-12 border-t border-slate-200/80">
             {isUnlocked ? (
-              /* UNLOCKED VIEW */
+              // UNLOCKED VIEW
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                {/* Header with Lock Button */}
+                // Header with Lock Button
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 text-left">
                   <div>
                     <div className="flex items-center gap-3">
@@ -683,7 +683,7 @@ const Gallery = () => {
                     </p>
                   </div>
 
-                  {/* Re-Lock Button */}
+                  // Re-Lock Button
                   <button
                     onClick={lockAcademicSection}
                     className="self-start sm:self-center inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg shadow-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
@@ -694,7 +694,7 @@ const Gallery = () => {
                   </button>
                 </div>
 
-                {/* Grid — College Photos */}
+                // Grid — College Photos
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start">
                   {collegeItems.map((item, i) => (
                     <motion.div
@@ -727,7 +727,7 @@ const Gallery = () => {
                 </div>
               </motion.div>
             ) : (
-              /* LOCKED VIEW - PIN VERIFICATION CARD */
+              // LOCKED VIEW - PIN VERIFICATION CARD
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -737,7 +737,7 @@ const Gallery = () => {
               >
                 <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-3xl p-8 sm:p-12 shadow-lg shadow-slate-100/80 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
                   
-                  {/* Security Icon Badge */}
+                  // Security Icon Badge
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#133866] to-[#005eb8] text-white flex items-center justify-center mx-auto shadow-md shadow-[#005eb8]/20 mb-6">
                     {pinSuccess ? (
                       <HiLockOpen size={30} className="animate-bounce" />
@@ -759,7 +759,7 @@ const Gallery = () => {
                     This section contains personal memories and academic photographs. Enter the <span className="font-semibold text-slate-800">6-digit access PIN</span> to unlock and view the collection.
                   </p>
 
-                  {/* 6-Digit PIN Input Box Group */}
+                  // 6-Digit PIN Input Box Group
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -792,7 +792,7 @@ const Gallery = () => {
                       ))}
                     </div>
 
-                    {/* Toggle Pin Mask Visibility */}
+                    // Toggle Pin Mask Visibility
                     <div className="flex items-center justify-center gap-4 mb-6">
                       <button
                         type="button"
@@ -825,7 +825,7 @@ const Gallery = () => {
                       )}
                     </div>
 
-                    {/* Feedback Messages */}
+                    // Feedback Messages
                     {pinError && (
                       <motion.div
                         initial={{ opacity: 0, y: -6 }}
@@ -848,7 +848,7 @@ const Gallery = () => {
                       </motion.div>
                     )}
 
-                    {/* Unlock Action Button */}
+                    // Unlock Action Button
                     <button
                       type="submit"
                       disabled={pinSuccess}
@@ -862,6 +862,7 @@ const Gallery = () => {
               </motion.div>
             )}
           </div>
+          */}
 
         </div>
       </section>
