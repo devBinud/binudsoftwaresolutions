@@ -1,64 +1,93 @@
 import { Link } from 'react-router-dom';
-import { HiCheckCircle } from 'react-icons/hi';
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
-  const quickLinks = [
+  const companyLinks = [
+    { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
-    { name: 'Services', path: '/services' },
     { name: 'Case Studies', path: '/case-studies' },
+    { name: 'Coding Guides', path: '/coding-guides' },
     { name: 'Blog', path: '/blog' },
-    { name: 'Privacy Policy', path: '/privacy' },
-    { name: 'Terms of Use', path: '/terms' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Contact Us', path: '/contact' },
   ];
+
+  const serviceLinks = [
+    { name: 'Web Development', path: '/services' },
+    { name: 'Mobile Apps', path: '/services' },
+    { name: 'UI/UX Design', path: '/services' },
+    { name: 'Cloud Solutions', path: '/services' },
+    { name: 'AI & Automation', path: '/services/ai-automation' },
+    { name: 'IT Consulting', path: '/services' },
+  ];
+
+  const socialLinks = [
+    { name: 'LinkedIn', href: 'https://linkedin.com', icon: <FaLinkedin size={16} /> },
+    { name: 'X (Twitter)', href: 'https://x.com', icon: <FaXTwitter size={15} /> },
+    { name: 'Facebook', href: 'https://facebook.com', icon: <FaFacebook size={16} /> },
+    { name: 'Instagram', href: 'https://instagram.com', icon: <FaInstagram size={16} /> },
+    { name: 'YouTube', href: 'https://youtube.com', icon: <FaYoutube size={17} /> },
+  ];
+
+  const headingClass = 'text-white text-sm font-bold uppercase tracking-wide';
+  const linkClass = 'text-slate-300 hover:text-white text-sm font-medium transition-colors inline-block';
 
   return (
     <footer className="bg-[#092c4c] text-white border-t border-slate-700/60 font-sans z-20 relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
 
-        {/* ── Brand Logo & Social Icons Header ── */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-slate-700/70 text-left">
+        {/* ── Main Columns ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 text-left">
 
-          <Link to="/" className="flex items-center gap-3">
-            <span className="text-2xl font-black tracking-tight text-white font-sans">
-              Binud Software Solutions
-            </span>
-          </Link>
+          {/* Brand Column */}
+          <div className="sm:col-span-2 lg:col-span-4">
+            <Link to="/" className="inline-flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt=""
+                className="h-11 w-11 object-contain bg-white rounded-full p-1"
+              />
+              <span className="text-xl font-black tracking-tight text-white">
+                Binud Software Solutions
+              </span>
+            </Link>
 
-          {/* Social Icons */}
-          <div className="flex items-center gap-4 text-slate-300">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="LinkedIn">
-              <FaLinkedin size={20} />
-            </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="X (Twitter)">
-              <FaXTwitter size={18} />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="Facebook">
-              <FaFacebook size={20} />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="Instagram">
-              <FaInstagram size={20} />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="YouTube">
-              <FaYoutube size={22} />
-            </a>
+            <p className="mt-5 text-base font-semibold text-white">
+              <span className="text-blue-300">Engineered</span> for Growth.{' '}
+              <span className="text-amber-300">Built</span> to Last.
+            </p>
+
+            <p className="mt-4 text-sm text-slate-300 leading-relaxed max-w-sm">
+              We are a custom software engineering company in Guwahati, Assam, building
+              web platforms, mobile apps and AI automation that help businesses scale.
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-4 mt-6 text-slate-300">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                  title={social.name}
+                  aria-label={social.name}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
-        </div>
-
-        {/* ── Quick Navigation Links & Corporate Badges ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 py-10 items-center text-left">
-
-          {/* Quick Links Column (4 cols) */}
-          <div className="lg:col-span-4">
-            <ul className="flex flex-col gap-2.5">
-              {quickLinks.map((link) => (
+          {/* Company Column */}
+          <div className="lg:col-span-2">
+            <h4 className={`${headingClass} mb-5`}>Company</h4>
+            <ul className="flex flex-col gap-3">
+              {companyLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    to={link.path}
-                    className="text-slate-300 hover:text-white text-xs sm:text-sm font-medium transition-colors inline-block"
-                  >
+                  <Link to={link.path} className={linkClass}>
                     {link.name}
                   </Link>
                 </li>
@@ -66,57 +95,60 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Corporate Badges & Awards (8 cols) */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Services Column */}
+          <div className="lg:col-span-3">
+            <h4 className={`${headingClass} mb-5`}>Services</h4>
+            <ul className="flex flex-col gap-3">
+              {serviceLinks.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.path} className={linkClass}>
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Badge 1 */}
-            <div className="bg-white/10 border border-white/15 p-4 rounded-none text-left">
-              <div className="text-[10px] font-black text-blue-300 uppercase tracking-widest mb-1">
-                TOP RATED SOFTWARE
-              </div>
-              <div className="text-xs font-bold text-white mb-1">
-                FASTEST GROWING IT COMPANY
-              </div>
-              <div className="text-[10px] text-slate-300 font-medium">
-                5 Year Excellence Champion
-              </div>
+          {/* Contact Column */}
+          <div className="sm:col-span-2 lg:col-span-3 space-y-6">
+            <div>
+              <h4 className={`${headingClass} mb-3`}>Office Address</h4>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Guwahati, Assam, India
+              </p>
             </div>
 
-            {/* Badge 2 */}
-            <div className="bg-white/10 border border-white/15 p-4 rounded-none text-left">
-              <div className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">
-                EXCELLENCE LEADER
-              </div>
-              <div className="text-xs font-bold text-white mb-1">
-                FULL-STACK &amp; AI SYSTEMS
-              </div>
-              <div className="text-[10px] text-slate-300 font-medium">
-                Verified Tech Solutions
-              </div>
+            <div>
+              <h4 className={`${headingClass} mb-3`}>Email Address</h4>
+              <a
+                href="mailto:binudsoftwaresolutions@gmail.com"
+                className={`${linkClass} break-all`}
+              >
+                binudsoftwaresolutions@gmail.com
+              </a>
             </div>
 
-            {/* Badge 3 */}
-            <div className="bg-white/10 border border-white/15 p-4 rounded-none text-left flex flex-col justify-between">
-              <div>
-                <div className="text-[10px] font-black text-amber-300 uppercase tracking-widest mb-1">
-                  SECURITY &amp; AUDIT
-                </div>
-                <div className="text-xs font-bold text-white">
-                  SECURITY RATING
-                </div>
-              </div>
-              <div className="text-emerald-400 font-extrabold text-sm mt-2 flex items-center gap-1">
-                <HiCheckCircle size={16} /> 99.8 / 100
-              </div>
+            <div>
+              <h4 className={`${headingClass} mb-3`}>Contact Us</h4>
+              <a href="tel:+919706393924" className={linkClass}>
+                (+91) 97063 93924
+              </a>
             </div>
-
           </div>
 
         </div>
 
-        {/* ── Bottom Copyright Bar ── */}
-        <div className="pt-8 border-t border-slate-700/70 text-center text-xs text-slate-400">
-          © {new Date().getFullYear()} Binud Software Solutions. All rights reserved.
+        {/* ── Bottom Bar ── */}
+        <div className="pt-6 border-t border-slate-700/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-300">
+          <p>© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
+          <div className="flex items-center gap-8">
+            <Link to="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-white transition-colors">
+              Terms of Use
+            </Link>
+          </div>
         </div>
 
       </div>

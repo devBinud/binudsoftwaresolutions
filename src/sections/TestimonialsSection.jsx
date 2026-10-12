@@ -1,143 +1,202 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HiArrowLeft, HiArrowRight, HiStar } from 'react-icons/hi';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { HiStar } from 'react-icons/hi';
+import { FaQuoteRight } from 'react-icons/fa';
+import { loadFirestore } from '../firebase/loadFirestore';
+import { DEFAULT_TESTIMONIALS, sortTestimonials } from '../data/testimonials';
+import Skeleton from '../components/Skeleton';
 
-const AUTO_DELAY = 5000;
+const isFirebaseConfigured =
+  import.meta.env.VITE_FIREBASE_PROJECT_ID &&
+  !/^your_project_id$/i.test(import.meta.env.VITE_FIREBASE_PROJECT_ID);
 
-const testimonials = [
-  {
-    name: 'Rahul Sharma',
-    role: 'CEO & Founder',
-    company: 'ScaleTech Solutions',
-    text: 'Binud Software Solutions transformed our business with a custom platform that exceeded all expectations. Their team is professional, responsive, and truly talented.',
-  },
-  {
-    name: 'Ananya Patel',
-    role: 'Product Director',
-    company: 'AppFlow Technologies',
-    text: 'The mobile app they built for us has over 10,000 active users. The quality of work and attention to detail is outstanding. I highly recommend Binud to anyone looking for a serious tech partner.',
-  },
-  {
-    name: 'Arjun Das',
-    role: 'Managing Director',
-    company: 'Das Commerce Platform',
-    text: 'Working with Binud was a game-changer. They delivered our e-commerce platform on time and within budget. Post-launch support has been exceptional every step of the way.',
-  },
-];
-
-const variants = {
-  enter: (dir) => ({ opacity: 0, x: dir > 0 ? 30 : -30 }),
-  center: { opacity: 1, x: 0 },
-  exit: (dir) => ({ opacity: 0, x: dir > 0 ? -30 : 30 }),
+/* Layout for 1–3 cards; more than 3 switches to a horizontal scroller. */
+const GRID_LAYOUT = {
+  1: 'grid grid-cols-1 gap-6 max-w-xl mx-auto',
+  2: 'grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto',
+  3: 'grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8',
 };
 
+const initialsOf = (name = '') =>
+  name
+    .split(' ')
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+const TestimonialCard = ({ t, featured, className = '' }) => {
+  const rating = Math.min(5, Math.max(1, Number(t.rating) || 5));
+  return (
+    <figure
+      className={`relative flex flex-col h-full rounded-card p-7 sm:p-8 text-left ${featured
+        ? 'bg-[#092c4c] text-white shadow-[0_24px_60px_rgba(9,44,76,0.25)]'
+        : 'bg-white text-[#191919] border border-slate-200 shadow-[0_12px_40px_rgba(15,23,42,0.05)]'
+        } ${className}`}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-0.5" aria-label={`Rated ${rating} out of 5`}>
+          {[...Array(5)].map((_, s) => (
+            <HiStar key={s} size={18} className={s < rating ? 'text-amber-400' : featured ? 'text-white/20' : 'text-slate-200'} />
+          ))}
+        </div>
+        <FaQuoteRight size={30} className={featured ? 'text-white/20' : 'text-[#005eb8]/15'} />
+      </div>
+
+      <blockquote className={`flex-grow text-[17px] leading-relaxed font-medium ${featured ? 'text-white/90' : 'text-slate-700'}`}>
+        {t.text}
+      </blockquote>
+
+      <figcaption className="mt-8 flex items-center gap-3.5">
+        <span className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-sm font-black ${featured
+          ? 'bg-white text-[#092c4c]'
+          : 'bg-[#005eb8] text-white'
+          }`}>
+          {initialsOf(t.name)}
+        </span>
+        <span className="block min-w-0">
+          <span className="block font-black text-base">{t.name}</span>
+          {(t.role || t.company) && (
+            <span className={`block text-sm ${featured ? 'text-slate-300' : 'text-slate-500'}`}>
+              {t.role && <span className={`font-semibold ${featured ? 'text-blue-300' : 'text-[#005eb8]'}`}>{t.role}</span>}
+              {t.role && t.company && ', '}
+              {t.company}
+            </span>
+          )}
+        </span>
+      </figcaption>
+    </figure>
+  );
+};
+
+/* Placeholder cards shown while testimonials load from the database. */
+const CardSkeleton = () => (
+  <div className="flex flex-col h-full rounded-card p-7 sm:p-8 bg-white border border-slate-200">
+    <div className="flex items-center justify-between mb-6">
+      <Skeleton className="h-4 w-24" />
+      <Skeleton className="h-7 w-8" />
+    </div>
+    <div className="space-y-3 flex-grow">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-11/12" />
+      <Skeleton className="h-4 w-2/3" />
+    </div>
+    <div className="mt-8 flex items-center gap-3.5">
+      <Skeleton className="w-12 h-12 rounded-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-28" />
+        <Skeleton className="h-3 w-40" />
+      </div>
+    </div>
+  </div>
+);
+
 const TestimonialsSection = () => {
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const timerRef = useRef(null);
+  // null = still loading; the built-in testimonials are used when nothing is managed in the admin panel yet
+  const [items, setItems] = useState(isFirebaseConfigured ? null : DEFAULT_TESTIMONIALS);
+  const [nearView, setNearView] = useState(false);
+  const sectionRef = useRef(null);
 
-  const navigate = (dir) => {
-    setDirection(dir);
-    setIndex((prev) => (prev + dir + testimonials.length) % testimonials.length);
-  };
-
+  // Only fetch once the section is about to scroll into view
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setDirection(1);
-      setIndex((prev) => (prev + 1) % testimonials.length);
-    }, AUTO_DELAY);
-    return () => clearInterval(timerRef.current);
+    const node = sectionRef.current;
+    if (!isFirebaseConfigured || !node) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNearView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
-  const t = testimonials[index];
+  useEffect(() => {
+    if (!isFirebaseConfigured || !nearView) return undefined;
+    let active = true;
+    loadFirestore()
+      .then(({ db, collection, getDocs }) => getDocs(collection(db, 'testimonials')))
+      .then((snap) => {
+        if (!active) return;
+        if (snap.empty) {
+          setItems(DEFAULT_TESTIMONIALS);
+          return;
+        }
+        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((t) => t.visible !== false);
+        setItems(sortTestimonials(list));
+      })
+      .catch(() => {
+        if (active) setItems(DEFAULT_TESTIMONIALS);
+      });
+    return () => {
+      active = false;
+    };
+  }, [nearView]);
+
+  if (items && items.length === 0) return null;
+
+  const loading = items === null;
+  const scrollable = !loading && items.length > 3;
 
   return (
-    <section className="relative py-16 md:py-24 bg-slate-50/60 overflow-hidden font-sans">
+    <section ref={sectionRef} className="relative py-16 md:py-24 bg-slate-50/70 overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-          {/* ── Left Column: Section Header ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5 flex flex-col text-left"
-          >
-            <span className="text-[#005eb8] text-xs font-black uppercase tracking-widest block mb-2">
-              CLIENT STORIES
-            </span>
+        {/* ── Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-2xl mx-auto text-center mb-12 lg:mb-16"
+        >
+          <h2 className="text-[#191919] text-3xl sm:text-[42px] font-black leading-tight tracking-tight mb-4">
+            Client <span className="text-[#005eb8]">Testimonials</span>
+          </h2>
+          <p className="text-slate-600 leading-relaxed">
+            Hear from the businesses we have partnered with, in their own words.
+          </p>
+        </motion.div>
 
-            <h2 className="text-[#191919] text-3xl sm:text-[40px] font-black leading-tight tracking-tight font-sans mb-4">
-              From our{' '}
-              <span className="italic font-black text-slate-400">community.</span>
-            </h2>
-
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-medium max-w-sm mb-8">
-              Here's what businesses we've partnered with had to say about working with Binud Software Solutions.
-            </p>
-
-            {/* Navigation Arrows (Sharp #005eb8 buttons) */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => navigate(-1)}
-                className="w-11 h-11 bg-white border border-slate-200 text-[#005eb8] hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-colors rounded-none flex items-center justify-center cursor-pointer shadow-sm"
-                aria-label="Previous testimonial"
-              >
-                <HiArrowLeft size={18} />
-              </button>
-              <button
-                onClick={() => navigate(1)}
-                className="w-11 h-11 bg-[#005eb8] border border-[#005eb8] text-white hover:bg-[#00488e] transition-colors rounded-none flex items-center justify-center cursor-pointer shadow-sm"
-                aria-label="Next testimonial"
-              >
-                <HiArrowRight size={18} />
-              </button>
-            </div>
-          </motion.div>
-
-          {/* ── Right Column: Testimonial Card ── */}
-          <div className="lg:col-span-7 relative overflow-hidden bg-white border border-slate-200/90 shadow-sm p-8 sm:p-10 text-left">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={index}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.35, ease: 'easeInOut' }}
-                className="flex flex-col"
-              >
-                {/* 5 Stars Rating */}
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <HiStar key={i} size={18} />
-                  ))}
-                </div>
-
-                {/* Quote Text (Refined smaller font size) */}
-                <p className="text-slate-800 text-base sm:text-lg md:text-xl font-medium leading-relaxed mb-6 font-sans">
-                  "{t.text}"
-                </p>
-
-                {/* Dashed Separator Line */}
-                <div className="w-full border-t border-dashed border-slate-200 mb-6" />
-
-                {/* Author Info (Clean text without rounded initials circle) */}
-                <div>
-                  <div className="text-[#191919] font-extrabold text-base sm:text-lg">
-                    {t.name}
-                  </div>
-                  <div className="text-xs sm:text-sm font-semibold text-[#005eb8]">
-                    {t.role} <span className="text-slate-400 font-normal">| {t.company}</span>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+        {/* ── Cards ── */}
+        {loading ? (
+          <div className={`${GRID_LAYOUT[3]} items-stretch`} role="status" aria-label="Loading testimonials">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
           </div>
+        ) : scrollable ? (
+          <div className="testimonial-scroll flex gap-6 lg:gap-8 overflow-x-auto snap-x snap-mandatory px-1 pt-2 pb-8">
+            {items.map((t, i) => (
+              <div
+                key={t.id || t.name}
+                className="snap-start shrink-0 w-[86%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4rem)/3)]"
+              >
+                <TestimonialCard t={t} featured={i % 3 === 1} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={`${GRID_LAYOUT[items.length]} items-stretch`}>
+            {items.map((t, i) => (
+              <motion.div
+                key={t.id || t.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <TestimonialCard t={t} featured={items.length === 3 && i === 1} />
+              </motion.div>
+            ))}
+          </div>
+        )}
 
-        </div>
       </div>
     </section>
   );

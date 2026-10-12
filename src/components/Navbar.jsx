@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiMenuAlt3, HiX, HiMail, HiPhone, HiArrowRight } from 'react-icons/hi';
+import ArrowButton from './ArrowButton';
+import { HiMenuAlt3, HiX, HiMail, HiPhone, HiChevronDown } from 'react-icons/hi';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState(null);
   const location = useLocation();
 
   /* ── Scroll listener ── */
@@ -38,10 +40,17 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
+    {
+      name: 'About Us',
+      path: '/about',
+      children: [
+        { name: 'About Company', path: '/about' },
+        { name: 'Vision & Mission', path: '/about/vision-mission' },
+        { name: "From Founder's Desk", path: '/about/founders-desk' },
+      ],
+    },
     { name: 'Services', path: '/services' },
     { name: 'Case Studies', path: '/case-studies' },
-    { name: 'Coding Guides', path: '/coding-guides' },
     { name: 'Blog', path: '/blog' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Contact', path: '/contact' },
@@ -55,18 +64,21 @@ const Navbar = () => {
     return current === linkPath || (location.pathname === linkPath && !location.search);
   };
 
+  const isParentActive = (link) =>
+    isLinkActive(link.path) || (link.children || []).some((child) => isLinkActive(child.path));
+
   return (
     <>
       {/* ═══════════════════════════════════════════════════════
           MAIN NAVBAR
       ═══════════════════════════════════════════════════════ */}
       <nav
-        className={`fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md transition-all duration-300 font-navbar top-0 border-b ${scrolled
-          ? 'border-transparent shadow-[0_4px_30px_rgba(0,0,0,0.03)]'
-          : 'border-slate-100'
+        className={`fixed left-0 right-0 top-0 z-50 mx-auto max-w-7xl px-6 md:px-12 font-navbar pointer-events-none transition-all duration-300 ${scrolled ? 'pt-2' : 'pt-4'
           }`}
       >
-        <div className={`max-w-7xl mx-auto px-6 transition-all duration-300 flex items-center justify-between ${scrolled ? 'h-16' : 'h-20'
+        <div className={`pointer-events-auto h-16 pl-4 pr-2 sm:pl-6 bg-white/95 backdrop-blur-md border border-slate-200 rounded-full flex items-center justify-between transition-shadow duration-300 ${scrolled
+          ? 'shadow-[0_8px_30px_rgba(0,0,0,0.08)]'
+          : 'shadow-[0_2px_12px_rgba(0,0,0,0.04)]'
           }`}>
 
           {/* ── Logo ── */}
@@ -74,46 +86,76 @@ const Navbar = () => {
             <img
               src="/logo.png"
               alt="Binud Software Solutions"
-              className="h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             />
           </Link>
 
           {/* ── Desktop Links ── */}
-          <div className="hidden xl:flex items-center gap-4 xl:gap-5.5 2xl:gap-6.5 h-full">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 600,
-                  color: isLinkActive(link.path) ? '#005eb8' : 'rgb(34, 34, 34)',
-                }}
-                className={`text-[15px] 2xl:text-[16px] transition-colors duration-200 py-2 whitespace-nowrap hover:text-[#005eb8] ${isLinkActive(link.path) ? 'font-bold' : ''
-                  }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <div className="hidden xl:flex items-center xl:gap-9 2xl:gap-10 h-full">
+            {navLinks.map((link) => {
+              const active = isParentActive(link);
+              const linkStyle = {
+                fontFamily: "'Open Sans', sans-serif",
+                fontWeight: 600,
+                color: active ? '#005eb8' : 'rgb(34, 34, 34)',
+              };
+              const linkClass = `text-[15px] 2xl:text-[16px] transition-colors duration-200 py-2 whitespace-nowrap hover:text-[#005eb8] ${active ? 'font-bold' : ''}`;
+
+              if (!link.children) {
+                return (
+                  <Link key={link.name} to={link.path} style={linkStyle} className={linkClass}>
+                    {link.name}
+                  </Link>
+                );
+              }
+
+              return (
+                <div key={link.name} className="relative group/dd h-full flex items-center">
+                  <Link
+                    to={link.path}
+                    style={linkStyle}
+                    className={`${linkClass} inline-flex items-center gap-1`}
+                    aria-haspopup="true"
+                  >
+                    {link.name}
+                    <HiChevronDown size={15} className="transition-transform duration-200 group-hover/dd:rotate-180 group-focus-within/dd:rotate-180" />
+                  </Link>
+
+                  {/* Dropdown Panel — hangs directly below the bar, left-aligned with the menu item */}
+                  <div className="absolute -left-4 top-full opacity-0 invisible group-hover/dd:opacity-100 group-hover/dd:visible group-focus-within/dd:opacity-100 group-focus-within/dd:visible transition-opacity duration-200">
+                    <div className="w-64 bg-white rounded-b-card overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.14)] divide-y divide-black/[0.06]">
+                      {link.children.map((child) => {
+                        const childActive = isLinkActive(child.path);
+                        return (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            style={{ fontFamily: "'Open Sans', sans-serif" }}
+                            className={`block px-5 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[#005eb8] hover:text-white ${childActive
+                              ? 'bg-[#005eb8] text-white'
+                              : 'text-[#222222]'
+                              }`}
+                          >
+                            {child.name}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* ── Right side actions ── */}
-          <div className="flex items-center gap-4 shrink-0">
-            <Link
-              to="/contact"
-              style={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontWeight: 600,
-                color: 'rgb(34, 34, 34)',
-              }}
-              className="hidden md:block bg-[#f8c543] hover:bg-[#ebb52d] text-[13.5px] px-5 py-2 rounded-none border border-[#e0af34] transition-colors duration-200 text-center shadow-sm cursor-pointer"
-            >
-              Contact us
-            </Link>
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <div className="hidden md:block">
+              <ArrowButton to="/contact">Book a Call</ArrowButton>
+            </div>
 
             {/* Hamburger Toggle */}
             <button
-              className="xl:hidden p-2 rounded-none border border-slate-200 text-[#222222] hover:bg-slate-50 transition-colors"
+              className="xl:hidden p-2.5 mr-1 md:mr-0 rounded-full border border-slate-200 text-[#222222] hover:bg-slate-50 transition-colors"
               onClick={openDrawer}
               aria-label="Open menu"
             >
@@ -166,7 +208,7 @@ const Navbar = () => {
           </Link>
           <button
             onClick={closeDrawer}
-            className="p-1.5 rounded-none border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-1.5 rounded-full border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
             aria-label="Close menu"
           >
             <HiX size={18} />
@@ -177,24 +219,60 @@ const Navbar = () => {
         <div className="flex-1 overflow-y-auto p-6 pt-4">
           <div className="flex flex-col gap-1.5">
             {navLinks.map((link) => {
-              const active = isLinkActive(link.path);
+              const active = isParentActive(link);
+              const itemStyle = {
+                fontFamily: "'Open Sans', sans-serif",
+                fontWeight: 600,
+                color: active ? '#005eb8' : 'rgb(34, 34, 34)',
+              };
+              const itemClass = `flex items-center justify-between w-full text-sm transition-all duration-200 py-3.5 px-5 rounded-card ${active
+                ? 'bg-[#005eb8]/8 font-bold'
+                : 'hover:bg-slate-50 hover:text-[#005eb8]'
+                }`;
+
+              if (!link.children) {
+                return (
+                  <Link key={link.name} to={link.path} onClick={closeDrawer} style={itemStyle} className={itemClass}>
+                    <span>{link.name}</span>
+                  </Link>
+                );
+              }
+
+              const expanded = openSubmenu === link.name;
               return (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={closeDrawer}
-                  style={{
-                    fontFamily: "'Open Sans', sans-serif",
-                    fontWeight: 600,
-                    color: active ? '#005eb8' : 'rgb(34, 34, 34)',
-                  }}
-                  className={`flex items-center text-sm transition-all duration-200 py-3.5 px-5 rounded-none ${active
-                      ? 'bg-[#005eb8]/8 font-bold'
-                      : 'hover:bg-slate-50 hover:text-[#005eb8]'
-                    }`}
-                >
-                  <span>{link.name}</span>
-                </Link>
+                <div key={link.name}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenSubmenu(expanded ? null : link.name)}
+                    style={itemStyle}
+                    className={`${itemClass} cursor-pointer`}
+                    aria-expanded={expanded}
+                  >
+                    <span>{link.name}</span>
+                    <HiChevronDown size={16} className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {expanded && (
+                    <div className="mt-1 ml-5 pl-3 border-l-2 border-slate-100 flex flex-col gap-1">
+                      {link.children.map((child) => {
+                        const childActive = isLinkActive(child.path);
+                        return (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            onClick={closeDrawer}
+                            className={`py-2.5 px-4 rounded-xl text-sm font-semibold transition-colors ${childActive
+                              ? 'text-[#005eb8] bg-[#005eb8]/8'
+                              : 'text-slate-600 hover:text-[#005eb8] hover:bg-slate-50'
+                              }`}
+                          >
+                            {child.name}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>

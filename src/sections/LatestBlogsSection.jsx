@@ -42,7 +42,7 @@ const LatestBlogsSection = () => {
             <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
               Latest from Our Blog
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base font-semibold leading-relaxed font-sans mt-2 max-w-xl">
+            <p className="text-slate-600 text-sm sm:text-base font-semibold leading-relaxed font-sans mt-2 max-w-xl">
               Stay updated with tech insights, software architecture trends, and mobile development best practices.
             </p>
           </div>
@@ -72,7 +72,7 @@ const LatestBlogsSection = () => {
             <motion.article
               key={post.id}
               variants={cardVariants}
-              className="bg-white border border-slate-200/90 rounded-none overflow-hidden shadow-sm hover:shadow-md hover:border-[#005eb8] transition-all duration-300 flex flex-col h-full group"
+              className="bg-white border border-slate-200/90 rounded-card overflow-hidden shadow-sm hover:shadow-md hover:border-[#005eb8] transition-all duration-300 flex flex-col h-full group"
             >
               {/* Card Image Banner */}
               <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
@@ -83,7 +83,7 @@ const LatestBlogsSection = () => {
                   loading="lazy"
                 />
                 <div className="absolute top-3 left-3">
-                  <span className="inline-block px-2.5 py-1 rounded-none text-[9px] font-extrabold uppercase tracking-wider bg-[#005eb8] text-white shadow-sm">
+                  <span className="inline-block px-2.5 py-1 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#005eb8] text-white shadow-sm">
                     {post.category}
                   </span>
                 </div>
@@ -92,7 +92,7 @@ const LatestBlogsSection = () => {
               {/* Card Content */}
               <div className="p-6 flex flex-col flex-grow text-left">
                 {/* Meta info */}
-                <div className="flex items-center gap-4 text-xs font-bold text-slate-400 mb-3">
+                <div className="flex items-center gap-4 text-xs font-bold text-slate-500 mb-3">
                   <span className="inline-flex items-center gap-1">
                     <HiOutlineCalendar className="text-slate-400 text-sm" />
                     {post.date}
@@ -116,14 +116,14 @@ const LatestBlogsSection = () => {
                   <div className="-mx-6 border-t border-dashed border-slate-200" />
                   <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={post.author.avatar}
                       alt={post.author.name}
                       className="w-8 h-8 rounded-full object-cover border border-slate-200"
                     />
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-slate-800 leading-none mb-0.5">{post.author.name}</span>
-                      <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider leading-none">{post.author.role}</span>
+                      <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider leading-none">{post.author.role}</span>
                     </div>
                   </div>
                   <Link

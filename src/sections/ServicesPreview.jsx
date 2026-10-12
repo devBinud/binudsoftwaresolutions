@@ -4,14 +4,14 @@ import { HiArrowRight, HiChevronRight } from 'react-icons/hi';
 
 const services = [
   {
-    title: 'Web Platforms & APIs',
+    title: 'Website Development',
     category: 'FULL-STACK ENGINEERING',
     desc: 'High-performance React, Next.js & Node.js web systems built for speed, security, and scale.',
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&h=380&q=80',
     link: '/services',
   },
   {
-    title: 'Cross-Platform Mobile Apps',
+    title: 'Mobile App Development',
     category: 'IOS & ANDROID',
     desc: 'Native React Native & Flutter mobile applications with rich offline support and real-time push.',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&h=380&q=80',
@@ -114,18 +114,18 @@ const ServicesPreview = () => {
             <motion.div
               key={service.title}
               variants={cardVariants}
-              className="bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-none p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left cursor-pointer group"
+              className="bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-card p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left cursor-pointer group"
             >
               <Link to={service.link || '/contact'} className="flex flex-col h-full justify-between">
                 <div>
                   {/* Top Image Banner */}
-                  <div className="w-full h-40 sm:h-44 overflow-hidden bg-slate-200 mb-4 relative">
-                    <img
+                  <div className="w-full h-40 sm:h-44 overflow-hidden rounded-xl bg-slate-200 mb-4 relative">
+                    <img loading="lazy" decoding="async"
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <span className="absolute top-2.5 left-2.5 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-none shadow-sm">
+                    <span className="absolute top-2.5 left-2.5 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
                       {service.category}
                     </span>
                   </div>
@@ -144,7 +144,7 @@ const ServicesPreview = () => {
                   <span className="text-[11px] sm:text-xs font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
                     View Details
                   </span>
-                  <div className="w-6 h-6 rounded-none bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
+                  <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
                     <HiChevronRight size={14} />
                   </div>
                 </div>

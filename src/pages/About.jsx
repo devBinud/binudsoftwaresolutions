@@ -3,14 +3,10 @@ import { useLocation, Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import bannerBgImage from '../assets/bg1.jpg';
+import bannerBgImage from '../assets/bg1.webp';
 import binudAvatar from '../assets/team/binud.png';
-import {
-  FaLinkedin,
-  FaTwitter,
-  FaFacebook,
-  FaArrowRight,
-} from 'react-icons/fa';
+import { FaArrowRight, FaEye } from 'react-icons/fa';
+import ArrowButton from '../components/ArrowButton';
 
 const aboutJsonLd = {
   '@context': 'https://schema.org',
@@ -23,18 +19,14 @@ const aboutJsonLd = {
       'description': 'Founded in 2021 by Binud Panging, Binud Software Solutions is a leading custom software, mobile app, and web development agency executing digital transformation for startups and enterprises.',
       'mainEntity': {
         '@type': 'Organization',
+        '@id': 'https://binudsoftwaresolutions.in/#organization',
         'name': 'Binud Software Solutions',
         'foundingDate': '2021',
         'founder': {
           '@type': 'Person',
           'name': 'Binud Panging',
           'jobTitle': 'Founder & Lead Software Architect',
-          'image': 'https://binudsoftwaresolutions.in/logo.png',
-          'sameAs': [
-            'https://linkedin.com',
-            'https://x.com',
-            'https://facebook.com'
-          ]
+          'image': 'https://binudsoftwaresolutions.in/logo.png'
         }
       }
     },
@@ -216,16 +208,6 @@ const About = () => {
   return (
     <div className="min-h-screen bg-white font-sans">
       <SEOHead
-        title="About Us | Binud Software Solutions - Engineering & Digital Innovation"
-        description="Founded in 2021 by Binud Panging, Binud Software Solutions is a leading custom software, mobile app, and web development agency executing digital transformation for startups and enterprises."
-        keywords={[
-          'About Binud Software Solutions',
-          'Binud Panging',
-          'software engineering methodology',
-          'IT consulting Assam',
-          'custom software development agency',
-          'Guwahati software architect'
-        ]}
         canonicalPath="/about"
         jsonLd={aboutJsonLd}
       />
@@ -295,9 +277,9 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="bg-white border border-slate-200 p-10 md:p-14 flex flex-col items-center justify-center max-w-xl w-full"
+                className="bg-white rounded-card border border-slate-200 p-10 md:p-14 flex flex-col items-center justify-center max-w-xl w-full"
               >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 text-[10px] font-extrabold uppercase tracking-widest text-[#005eb8] mb-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-extrabold uppercase tracking-widest text-[#005eb8] mb-8">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#005eb8] animate-pulse" />
                   Under Construction
                 </div>
@@ -310,12 +292,7 @@ const About = () => {
                   We are currently preparing detailed technical articles, engineering tutorials, and industry insights from our dev team.
                 </p>
 
-                <Link
-                  to="/"
-                  className="bg-[#005eb8] hover:bg-[#00488e] text-white font-sans font-bold text-xs uppercase tracking-wider px-8 py-3 rounded-none transition-all duration-300"
-                >
-                  Go Back Home
-                </Link>
+                <ArrowButton to="/">Go Back Home</ArrowButton>
               </motion.div>
             </div>
           </section>
@@ -335,9 +312,9 @@ const About = () => {
                   transition={{ duration: 0.6 }}
                   className="flex flex-col text-left"
                 >
-                  <h1 className="text-[#191919] text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight font-sans">
+                  <h2 className="text-[#191919] text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight font-sans">
                     Top Web &amp; Mobile Application Development, Custom Software Engineering &amp; IT Consulting Company,
-                  </h1>
+                  </h2>
                   <p className="text-slate-400 text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight mt-0 font-sans">
                     Building Smart Solutions For A Smarter World.
                   </p>
@@ -418,7 +395,7 @@ const About = () => {
                           {/* Left Side Image / Graphic Container */}
                           <div className="w-full max-w-[240px] aspect-[4/3] rounded-xl overflow-hidden border border-slate-200/80 bg-slate-50 shadow-sm relative group">
                             {step.image ? (
-                              <img
+                              <img loading="lazy" decoding="async"
                                 src={step.image}
                                 alt={`${step.name} - ${step.tagline}`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -464,7 +441,7 @@ const About = () => {
                 <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
 
                   {/* Table of Contents Box */}
-                  <div className="bg-[#ffffff] border border-slate-200 p-6 shadow-sm">
+                  <div className="bg-[#ffffff] rounded-card border border-slate-200 p-6 shadow-sm">
                     <h4 className="text-xs font-black uppercase tracking-widest text-[#172b4d] pb-3 border-b border-slate-200 mb-4 font-sans">
                       Table of Contents
                     </h4>
@@ -488,7 +465,7 @@ const About = () => {
                   </div>
 
                   {/* Schedule a Call Widget */}
-                  <div className="bg-[#f8fafc] border border-slate-200 p-6 text-center flex flex-col items-center shadow-sm">
+                  <div className="bg-[#f8fafc] rounded-card border border-slate-200 p-6 text-center flex flex-col items-center shadow-sm">
                     <h4 className="text-[#172b4d] font-black text-base font-sans tracking-tight mb-2">
                       Discuss a Potential Project
                     </h4>
@@ -500,13 +477,7 @@ const About = () => {
                       Schedule a direct 20-minute consultation with our lead technical architect to explore scope, timeline, and strategy.
                     </p>
 
-                    <Link
-                      to="/contact"
-                      className="w-full py-3 px-4 bg-[#005eb8] hover:bg-[#00488e] text-white font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 transition-all shadow-sm font-sans"
-                    >
-                      <span>Schedule a Call</span>
-                      <FaArrowRight size={11} />
-                    </Link>
+                    <ArrowButton to="/contact" className="w-full justify-between">Schedule a Call</ArrowButton>
                   </div>
 
                 </div>
@@ -516,99 +487,89 @@ const About = () => {
             </div>
           </section>
 
-          {/* ── Founder's Vision Section ── */}
-          <section className="py-20 md:py-28 bg-[#f8fafc] overflow-hidden text-left relative">
+          {/* ── Explore More: Vision & Mission / Founder's Desk ── */}
+          <section className="py-20 md:py-24 bg-[#f8fafc] text-left">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="max-w-2xl mb-10">
+                <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4">
+                  Get to Know Us
+                </span>
+                <h2 className="text-[#191919] text-3xl sm:text-4xl font-black leading-tight tracking-tight">
+                  What drives us, and who leads us
+                </h2>
+              </div>
 
-                {/* Left Column: Vision Statement */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {/* Vision & Mission */}
                 <motion.div
-                  initial={{ opacity: 0, x: -25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="lg:col-span-7 flex flex-col"
+                  transition={{ duration: 0.5 }}
+                  className="relative overflow-hidden bg-[#092c4c] text-white rounded-card p-8 sm:p-10 flex flex-col"
                 >
-                  <span className="inline-block px-3 py-1.5 rounded-none text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4 w-fit">
-                    Founder's Vision
-                  </span>
-
-                  <h2 className="text-[#191919] text-3xl sm:text-4xl lg:text-[42px] font-black leading-tight tracking-tight font-sans mb-6">
-                    We don't just ship features, <br />
-                    we shape your digital future
-                  </h2>
-
-                  <div className="mb-6">
-                    <p
-                      className="text-[#172b4d]/85 italic text-base sm:text-lg leading-relaxed font-normal"
-                      style={{ fontFamily: "'Open Sans', sans-serif", fontSize: '16px' }}
-                    >
-                      "We believe in writing clean code that stands the test of time, designing architectures that scale infinitely, and building relationships based on absolute trust. Our mission is to convert complex challenges into scalable, elegant technology solutions that drive real business growth."
+                  <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#005eb8]/40 blur-3xl pointer-events-none" />
+                  <div className="relative flex flex-col h-full">
+                    <div className="w-14 h-14 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center mb-6">
+                      <FaEye size={22} className="text-blue-300" />
+                    </div>
+                    <span className="block text-xs font-extrabold uppercase tracking-widest text-blue-300 mb-3">
+                      Vision &amp; Mission
+                    </span>
+                    <h3 className="text-2xl font-black leading-snug tracking-tight mb-3">
+                      Building smart solutions for a smarter world
+                    </h3>
+                    <p className="text-slate-300 leading-relaxed mb-8">
+                      Discover where we are headed, what we set out to do for every client, and the core values
+                      behind every line of code.
                     </p>
+                    <Link
+                      to="/about/vision-mission"
+                      className="group/cta mt-auto inline-flex items-center gap-2 w-fit text-sm font-bold uppercase tracking-wider text-white hover:text-blue-300 transition-colors"
+                    >
+                      Read Our Vision &amp; Mission
+                      <FaArrowRight size={12} className="group-hover/cta:translate-x-1 transition-transform duration-200" />
+                    </Link>
                   </div>
-
-
                 </motion.div>
 
-                {/* Right Column: Founder Profile Card */}
+                {/* From Founder's Desk */}
                 <motion.div
-                  initial={{ opacity: 0, x: 25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="lg:col-span-5 flex justify-center lg:justify-end"
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="bg-white border border-slate-200 rounded-card p-8 sm:p-10 shadow-sm flex flex-col"
                 >
-                  <div className="bg-white border border-slate-200/90 rounded-none p-6 sm:p-8 text-center flex flex-col items-center shadow-sm w-full max-w-[360px]">
-                    {/* Founder Photo Banner */}
-                    <div className="w-full aspect-square bg-slate-100 overflow-hidden mb-6 border border-slate-200">
-                      <img
-                        src={binudAvatar}
-                        alt="Binud Panging - Founder & CEO"
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
-
-                    <h3 className="text-[#191919] font-black text-xl mb-1 font-sans tracking-tight">
-                      Binud Panging
-                    </h3>
-                    <p
-                      className="text-[#005eb8] font-semibold text-[12px] whitespace-nowrap mb-5 tracking-normal"
-                      style={{ fontFamily: "'Open Sans', sans-serif" }}
-                    >
-                      Founder &amp; CEO, Binud Software Solutions
-                    </p>
-
-                    {/* Social links */}
-                    <div className="flex items-center gap-3 pt-3 border-t border-slate-100 w-full justify-center text-slate-600">
-                      <a
-                        href="https://linkedin.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-9 h-9 border border-slate-200 flex items-center justify-center hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-colors"
-                        title="LinkedIn"
-                      >
-                        <FaLinkedin size={15} />
-                      </a>
-                      <a
-                        href="https://x.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-9 h-9 border border-slate-200 flex items-center justify-center hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-colors"
-                        title="X / Twitter"
-                      >
-                        <FaTwitter size={15} />
-                      </a>
-                      <a
-                        href="https://facebook.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-9 h-9 border border-slate-200 flex items-center justify-center hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-colors"
-                        title="Facebook"
-                      >
-                        <FaFacebook size={15} />
-                      </a>
+                  <div className="flex items-center gap-4 mb-6">
+                    <img loading="lazy" decoding="async"
+                      src={binudAvatar}
+                      alt="Binud Panging - Founder & CEO"
+                      className="w-14 h-14 rounded-full object-cover object-top bg-[#e8f1fb] ring-2 ring-white shadow-md"
+                    />
+                    <div>
+                      <span className="block text-[#191919] font-black tracking-tight">Binud Panging</span>
+                      <span className="block text-xs font-semibold text-[#005eb8]">Founder &amp; CEO</span>
                     </div>
                   </div>
+                  <span className="block text-xs font-extrabold uppercase tracking-widest text-[#005eb8] mb-3">
+                    From Founder's Desk
+                  </span>
+                  <h3 className="text-[#191919] text-2xl font-black leading-snug tracking-tight mb-3">
+                    We don't just ship features, we shape your digital future
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed mb-8">
+                    A personal note from our founder on why Binud Software Solutions was started, and how we
+                    approach every partnership.
+                  </p>
+                  <Link
+                    to="/about/founders-desk"
+                    className="group/cta mt-auto inline-flex items-center gap-2 w-fit text-sm font-bold uppercase tracking-wider text-[#191919] hover:text-[#005eb8] transition-colors"
+                  >
+                    Read the Message
+                    <FaArrowRight size={12} className="group-hover/cta:translate-x-1 transition-transform duration-200" />
+                  </Link>
                 </motion.div>
 
               </div>

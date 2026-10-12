@@ -4,18 +4,12 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
-import {
-  HiMail,
-  HiLockClosed,
-  HiEye,
-  HiEyeOff
-} from 'react-icons/hi';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
 
 const AdminLogin = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
   const onSubmit = async ({ email, password }) => {
@@ -27,6 +21,8 @@ const AdminLogin = () => {
       toast.error('Invalid admin credentials. Please verify and try again.');
     }
   };
+
+  const inputClass = 'w-full h-12 px-4 bg-white text-[15px] text-[#191919] placeholder:text-slate-400 rounded-[10px] border border-slate-200 focus:border-[#005eb8] focus:ring-2 focus:ring-[#005eb8]/10 transition-colors outline-none';
 
   const handleForgotPassword = () => {
     toast('Please contact root administration to reset admin access credentials.', {
@@ -72,30 +68,28 @@ const AdminLogin = () => {
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Email Input */}
           <div>
-            <label className="text-slate-700 text-xs font-semibold uppercase tracking-wider mb-1.5 block">
-              Email
+            <label htmlFor="admin-email" className="block text-[15px] font-medium text-[#191919] mb-2">
+              Email address
             </label>
-            <div className="relative">
-              <HiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19} />
-              <input
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address'
-                  }
-                })}
-                type="email"
-                className="w-full bg-slate-50/70 hover:bg-white focus:bg-white text-slate-800 text-sm pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#005eb8] focus:ring-4 focus:ring-[#005eb8]/10 transition-all outline-none"
-                placeholder="Enter your email"
-                autoComplete="email"
-              />
-            </div>
+            <input
+              id="admin-email"
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address'
+                }
+              })}
+              type="email"
+              className={inputClass}
+              placeholder="Enter your email"
+              autoComplete="email"
+            />
             {errors.email && (
-              <p className="text-red-500 text-xs font-medium mt-1">
+              <p className="text-red-500 text-xs font-medium mt-1.5">
                 {errors.email.message}
               </p>
             )}
@@ -103,54 +97,39 @@ const AdminLogin = () => {
 
           {/* Password Input */}
           <div>
-            <label className="text-slate-700 text-xs font-semibold uppercase tracking-wider mb-1.5 block">
+            <label htmlFor="admin-password" className="block text-[15px] font-medium text-[#191919] mb-2">
               Password
             </label>
             <div className="relative">
-              <HiLockClosed className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={19} />
               <input
+                id="admin-password"
                 {...register('password', { required: 'Password is required' })}
                 type={showPass ? 'text' : 'password'}
-                className="w-full bg-slate-50/70 hover:bg-white focus:bg-white text-slate-800 text-sm pl-11 pr-11 py-3 rounded-xl border border-slate-200 focus:border-[#005eb8] focus:ring-4 focus:ring-[#005eb8]/10 transition-all outline-none"
-                placeholder="••••••••"
+                className={`${inputClass} pr-12`}
                 autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
                 title={showPass ? 'Hide password' : 'Show password'}
+                aria-label={showPass ? 'Hide password' : 'Show password'}
               >
-                {showPass ? <HiEyeOff size={18} /> : <HiEye size={18} />}
+                {showPass ? <HiEyeOff size={20} /> : <HiEye size={20} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-xs font-medium mt-1">
+              <p className="text-red-500 text-xs font-medium mt-1.5">
                 {errors.password.message}
               </p>
             )}
-          </div>
-
-          {/* Remember Me & Forgot Password */}
-          <div className="flex items-center justify-between pt-1">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded text-[#005eb8] border-slate-300 focus:ring-[#005eb8]/20 cursor-pointer accent-[#005eb8]"
-              />
-              <span className="text-xs sm:text-sm text-slate-600 font-medium">
-                Remember for 30 days
-              </span>
-            </label>
 
             <button
               type="button"
               onClick={handleForgotPassword}
-              className="text-xs sm:text-sm font-semibold text-[#005eb8] hover:text-[#00488e] hover:underline cursor-pointer"
+              className="mt-3 text-sm font-bold text-[#191919] hover:text-[#005eb8] hover:underline transition-colors cursor-pointer"
             >
-              Forgot password
+              Forgot password?
             </button>
           </div>
 

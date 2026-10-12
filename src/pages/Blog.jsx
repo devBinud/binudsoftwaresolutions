@@ -8,7 +8,7 @@ import { blogPosts } from '../data/blogData';
 import { HiArrowRight, HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi';
 
 // Import banner background image
-import bannerBgImage from '../assets/bg4.jpg';
+import bannerBgImage from '../assets/bg4.webp';
 
 const blogJsonLd = {
   '@context': 'https://schema.org',
@@ -85,16 +85,6 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
       <SEOHead
-        title="Engineering Blog & Tech Perspectives | Binud Software Solutions"
-        description="Explore in-depth technical analysis, cross-platform mobile engineering, headless Laravel architecture, and AI automation tutorials written by our developers."
-        keywords={[
-          'software engineering blog',
-          'React Native architecture',
-          'Laravel headless CMS',
-          'AI automation SMB',
-          'UI UX design principles',
-          'Binud Software Solutions articles'
-        ]}
         canonicalPath="/blog"
         jsonLd={blogJsonLd}
       />
@@ -145,7 +135,7 @@ const Blog = () => {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-5 py-2.5 rounded-none text-xs font-bold transition-all duration-300 border ${selectedCategory === category
+                className={`px-5 py-2.5 rounded-card text-xs font-bold transition-all duration-300 border ${selectedCategory === category
                   ? 'bg-[#005eb8] border-[#005eb8] text-white shadow-sm'
                   : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-50'
                   }`}
@@ -167,7 +157,7 @@ const Blog = () => {
                 <motion.article
                   key={post.id}
                   variants={cardVariants}
-                  className="bg-white border border-slate-200/90 rounded-none overflow-hidden shadow-sm hover:shadow-md hover:border-[#005eb8] transition-all duration-300 flex flex-col h-full group"
+                  className="bg-white border border-slate-200/90 rounded-card overflow-hidden shadow-sm hover:shadow-md hover:border-[#005eb8] transition-all duration-300 flex flex-col h-full group"
                 >
                   {/* Card Image Banner */}
                   <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
@@ -178,7 +168,7 @@ const Blog = () => {
                       loading="lazy"
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="inline-block px-2.5 py-1 rounded-none text-[9px] font-extrabold uppercase tracking-wider bg-[#005eb8] text-white shadow-sm">
+                      <span className="inline-block px-2.5 py-1 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#005eb8] text-white shadow-sm">
                         {post.category}
                       </span>
                     </div>
@@ -211,7 +201,7 @@ const Blog = () => {
                       <div className="-mx-6 border-t border-dashed border-slate-200" />
                       <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <img
+                        <img loading="lazy" decoding="async"
                           src={post.author.avatar}
                           alt={post.author.name}
                           className="w-8 h-8 rounded-full object-cover border border-slate-200"
@@ -234,7 +224,7 @@ const Blog = () => {
               ))}
             </motion.div>
           ) : (
-            <div className="text-center py-20 bg-white border border-slate-200/90 rounded-none p-8">
+            <div className="text-center py-20 bg-white border border-slate-200/90 rounded-card p-8">
               <p className="text-slate-400 font-bold text-sm">No articles found in this category.</p>
             </div>
           )}

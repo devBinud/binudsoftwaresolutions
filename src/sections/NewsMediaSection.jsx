@@ -100,7 +100,7 @@ const NewsMediaSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="lg:col-span-7 flex flex-col group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(0,94,184,0.1)] transition-all duration-500 hover:scale-[1.008]"
+            className="lg:col-span-7 flex flex-col group cursor-pointer bg-white rounded-card overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(0,94,184,0.1)] transition-all duration-500 hover:scale-[1.008]"
           >
             {/* Image Banner */}
             <div className="relative overflow-hidden aspect-[16/9] w-full">
@@ -158,7 +158,7 @@ const NewsMediaSection = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-60px' }}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,94,184,0.09)] transition-all duration-400 hover:scale-[1.01] flex gap-0"
+                className="group cursor-pointer bg-white rounded-card overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,94,184,0.09)] transition-all duration-400 hover:scale-[1.01] flex gap-0"
               >
                 {/* Thumbnail */}
                 <div className="relative overflow-hidden shrink-0 w-[110px] sm:w-[130px]">

@@ -122,7 +122,7 @@ const TeamGallerySection = () => {
               transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -8 }}
               onClick={() => setSelectedMember(member)}
-              className="group cursor-pointer relative bg-white rounded-3xl overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(39,78,133,0.12)] transition-all duration-500 border border-slate-100 flex flex-col"
+              className="group cursor-pointer relative bg-white rounded-card overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(39,78,133,0.12)] transition-all duration-500 border border-slate-100 flex flex-col"
             >
               {/* Image Box */}
               <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
@@ -185,7 +185,7 @@ const TeamGallerySection = () => {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 20, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 180 }}
-              className="bg-white rounded-3xl overflow-hidden max-w-4xl w-full shadow-2xl flex flex-col md:flex-row relative max-h-[90vh] md:max-h-[80vh]"
+              className="bg-white rounded-card overflow-hidden max-w-4xl w-full shadow-2xl flex flex-col md:flex-row relative max-h-[90vh] md:max-h-[80vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}

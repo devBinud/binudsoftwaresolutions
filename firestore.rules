@@ -1,0 +1,49 @@
+rules_version = '2';
+
+// Firestore security rules for binudsoftwaresolutions-a4c60.
+// Paste into Firebase Console → Firestore → Rules and click Publish
+// (or deploy with `firebase deploy --only firestore:rules`).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Only these signed-in accounts can use the admin dashboard data.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in ['binudsoftwaresolutions@gmail.com'];
+    }
+
+    // Contact form & AI survey: anyone can submit, only admins can read or manage.
+    match /messages/{messageId} {
+      allow create: if request.resource.data.keys().hasAll(['name', 'email'])
+        && request.resource.data.name is string
+        && request.resource.data.email is string
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.email.size() <= 200;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Website page views: visitors can only add a well-formed record, only admins can read.
+    match /visits/{visitId} {
+      allow create: if request.resource.data.keys().hasOnly(['path', 'referrer', 'device', 'browser', 'visitorId', 'host', 'createdAt'])
+        && request.resource.data.path is string && request.resource.data.path.size() <= 300
+        && request.resource.data.referrer is string && request.resource.data.referrer.size() <= 200
+        && request.resource.data.device is string && request.resource.data.device.size() <= 20
+        && request.resource.data.browser is string && request.resource.data.browser.size() <= 30
+        && request.resource.data.visitorId is string && request.resource.data.visitorId.size() <= 64
+        && request.resource.data.host is string && request.resource.data.host.size() <= 100
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if isAdmin();
+    }
+
+    // Testimonials: shown publicly on the website, managed only by admins.
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Any other admin-managed content.
+    match /{collection}/{docId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

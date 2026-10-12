@@ -27,7 +27,8 @@ import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import bannerBgImage from '../assets/bg2.jpg';
+import ArrowButton from '../components/ArrowButton';
+import bannerBgImage from '../assets/bg2.webp';
 
 const aiAutomationJsonLd = {
   '@context': 'https://schema.org',
@@ -307,7 +308,7 @@ const AIAutomation = () => {
         confirmButtonText: 'Understood',
         confirmButtonColor: '#695dd3',
         customClass: {
-          popup: 'rounded-2xl',
+          popup: 'rounded-card',
           title: 'font-sans text-[#3E4265] font-extrabold',
           confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         }
@@ -322,7 +323,7 @@ const AIAutomation = () => {
         confirmButtonText: 'Understood',
         confirmButtonColor: '#695dd3',
         customClass: {
-          popup: 'rounded-2xl',
+          popup: 'rounded-card',
           title: 'font-sans text-[#3E4265] font-extrabold',
           confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         }
@@ -431,7 +432,7 @@ const AIAutomation = () => {
           confirmButtonText: 'Great!',
           confirmButtonColor: '#695dd3',
           customClass: {
-            popup: 'rounded-2xl',
+            popup: 'rounded-card',
             title: 'font-sans text-[#3E4265] font-extrabold',
             confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
           }
@@ -451,7 +452,7 @@ const AIAutomation = () => {
         confirmButtonText: 'Ok',
         confirmButtonColor: '#695dd3',
         customClass: {
-          popup: 'rounded-2xl',
+          popup: 'rounded-card',
           title: 'font-sans text-[#3E4265] font-extrabold',
           confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         }
@@ -464,17 +465,6 @@ const AIAutomation = () => {
   return (
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#005eb8] selection:text-white overflow-hidden">
       <SEOHead
-        title="AI & Automation Services | Custom Chatbots, GPT-4, WhatsApp & RPA"
-        description="Deploy intelligent AI chatbots, custom GPT-4 workflows, official WhatsApp automation, and Robotic Process Automation (RPA) to eliminate bottlenecks and scale business capacity."
-        keywords={[
-          'AI automation services',
-          'GPT-4 chatbot development',
-          'WhatsApp Business API automation',
-          'Robotic Process Automation RPA',
-          'OCR document parsing',
-          'custom LLM integration',
-          'AI customer support agent'
-        ]}
         canonicalPath="/services/ai-automation"
         jsonLd={aiAutomationJsonLd}
       />
@@ -523,30 +513,24 @@ const AIAutomation = () => {
               <HiSparkles className="text-blue-500" /> Shaping The Future of Intelligence
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#3E4265] leading-[1.1] tracking-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#3E4265] leading-[1.1] tracking-tight mb-6">
               Supercharge Operations With <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-[#005eb8] via-[#00488e] to-[#003975] bg-clip-text text-transparent">
                 Intelligent AI & Automation
               </span>
-            </h1>
+            </h2>
             
             <p className="text-slate-500 text-base md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
               We design, build, and integrate custom AI systems, smart chatbots, and automated software robots that eliminate bottlenecks and scale business capacity.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="#survey-section"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-none bg-[#005eb8] hover:bg-[#00488e] text-white text-sm font-bold tracking-wide uppercase transition-colors duration-200"
-              >
+              <ArrowButton href="#survey-section" variant="solid" size="lg" className="w-full sm:w-auto justify-between">
                 Take AI Survey
-              </a>
-              <a
-                href="#services-detail"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-none bg-white border border-slate-300 text-slate-700 hover:text-slate-900 text-sm font-bold tracking-wide uppercase hover:bg-slate-50 transition-colors duration-200"
-              >
+              </ArrowButton>
+              <ArrowButton href="#services-detail" size="lg" className="w-full sm:w-auto justify-between">
                 Explore Capabilities
-              </a>
+              </ArrowButton>
             </div>
           </motion.div>
         </div>
@@ -572,12 +556,7 @@ const AIAutomation = () => {
               </p>
               
               <div className="flex items-center gap-6">
-                <a
-                  href="#survey-section"
-                  className="px-8 py-3.5 rounded-none bg-[#005eb8] hover:bg-[#00488e] text-white text-xs font-bold tracking-wider uppercase transition-colors duration-200"
-                >
-                  Explore Services
-                </a>
+                <ArrowButton href="#survey-section">Explore Services</ArrowButton>
                 
                 {/* Navigation Arrows */}
                 <div className="flex items-center gap-3">
@@ -611,7 +590,7 @@ const AIAutomation = () => {
                   return (
                     <div
                       key={cap.title}
-                      className="w-[200px] sm:w-[230px] md:w-[244px] h-[360px] rounded-3xl overflow-hidden relative group shrink-0 snap-start shadow-[0_12px_35px_rgba(0,0,0,0.06)] border border-slate-100/50 cursor-pointer"
+                      className="w-[200px] sm:w-[230px] md:w-[244px] h-[360px] rounded-card overflow-hidden relative group shrink-0 snap-start shadow-[0_12px_35px_rgba(0,0,0,0.06)] border border-slate-100/50 cursor-pointer"
                     >
                       {/* Background Image */}
                       <img
@@ -666,7 +645,7 @@ const AIAutomation = () => {
           </div>
 
           {/* Survey Card Container */}
-          <div className="bg-white border border-slate-100 rounded-3xl p-5 sm:p-8 md:p-12 shadow-[0_15px_45px_rgba(0,0,0,0.055)]">
+          <div className="bg-white border border-slate-100 rounded-card p-5 sm:p-8 md:p-12 shadow-[0_15px_45px_rgba(0,0,0,0.055)]">
             
             {/* Progress indicators */}
             {!submitSuccess && (
@@ -697,15 +676,14 @@ const AIAutomation = () => {
                   <p className="text-slate-500 text-sm max-w-md leading-relaxed font-medium mb-8">
                     Thank you for sharing your interest. We will analyze your inputs and get in touch with some suggestions on how we can implement AI tools in your workflow.
                   </p>
-                  <button
+                  <ArrowButton
                     onClick={() => {
                       setSubmitSuccess(false);
                       setSurveyStep(1);
                     }}
-                    className="px-8 py-3.5 rounded-none bg-white border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider hover:bg-slate-50 transition-colors"
                   >
                     Submit Another Inquiry
-                  </button>
+                  </ArrowButton>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit(onSubmitSurvey)}>
@@ -732,7 +710,7 @@ const AIAutomation = () => {
                               key={interest.id}
                               type="button"
                               onClick={() => handleInterestToggle(interest.label)}
-                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
+                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-card text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
                                 active
                                   ? 'bg-blue-50/50 text-[#005eb8] border-[#005eb8]/45 shadow-sm'
                                   : 'bg-slate-50/60 text-slate-650 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
@@ -759,13 +737,9 @@ const AIAutomation = () => {
                       </div>
 
                       <div className="flex justify-end">
-                        <button
-                          type="button"
-                          onClick={handleNextStep}
-                          className="flex items-center gap-2 px-8 py-3.5 rounded-none bg-[#005eb8] hover:bg-[#00488e] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md shadow-blue-500/10 cursor-pointer"
-                        >
-                          Next <HiArrowRight size={14} />
-                        </button>
+                        <ArrowButton variant="solid" onClick={handleNextStep}>
+                          Next
+                        </ArrowButton>
                       </div>
                     </motion.div>
                   )}
@@ -792,7 +766,7 @@ const AIAutomation = () => {
                               key={goal.id}
                               type="button"
                               onClick={() => setSelectedGoal(goal.label)}
-                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-2xl text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
+                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-card text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
                                 active
                                   ? 'bg-blue-50/50 text-[#005eb8] border-[#005eb8]/45 shadow-sm'
                                   : 'bg-slate-50/60 text-slate-650 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
@@ -818,17 +792,13 @@ const AIAutomation = () => {
                         <button
                           type="button"
                           onClick={handlePrevStep}
-                          className="flex items-center gap-2 px-6 py-3.5 rounded-none bg-white border border-slate-200 text-slate-500 hover:text-slate-800 font-bold text-xs uppercase tracking-wider transition-colors hover:bg-slate-50 cursor-pointer"
+                          className="flex items-center gap-2 h-12 px-6 rounded-full bg-white border-[1.5px] border-slate-300 text-slate-600 hover:text-[#005eb8] hover:border-[#005eb8] font-semibold text-[15px] transition-colors cursor-pointer" style={{ fontFamily: "'Open Sans', sans-serif" }}
                         >
                           <HiArrowLeft size={14} /> Back
                         </button>
-                        <button
-                          type="button"
-                          onClick={handleNextStep}
-                          className="flex items-center gap-2 px-8 py-3.5 rounded-none bg-[#005eb8] hover:bg-[#00488e] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md shadow-blue-500/10 cursor-pointer"
-                        >
-                          Next <HiArrowRight size={14} />
-                        </button>
+                        <ArrowButton variant="solid" onClick={handleNextStep}>
+                          Next
+                        </ArrowButton>
                       </div>
                     </motion.div>
                   )}
@@ -853,7 +823,7 @@ const AIAutomation = () => {
                             type="text"
                             {...register('name', { required: 'Name is required' })}
                             placeholder="Your Name"
-                            className="w-full bg-slate-50 border border-slate-200/85 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
+                            className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
                           />
                           {errors.name && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.name.message}</p>}
                         </div>
@@ -867,14 +837,14 @@ const AIAutomation = () => {
                               pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
                             })}
                             placeholder="Your Email"
-                            className="w-full bg-slate-50 border border-slate-200/85 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
+                            className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
                           />
                           {errors.email && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.email.message}</p>}
                         </div>
 
                         {/* Phone Number with custom flag dropdown */}
                         <div className="relative md:col-span-2">
-                          <div className="flex items-center bg-slate-50 border border-slate-200/85 rounded-xl px-4 py-1.5 focus-within:border-[#005eb8] focus-within:bg-white transition-all duration-300">
+                          <div className="flex items-center bg-slate-50 border border-slate-200/85 rounded-card px-4 py-1.5 focus-within:border-[#005eb8] focus-within:bg-white transition-all duration-300">
                             {/* Dropdown Toggle */}
                             <div ref={dropdownRef} className="relative">
                               <button
@@ -938,7 +908,7 @@ const AIAutomation = () => {
                           {...register('message')}
                           placeholder="Tell us a bit about your business or what you want to automate..."
                           rows={3}
-                          className="w-full bg-slate-50 border border-slate-200/85 rounded-xl px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium resize-none"
+                          className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium resize-none"
                         />
                       </div>
 
@@ -946,25 +916,13 @@ const AIAutomation = () => {
                         <button
                           type="button"
                           onClick={handlePrevStep}
-                          className="flex items-center gap-2 px-6 py-3.5 rounded-none bg-white border border-slate-200 text-slate-500 hover:text-slate-800 font-bold text-xs uppercase tracking-wider transition-colors hover:bg-slate-50"
+                          className="flex items-center gap-2 h-12 px-6 rounded-full bg-white border-[1.5px] border-slate-300 text-slate-600 hover:text-[#005eb8] hover:border-[#005eb8] font-semibold text-[15px] transition-colors cursor-pointer" style={{ fontFamily: "'Open Sans', sans-serif" }}
                         >
                           <HiArrowLeft size={14} /> Back
                         </button>
-                        <button
-                          type="submit"
-                          disabled={isSubmittingForm}
-                          className="flex items-center gap-2 px-8 py-3.5 rounded-none bg-[#005eb8] hover:bg-[#00488e] disabled:bg-blue-800 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md shadow-blue-500/10 cursor-pointer disabled:cursor-not-allowed"
-                        >
-                          {isSubmittingForm ? (
-                            <span className="flex items-center gap-2">
-                              <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                              </svg>
-                              Submitting...
-                            </span>
-                          ) : 'Submit Survey'}
-                        </button>
+                        <ArrowButton type="submit" variant="solid" disabled={isSubmittingForm}>
+                          {isSubmittingForm ? 'Submitting...' : 'Submit Survey'}
+                        </ArrowButton>
                       </div>
                     </motion.div>
                   )}

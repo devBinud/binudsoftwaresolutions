@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { HiMail, HiPhone, HiChatAlt2, HiShieldCheck, HiPaperClip } from 'react-icons/hi';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { loadFirestore } from '../firebase/loadFirestore';
+import ArrowButton from '../components/ArrowButton';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import cufBg from '../assets/cuf-form-background.svg';
@@ -148,6 +148,7 @@ const ConnectSection = () => {
 
       if (isFirebaseConfigured) {
         try {
+          const { db, addDoc, collection, serverTimestamp } = await loadFirestore();
           const dbPromise = addDoc(collection(db, 'messages'), {
             name: data.name,
             email: data.email,
@@ -197,7 +198,7 @@ const ConnectSection = () => {
         confirmButtonText: 'Great!',
         confirmButtonColor: '#005eb8',
         customClass: {
-          confirmButton: 'rounded-none px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
+          confirmButton: 'rounded-card px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         },
       });
 
@@ -221,7 +222,7 @@ const ConnectSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* ── Left Column: Consultation Form Card (8 cols) ── */}
-          <div className="lg:col-span-8 bg-white border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 text-left relative">
+          <div className="lg:col-span-8 bg-white rounded-card border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 text-left relative">
             
             {/* Top Header Row */}
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
@@ -235,7 +236,7 @@ const ConnectSection = () => {
               </div>
 
               {/* Verified & Secured Badge */}
-              <div className="shrink-0 inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 shadow-sm">
+              <div className="shrink-0 inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
                 <HiShieldCheck size={16} className="text-emerald-600" />
                 <span>VERIFIED &amp; SECURED</span>
               </div>
@@ -246,7 +247,7 @@ const ConnectSection = () => {
               
               {/* Main Message Box */}
               <div>
-                <div className="border border-slate-300 focus-within:border-[#005eb8] transition-colors p-3 bg-slate-50/50">
+                <div className="rounded-card border border-slate-300 focus-within:border-[#005eb8] transition-colors p-3 bg-slate-50/50">
                   <textarea
                     {...register('message', { required: 'Please describe how we can help you' })}
                     rows={4}
@@ -295,11 +296,15 @@ const ConnectSection = () => {
 
               {/* NDA Toggle Switch */}
               <div className="flex items-center gap-3 pt-1">
-                <label className="text-xs sm:text-sm font-bold text-slate-700 cursor-pointer">
+                <label htmlFor="nda-toggle" className="text-xs sm:text-sm font-bold text-slate-700 cursor-pointer">
                   I'd like to sign an NDA
                 </label>
                 <button
+                  id="nda-toggle"
                   type="button"
+                  role="switch"
+                  aria-checked={wantNda}
+                  aria-label="I'd like to sign an NDA"
                   onClick={() => setWantNda(!wantNda)}
                   className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-200 cursor-pointer ${
                     wantNda ? 'bg-[#005eb8]' : 'bg-slate-300'
@@ -321,7 +326,7 @@ const ConnectSection = () => {
                     type="text"
                     {...register('name', { required: 'Full name is required' })}
                     placeholder="Full name *"
-                    className="w-full border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
+                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
                   />
                   {errors.name && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.name.message}</p>}
                 </div>
@@ -332,7 +337,7 @@ const ConnectSection = () => {
                     type="text"
                     {...register('company')}
                     placeholder="Company"
-                    className="w-full border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
+                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
                   />
                 </div>
 
@@ -345,25 +350,25 @@ const ConnectSection = () => {
                       pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' }
                     })}
                     placeholder="Work email *"
-                    className="w-full border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
+                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.email.message}</p>}
                 </div>
 
                 {/* Phone number */}
-                <div className="relative flex border border-slate-300 focus-within:border-[#005eb8] bg-white transition-colors">
+                <div className="relative flex rounded-card border border-slate-300 focus-within:border-[#005eb8] bg-white transition-colors">
                   <div ref={dropdownRef} className="relative">
                     <button
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                      className="h-full px-3 flex items-center gap-1.5 border-r border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                      className="h-full px-3 rounded-l-card flex items-center gap-1.5 border-r border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
                     >
                       <span>{selectedCountry.flag}</span>
                       <span>{selectedCountry.code}</span>
                     </button>
 
                     {showCountryDropdown && (
-                      <div className="absolute left-0 top-full mt-1 bg-white border border-slate-200 shadow-xl z-50 py-1 min-w-[140px]">
+                      <div className="absolute left-0 top-full mt-1 bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xl z-50 py-1 min-w-[140px]">
                         {countries.map((c) => (
                           <button
                             key={c.code}
@@ -412,20 +417,16 @@ const ConnectSection = () => {
 
               {/* Submit Button */}
               <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="bg-[#f8c543] hover:bg-[#ebb52d] text-slate-900 font-extrabold text-sm uppercase tracking-wider px-10 py-3.5 rounded-none border border-[#e0af34] transition-colors duration-200 shadow-sm cursor-pointer disabled:opacity-50"
-                >
-                  {isSubmitting ? 'SENDING...' : 'Send'}
-                </button>
+                <ArrowButton type="submit" variant="solid" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </ArrowButton>
               </div>
 
             </form>
           </div>
 
           {/* ── Right Column: Get in touch instantly (4 cols) ── */}
-          <div className="lg:col-span-4 bg-white/80 backdrop-blur-md border border-slate-200 p-6 sm:p-8 text-left space-y-6 shadow-sm">
+          <div className="lg:col-span-4 bg-white/80 backdrop-blur-md rounded-card border border-slate-200 p-6 sm:p-8 text-left space-y-6 shadow-sm">
             <h3 className="text-[#191919] text-xl font-black tracking-tight border-b border-slate-200 pb-4">
               Get in touch instantly
             </h3>
@@ -435,9 +436,9 @@ const ConnectSection = () => {
               {/* Call us */}
               <a 
                 href="tel:+919706393924"
-                className="flex items-center gap-3.5 p-3 hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
               >
-                <div className="w-10 h-10 bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
                   <HiPhone size={18} />
                 </div>
                 <div className="min-w-0">
@@ -451,9 +452,9 @@ const ConnectSection = () => {
               {/* Email us */}
               <a 
                 href="mailto:binudsoftwaresolutions@gmail.com"
-                className="flex items-center gap-3.5 p-3 hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
               >
-                <div className="w-10 h-10 bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
                   <HiMail size={20} />
                 </div>
                 <div className="min-w-0">
@@ -469,9 +470,9 @@ const ConnectSection = () => {
                 href="https://wa.me/919706393924" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
               >
-                <div className="w-10 h-10 bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
                   <FaWhatsapp size={20} />
                 </div>
                 <div className="min-w-0">
@@ -485,9 +486,9 @@ const ConnectSection = () => {
               {/* Live Chat */}
               <a 
                 href="mailto:binudsoftwaresolutions@gmail.com"
-                className="flex items-center gap-3.5 p-3 hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
+                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
               >
-                <div className="w-10 h-10 bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
                   <HiChatAlt2 size={20} />
                 </div>
                 <div className="min-w-0">

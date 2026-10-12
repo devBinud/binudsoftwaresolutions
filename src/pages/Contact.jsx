@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
 import bssGmb from '../assets/bss_gmb.png';
-import bannerBgImage from '../assets/bg3.jpg';
+import bannerBgImage from '../assets/bg3.webp';
 
 const contactJsonLd = {
   '@context': 'https://schema.org',
@@ -17,11 +17,12 @@ const contactJsonLd = {
       'name': 'Contact Binud Software Solutions',
       'description': 'Schedule a direct 20-minute technical consultation with our software architects in Guwahati, Assam to discuss your project scope, timeline, and strategy.',
       'mainEntity': {
-        '@type': 'LocalBusiness',
+        '@type': 'ProfessionalService',
+        '@id': 'https://binudsoftwaresolutions.in/#organization',
         'name': 'Binud Software Solutions',
-        'image': 'https://binudsoftwaresolutions.in/hero_3d_illustration.png',
-        'telephone': '+91-9876543210',
-        'email': 'binudp.dev@gmail.com',
+        'image': 'https://binudsoftwaresolutions.in/og-image.png',
+        'telephone': '+91-97063-93924',
+        'email': 'binudsoftwaresolutions@gmail.com',
         'address': {
           '@type': 'PostalAddress',
           'addressLocality': 'Guwahati',
@@ -71,15 +72,6 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-white">
       <SEOHead
-        title="Contact Us | Schedule a Consultation with Binud Software Solutions"
-        description="Get in touch with Binud Software Solutions in Guwahati, Assam. Schedule a 20-minute consultation for custom software development, mobile apps, or AI solutions."
-        keywords={[
-          'contact Binud Software Solutions',
-          'hire software developers Guwahati',
-          'schedule tech consultation',
-          'custom app development inquiry',
-          'software engineering Assam'
-        ]}
         canonicalPath="/contact"
         jsonLd={contactJsonLd}
       />
@@ -123,7 +115,7 @@ const Contact = () => {
             
             {/* Left side: Heading and details */}
             <div className="lg:col-span-7 text-left">
-              <span className="inline-block px-3 py-1.5 rounded-none text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-3">
+              <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-3">
                 Google My Business
               </span>
               <h2 className="text-[#191919] text-3xl sm:text-[40px] font-black leading-tight tracking-tight font-sans mb-6">
@@ -142,7 +134,7 @@ const Contact = () => {
                   { title: "Share Your Feedback", desc: "Rate our services and help us improve." }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-4 items-start">
-                    <div className="w-6 h-6 rounded-none bg-[#005eb8]/10 border border-[#005eb8]/20 flex items-center justify-center text-[#005eb8] shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded-md bg-[#005eb8]/10 border border-[#005eb8]/20 flex items-center justify-center text-[#005eb8] shrink-0 mt-0.5">
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
@@ -163,11 +155,11 @@ const Contact = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="bg-white border border-slate-200/90 rounded-none p-8 sm:p-10 flex flex-col items-center text-center shadow-sm w-full max-w-[380px]"
+                className="bg-white border border-slate-200/90 rounded-card p-8 sm:p-10 flex flex-col items-center text-center shadow-sm w-full max-w-[380px]"
               >
                 {/* Static QR Image wrapper without hover scale or pointer */}
-                <div className="w-64 h-64 bg-slate-50 p-4 rounded-none border border-slate-200 flex items-center justify-center mb-6">
-                  <img 
+                <div className="w-64 h-64 bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center justify-center mb-6">
+                  <img loading="lazy" decoding="async" 
                     src={bssGmb} 
                     alt="Google My Business QR Code" 
                     className="w-full h-full object-contain pointer-events-none select-none"

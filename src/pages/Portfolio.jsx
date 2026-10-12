@@ -6,7 +6,6 @@ import Footer from '../components/Footer';
 import {
   FaAndroid,
   FaApple,
-  FaArrowRight,
   FaCode,
   FaReact,
   FaLaravel,
@@ -18,11 +17,14 @@ import {
 } from 'react-icons/fa';
 
 // Import banner background image
-import bannerBgImage from '../assets/bg5.jpg';
+import bannerBgImage from '../assets/bg5.webp';
 
 // Import assets for Kangkan Case Study
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
-import kangkanPreview from '../assets/case_studies/kangkan_screenshot/1.webp';
+import kangkanHome from '../assets/case_studies/kangkan_screenshot/1.webp';
+import kangkanCategories from '../assets/case_studies/kangkan_screenshot/2.webp';
+import kangkanCart from '../assets/case_studies/kangkan_screenshot/4.webp';
+import ArrowButton from '../components/ArrowButton';
 
 const portfolioJsonLd = {
   '@context': 'https://schema.org',
@@ -102,30 +104,26 @@ const Portfolio = () => {
   const caseStudies = [
     {
       id: 'kangkan',
+      name: 'Kangkan',
+      category: 'E-commerce Mobile App',
       title: 'Kangkan: A Scalable Mobile-First E-commerce Platform',
-      subtitle: 'React Native & Laravel Production Architecture',
       description: 'A premium, culture-inspired mobile e-commerce platform designed to handle massive concurrent traffic, utilizing a stateless backend API and optimized Razorpay checkout integrations.',
       logo: kangkanLogo,
-      preview: kangkanPreview,
-      primaryColor: '#005eb8',
-      platform: 'Android & iOS Mobile App',
-      tech: ['React Native', 'Laravel PHP', 'MySQL Database', 'Razorpay Gateway', 'RESTful APIs'],
+      screens: [kangkanCategories, kangkanHome, kangkanCart],
+      stageColor: '#eadfdf', // matches the screenshots' background so the phones float
+      platforms: ['Android', 'iOS'],
+      tech: ['React Native', 'Laravel', 'MySQL', 'Razorpay', 'REST APIs'],
     }
   ];
+
+  const platformIcons = {
+    Android: { icon: FaAndroid, color: '#3DDC84' },
+    iOS: { icon: FaApple, color: '#111827' },
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans">
       <SEOHead
-        title="Case Studies & Portfolio | Mobile Apps & Web Engineering Showcase"
-        description="Explore real-world case studies and production applications built by Binud Software Solutions, including Kangkan E-Commerce and GiveTheNeedy humanitarian platform."
-        keywords={[
-          'software case studies',
-          'React Native portfolio',
-          'Laravel production apps',
-          'e-commerce mobile architecture',
-          'social impact app development',
-          'Binud Software Solutions portfolio'
-        ]}
         canonicalPath="/case-studies"
         jsonLd={portfolioJsonLd}
       />
@@ -169,87 +167,83 @@ const Portfolio = () => {
             {caseStudies.map((cs) => (
               <div
                 key={cs.id}
-                className="bg-white border border-slate-100 rounded-3xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow duration-300 flex flex-col h-full text-left relative overflow-hidden"
+                className="bg-white border border-slate-200/80 rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex flex-col h-full text-left"
               >
-                {/* Diagonal Ribbon */}
-                <div className="absolute top-4 right-[-35px] rotate-45 bg-[#005eb8] text-white text-[8px] font-black uppercase tracking-widest text-center py-1 w-36 shadow-[0_2px_10px_rgba(0,94,184,0.35)]">
-                  Android &amp; iOS
-                </div>
+                {/* ── Visual Header: App Screens ── */}
+                <div
+                  className="relative h-64 sm:h-72 overflow-hidden"
+                  style={{ backgroundColor: cs.stageColor }}
+                >
+                  {/* Logo & Platform Badges */}
+                  <div className="absolute top-4 left-4 right-4 z-20 flex items-start justify-between">
+                    <div className="w-14 h-14 rounded-xl bg-white p-1.5 shadow-md ring-1 ring-slate-200/70">
+                      <img src={cs.logo} alt={`${cs.name} logo`} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex gap-1.5">
+                      {cs.platforms.map((platform) => {
+                        const { icon: PlatformIcon, color } = platformIcons[platform];
+                        return (
+                          <span
+                            key={platform}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm ring-1 ring-slate-200 text-[11px] font-bold text-slate-700 shadow-sm"
+                          >
+                            <PlatformIcon size={12} style={{ color }} />
+                            {platform}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
 
-                {/* Logo & Platform Icons Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-50">
-                  <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 rounded-2xl bg-slate-50 p-3.5 border border-slate-100/80 flex items-center justify-center shadow-sm shrink-0">
-                      <img src={cs.logo} alt={cs.title} className="w-full h-full object-contain" />
-                    </div>
-                    {/* Platform Indicators */}
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">Platforms</span>
-                      <div className="flex gap-1.5 mt-0.5">
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-[#3DDC84]" title="Android App">
-                          <FaAndroid size={13} />
-                          <span className="text-[10px] font-bold text-slate-600">Android</span>
-                        </div>
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-800" title="iOS App">
-                          <FaApple size={13} />
-                          <span className="text-[10px] font-bold text-slate-600">iOS</span>
-                        </div>
-                      </div>
-                    </div>
+                  {/* Screenshots (centre screen raised) */}
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 sm:gap-4">
+                    {cs.screens.map((screen, i) => (
+                      <img
+                        key={screen}
+                        src={screen}
+                        alt={`${cs.name} app screen ${i + 1}`}
+                        loading="lazy"
+                        className={i === 1
+                          ? 'relative z-10 w-28 sm:w-32 translate-y-4'
+                          : 'w-24 sm:w-28 translate-y-12'
+                        }
+                      />
+                    ))}
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex flex-col flex-grow">
-                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight hover:text-[#005eb8] transition-colors duration-300 mb-2 leading-tight">
+                {/* ── Body ── */}
+                <div className="flex flex-col flex-grow p-6 sm:p-8">
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#005eb8] mb-2">
+                    {cs.category}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight leading-tight mb-3">
                     {cs.title}
                   </h3>
-                  <p className="text-xs font-bold text-slate-400 mb-4 tracking-wide">{cs.subtitle}</p>
-
-                  <p className="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
+                  <p className="text-slate-500 leading-relaxed mb-6">
                     {cs.description}
                   </p>
 
-                  {/* Technologies label with icon */}
-                  <div className="flex items-center gap-1 text-slate-400 font-extrabold text-[10px] uppercase tracking-wider mb-3 mt-auto">
-                    <FaCode size={11} className="text-[#005eb8]/70" />
-                    <span>Technologies</span>
-                  </div>
-
-                  {/* Tech stack badges - Square Card Type */}
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-8">
                     {cs.tech.map((techItem) => {
                       const TechIcon = getTechIcon(techItem);
-                      const techColor = getTechColor(techItem);
                       return (
-                        <div 
+                        <span
                           key={techItem}
-                          className="flex flex-col items-center justify-center p-2.5 rounded-2xl bg-slate-50 border border-slate-100/80 w-[84px] h-[84px] text-center cursor-default"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-700"
                         >
-                          <TechIcon style={{ color: techColor }} size={22} className="mb-1.5" />
-                          <span className="text-[9.5px] font-bold text-slate-500 leading-tight font-sans">
-                            {techItem}
-                          </span>
-                        </div>
+                          <TechIcon size={13} style={{ color: getTechColor(techItem) }} />
+                          {techItem}
+                        </span>
                       );
                     })}
                   </div>
 
-                  {/* Action Button */}
-                  <Link
-                    to={`/case-studies/case-study/${cs.id}`}
-                    className="inline-flex items-center gap-4 group/btn cursor-pointer w-fit mt-auto pt-4"
-                  >
-                    {/* Circular Arrow button */}
-                    <div className="w-12 h-12 rounded-full border border-[#191919] group-hover/btn:border-[#005eb8] text-[#191919] group-hover/btn:bg-[#005eb8] group-hover/btn:text-white flex items-center justify-center transition-all duration-300 shrink-0">
-                      <FaArrowRight size={14} className="transform group-hover/btn:translate-x-0.5 transition-transform" />
-                    </div>
-                    
-                    {/* Link Label */}
-                    <span className="text-[#191919] group-hover/btn:text-[#005eb8] font-bold text-xs sm:text-[13px] tracking-wider uppercase transition-colors duration-300">
-                      Explore Case Study
-                    </span>
-                  </Link>
+                  {/* Call to Action */}
+                  <div className="mt-auto">
+                    <ArrowButton to={`/case-studies/case-study/${cs.id}`}>Read Case Study</ArrowButton>
+                  </div>
                 </div>
               </div>
             ))}

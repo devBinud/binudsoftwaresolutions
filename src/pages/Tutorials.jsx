@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ArrowButton from '../components/ArrowButton';
 import {
   HiLockClosed,
   HiShieldCheck,
@@ -12,7 +13,7 @@ import {
   HiCheck,
   HiSparkles
 } from 'react-icons/hi';
-import bannerBgImage from '../assets/bg4.jpg';
+import bannerBgImage from '../assets/bg4.webp';
 
 const tutorialsJsonLd = {
   '@context': 'https://schema.org',
@@ -120,14 +121,6 @@ const Tutorials = () => {
     <div className="min-h-screen bg-slate-50/60 font-sans text-left flex flex-col justify-between">
       <div>
         <SEOHead
-          title="Developer Portal & Coding Guides | Binud Software Solutions"
-          description="Internal developer portal, MySQL database commands vault, and engineering references for software developers."
-          keywords={[
-            'coding guides',
-            'SQL commands vault',
-            'MySQL developer cheatsheet',
-            'Binud Software Solutions developer portal'
-          ]}
           canonicalPath="/coding-guides"
           jsonLd={tutorialsJsonLd}
         />
@@ -165,7 +158,7 @@ const Tutorials = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="max-w-3xl mx-auto mb-10 bg-amber-50 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center gap-3.5 text-left"
+              className="max-w-3xl mx-auto mb-10 bg-amber-50 rounded-card p-4 sm:p-5 shadow-xs flex items-center gap-3.5 text-left"
             >
               <div className="flex-1 text-xs sm:text-sm text-amber-950 font-medium leading-relaxed">
                 <span className="font-bold text-amber-900 mr-2 uppercase tracking-wide text-[11px] sm:text-xs bg-amber-200/70 px-2.5 py-0.5 rounded-md inline-block mb-1 sm:mb-0">
@@ -183,7 +176,7 @@ const Tutorials = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
-                className="max-w-md mx-auto bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-10 text-center shadow-xl shadow-slate-200/60 relative overflow-hidden"
+                className="max-w-md mx-auto bg-white border border-slate-200/90 rounded-card p-8 sm:p-10 text-center shadow-xl shadow-slate-200/60 relative overflow-hidden"
               >
                 <div className="w-16 h-16 rounded-2xl bg-blue-50 text-[#005eb8] flex items-center justify-center mx-auto mb-6 border border-blue-100 shadow-inner">
                   <HiLockClosed className="text-3xl" />
@@ -208,7 +201,7 @@ const Tutorials = () => {
                       placeholder="Enter Admin Passcode"
                       value={otpInput}
                       onChange={(e) => setOtpInput(e.target.value)}
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-mono tracking-widest text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:bg-white transition-all"
+                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-card text-center text-lg font-mono tracking-widest text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#005eb8] focus:bg-white transition-all"
                     />
                   </div>
 
@@ -216,12 +209,9 @@ const Tutorials = () => {
                     <p className="text-xs font-bold text-red-500 text-center">{otpError}</p>
                   )}
 
-                  <button
-                    type="submit"
-                    className="w-full py-3.5 bg-[#005eb8] hover:bg-[#00488e] text-white font-bold text-xs uppercase tracking-wider rounded-none transition-colors duration-200 flex items-center justify-center cursor-pointer"
-                  >
-                    <span>Continue</span>
-                  </button>
+                  <ArrowButton type="submit" variant="solid" className="w-full justify-between">
+                    Continue
+                  </ArrowButton>
                 </form>
               </motion.div>
             ) : (
@@ -239,7 +229,7 @@ const Tutorials = () => {
                   {DEFAULT_SQL_COMMANDS.map((cmd) => (
                     <div
                       key={cmd.id}
-                      className="rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-lg relative group"
+                      className="rounded-card overflow-hidden bg-slate-950 border border-slate-800 shadow-lg relative group"
                     >
                       <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
                         <span className="uppercase text-blue-400 font-bold tracking-wider">COMMAND</span>

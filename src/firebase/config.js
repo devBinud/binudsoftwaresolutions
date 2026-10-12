@@ -1,7 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
 
 // Replace these with your actual Firebase project config
 const firebaseConfig = {
@@ -15,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
+// Auth lives in ./auth.js so it is only downloaded by the admin area.
+
 export const db = getFirestore(app);
-export const storage = getStorage(app);
 export default app;

@@ -1,11 +1,12 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
+import { blogPostSeo, toIsoDate } from '../seo/routes';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
 import { HiArrowLeft, HiOutlineCalendar, HiOutlineClock, HiOutlineUser, HiOutlineShare, HiOutlineChevronRight } from 'react-icons/hi';
-import bannerBgImage from '../assets/bg4.jpg';
+import bannerBgImage from '../assets/bg4.webp';
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -32,21 +33,14 @@ const BlogDetails = () => {
         'headline': post.title,
         'description': post.excerpt,
         'image': post.image,
-        'datePublished': post.date,
-        'dateModified': post.date,
+        'datePublished': toIsoDate(post.date),
+        'dateModified': toIsoDate(post.date),
         'author': {
           '@type': 'Person',
           'name': post.author.name,
           'jobTitle': post.author.role
         },
-        'publisher': {
-          '@type': 'Organization',
-          'name': 'Binud Software Solutions',
-          'logo': {
-            '@type': 'ImageObject',
-            'url': 'https://binudsoftwaresolutions.in/logo.png'
-          }
-        },
+        'publisher': { '@id': 'https://binudsoftwaresolutions.in/#organization' },
         'mainEntityOfPage': {
           '@type': 'WebPage',
           '@id': `https://binudsoftwaresolutions.in/blog/${post.id}`
@@ -96,14 +90,11 @@ const BlogDetails = () => {
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
       <SEOHead
-        title={`${post.title} | Binud Software Solutions Blog`}
-        description={post.excerpt}
+        {...blogPostSeo(post)}
         keywords={post.tags}
         canonicalPath={`/blog/${post.id}`}
-        ogImage={post.image}
-        ogType="article"
         author={post.author.name}
-        publishedTime={post.date}
+        publishedTime={toIsoDate(post.date)}
         jsonLd={articleJsonLd}
       />
       <Navbar />
@@ -196,7 +187,7 @@ const BlogDetails = () => {
           </header>
 
           {/* Main Visual Image Banner */}
-          <div className="relative w-full h-[250px] sm:h-[380px] md:h-[460px] rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-12 border border-slate-100 bg-slate-50">
+          <div className="relative w-full h-[250px] sm:h-[380px] md:h-[460px] rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-12 border border-slate-100 bg-slate-50">
             <img 
               src={post.image} 
               alt={post.title} 
@@ -237,8 +228,8 @@ const BlogDetails = () => {
             </article>
 
             {/* Author Signature Bio Box */}
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left mb-20">
-              <img 
+            <div className="bg-slate-50 border border-slate-100 rounded-card p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left mb-20">
+              <img loading="lazy" decoding="async" 
                 src={post.author.avatar} 
                 alt={post.author.name} 
                 className="w-16 h-16 rounded-full object-cover border border-slate-200 shadow-sm" 
@@ -263,10 +254,10 @@ const BlogDetails = () => {
                 <Link 
                   key={rPost.id}
                   to={`/blog/${rPost.id}`}
-                  className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.01)] transition-all duration-300 flex flex-col group"
+                  className="bg-white border border-slate-100 rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.01)] transition-all duration-300 flex flex-col group"
                 >
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                    <img 
+                    <img loading="lazy" decoding="async" 
                       src={rPost.image} 
                       alt={rPost.title} 
                       className="w-full h-full object-cover" 

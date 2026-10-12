@@ -5,7 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
-import bannerBgImage from '../assets/bg2.jpg';
+import bannerBgImage from '../assets/bg2.webp';
 
 const servicesJsonLd = {
   '@context': 'https://schema.org',
@@ -164,17 +164,6 @@ const Services = () => {
   return (
     <div className="min-h-screen bg-white font-sans">
       <SEOHead
-        title="Software Development Services | Web, Mobile, Cloud & IT Consulting"
-        description="Explore our end-to-end technology services: custom web apps, cross-platform mobile apps (Flutter, React Native), UI/UX design, cloud DevOps on AWS, AI chatbots, and IT consulting."
-        keywords={[
-          'software development services',
-          'custom web application development',
-          'mobile app development Flutter React Native',
-          'UI UX design systems',
-          'cloud solutions AWS DevOps',
-          'AI chatbots workflow automation',
-          'IT consulting Guwahati Assam'
-        ]}
         canonicalPath="/services"
         jsonLd={servicesJsonLd}
       />
@@ -214,9 +203,9 @@ const Services = () => {
             transition={{ duration: 0.6 }}
             className="flex flex-col text-left"
           >
-            <h1 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
+            <h2 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
               Top-Notch Web, Mobile & AI Solutions
-            </h1>
+            </h2>
             <p className="text-slate-400 text-3xl sm:text-[42px] lg:text-[48px] font-black leading-[1.15] tracking-tight mt-0 mb-6 max-w-4xl">
               for Startups &amp; Enterprises!
             </p>
@@ -242,19 +231,19 @@ const Services = () => {
               <motion.div
                 key={service.title}
                 variants={cardVariants}
-                className="bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-none p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left cursor-pointer group"
+                className="bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-card p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left cursor-pointer group"
               >
                 <Link to={service.link || '/contact'} className="flex flex-col h-full justify-between">
                   <div>
                     {/* Top Image Banner */}
-                    <div className="w-full h-40 sm:h-44 overflow-hidden bg-slate-200 mb-4 relative">
-                      <img
+                    <div className="w-full h-40 sm:h-44 overflow-hidden rounded-xl bg-slate-200 mb-4 relative">
+                      <img loading="lazy" decoding="async"
                         src={service.image}
                         alt={service.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       {service.badge && (
-                        <span className="absolute top-2.5 left-2.5 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-none shadow-sm">
+                        <span className="absolute top-2.5 left-2.5 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
                           {service.badge}
                         </span>
                       )}
@@ -284,7 +273,7 @@ const Services = () => {
                     <span className="text-[11px] sm:text-xs font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
                       View Details
                     </span>
-                    <div className="w-6 h-6 rounded-none bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
+                    <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
                       <HiChevronRight size={14} />
                     </div>
                   </div>

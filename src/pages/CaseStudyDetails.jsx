@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ArrowButton from '../components/ArrowButton';
 import { 
   FaChevronRight, 
   FaDownload, 
@@ -28,7 +29,7 @@ import kangkanPdf from '../assets/kangkan_case_studies.pdf';
 import gtnPdf from '../assets/givetheneedy_case_studies.pdf';
 
 // Import banner background image
-import bannerBgImage from '../assets/bg.jpg';
+import bannerBgImage from '../assets/bg.webp';
 
 // Kangkan Images
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
@@ -291,33 +292,13 @@ const CaseStudyDetails = () => {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'SoftwareApplication',
-        'name': data.title,
-        'applicationCategory': 'BusinessApplication',
-        'operatingSystem': 'Android, iOS, Web',
-        'description': data.introduction,
-        'creator': {
-          '@type': 'Organization',
-          'name': 'Binud Software Solutions',
-          'url': 'https://binudsoftwaresolutions.in/'
-        }
-      },
-      {
         '@type': 'Article',
         'headline': data.title,
-        'description': data.subtitle,
-        'author': {
-          '@type': 'Organization',
-          'name': 'Binud Software Solutions'
-        },
-        'publisher': {
-          '@type': 'Organization',
-          'name': 'Binud Software Solutions',
-          'logo': {
-            '@type': 'ImageObject',
-            'url': 'https://binudsoftwaresolutions.in/logo.png'
-          }
-        }
+        'description': data.introduction,
+        'image': 'https://binudsoftwaresolutions.in/og-image.png',
+        'author': { '@id': 'https://binudsoftwaresolutions.in/#organization' },
+        'publisher': { '@id': 'https://binudsoftwaresolutions.in/#organization' },
+        'mainEntityOfPage': `https://binudsoftwaresolutions.in/case-studies/case-study/${id}`
       },
       {
         '@type': 'BreadcrumbList',
@@ -348,15 +329,6 @@ const CaseStudyDetails = () => {
   return (
     <div className="min-h-screen bg-slate-50/50 font-sans text-left">
       <SEOHead
-        title={`${data.title} | Binud Software Solutions Case Study`}
-        description={data.introduction}
-        keywords={[
-          `${id} case study`,
-          data.meta.platform,
-          data.meta.tech,
-          'Binud Software Solutions production apps',
-          'mobile app architecture'
-        ]}
         canonicalPath={`/case-studies/case-study/${id}`}
         ogType="article"
         jsonLd={caseStudyJsonLd}
@@ -407,9 +379,9 @@ const CaseStudyDetails = () => {
                 Case Study Overview
               </span>
               
-              <h1 className="text-3xl sm:text-[40px] lg:text-[46px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4">
+              <h2 className="text-3xl sm:text-[40px] lg:text-[46px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4">
                 {data.title}
-              </h1>
+              </h2>
               
               <p className="text-slate-400 text-lg font-bold mb-6 leading-snug">
                 {data.subtitle}
@@ -436,19 +408,14 @@ const CaseStudyDetails = () => {
               </div>
 
               {/* PDF Download Action */}
-              <a 
-                href={data.pdf} 
-                download
-                className="inline-flex items-center gap-2 bg-[#274e85] hover:bg-[#1d3d6b] text-white font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform active:scale-95"
-              >
-                <FaDownload className="w-3.5 h-3.5" />
+              <ArrowButton href={data.pdf} download icon={FaDownload}>
                 Download Full PDF Case Study
-              </a>
+              </ArrowButton>
             </div>
 
             {/* Hero Right: Brand Card */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="bg-white border border-slate-100 rounded-3xl p-8 shadow-xl max-w-sm w-full relative overflow-hidden group">
+              <div className="bg-white border border-slate-100 rounded-card p-8 shadow-xl max-w-sm w-full relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full opacity-5 group-hover:scale-110 transition-transform duration-500" style={{ backgroundColor: data.primaryColor }} />
                 <div className="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center p-3.5 mb-6 mx-auto">
                   <img src={data.logo} alt={`${data.title} - Official Client Application Logo`} className="w-full h-full object-contain" />
@@ -523,7 +490,7 @@ const CaseStudyDetails = () => {
             {[...data.screenshots, ...data.screenshots].map((src, index) => (
               <div 
                 key={index} 
-                className="w-[180px] sm:w-[220px] aspect-[9/19] rounded-2xl overflow-hidden border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] bg-white shrink-0 mx-4 transition-all duration-300 hover:shadow-md"
+                className="w-[180px] sm:w-[220px] aspect-[9/19] rounded-card overflow-hidden border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] bg-white shrink-0 mx-4 transition-all duration-300 hover:shadow-md"
               >
                 <img 
                   src={src} 
@@ -606,7 +573,7 @@ const CaseStudyDetails = () => {
                   <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                   5. Project Outcome & Metrics
                 </h3>
-                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6">
+                <div className="bg-slate-50 border border-slate-100 rounded-card p-6">
                   <div className="flex gap-4 items-start mb-4">
                     <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-green-500 shrink-0">
                       <FaChartLine className="w-5 h-5" />
@@ -635,7 +602,7 @@ const CaseStudyDetails = () => {
                   {data.architecture.map((arch, index) => {
                     const ArchIcon = arch.icon;
                     return (
-                      <div key={index} className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex items-start gap-4">
+                      <div key={index} className="bg-white border border-slate-100 rounded-card p-5 shadow-sm flex items-start gap-4">
                         <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-500 shrink-0">
                           <ArchIcon className="w-5 h-5" />
                         </div>
@@ -690,7 +657,7 @@ const CaseStudyDetails = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {data.challenges.map((chal, index) => (
-              <div key={index} className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex items-start gap-4">
+              <div key={index} className="bg-white border border-slate-100 rounded-card p-6 shadow-sm flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 shrink-0">
                   <FaShieldAlt className="w-5 h-5" />
                 </div>
@@ -753,7 +720,7 @@ const CaseStudyDetails = () => {
       <section className="py-16 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div 
-            className="rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden"
+            className="rounded-card p-8 md:p-12 text-center text-white relative overflow-hidden"
             style={{ backgroundColor: data.primaryColor }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent pointer-events-none" />
@@ -768,20 +735,12 @@ const CaseStudyDetails = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link
-                  to="/contact"
-                  className="bg-white hover:bg-slate-100 text-[#191919] font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
-                >
-                  Start A Conversation
-                </Link>
-                <a
-                  href={data.pdf}
-                  download
-                  className="bg-white/10 hover:bg-white/15 text-white border border-white/20 font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto inline-flex items-center justify-center gap-2"
-                >
-                  <FaDownload className="w-4 h-4" />
+                <ArrowButton to="/contact" size="lg" className="w-full sm:w-auto justify-between">
+                  Start a Conversation
+                </ArrowButton>
+                <ArrowButton href={data.pdf} download variant="ghost" size="lg" icon={FaDownload} className="w-full sm:w-auto justify-between">
                   Get PDF Copy
-                </a>
+                </ArrowButton>
               </div>
             </div>
           </div>

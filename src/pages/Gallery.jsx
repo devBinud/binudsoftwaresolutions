@@ -22,7 +22,7 @@ import {
 import img1 from '../assets/gallery/1.jpeg';
 import img2 from '../assets/gallery/2.jpeg';
 import img3 from '../assets/gallery/3.jpeg';
-import bannerBgImage from '../assets/bg4.jpg';
+import bannerBgImage from '../assets/bg4.webp';
 
 // Import hostel memories images
 import hostel1 from '../assets/gallery/hostel_memories/1.jpeg';
@@ -566,14 +566,6 @@ const Gallery = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <SEOHead
-        title="Team Gallery & Memories | Binud Software Solutions"
-        description="Explore our team journey, professional milestones at Codepilot Technologies, and gallery memories behind Binud Software Solutions."
-        keywords={[
-          'Binud Software Solutions team',
-          'Codepilot Technologies memories',
-          'software team culture',
-          'Guwahati software engineers'
-        ]}
         canonicalPath="/gallery"
         jsonLd={galleryJsonLd}
       />
@@ -635,10 +627,10 @@ const Gallery = () => {
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
                 onClick={() => openLightbox(item)}
-                className="group rounded-none overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
               >
-                <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border border-slate-100">
-                  <img
+                <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-slate-50 border border-slate-100">
+                  <img loading="lazy" decoding="async"
                     src={item.src}
                     alt={item.label}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
@@ -704,10 +696,10 @@ const Gallery = () => {
                       initial="hidden"
                       animate="visible"
                       onClick={() => openLightbox(item)}
-                      className="group rounded-none overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                      className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
                     >
-                      <div className="w-full aspect-[4/3] overflow-hidden bg-slate-50 border border-slate-100">
-                        <img
+                      <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-slate-50 border border-slate-100">
+                        <img loading="lazy" decoding="async"
                           src={item.src}
                           alt={item.label}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
@@ -735,7 +727,7 @@ const Gallery = () => {
                 transition={{ duration: 0.5 }}
                 className="max-w-2xl mx-auto"
               >
-                <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-3xl p-8 sm:p-12 shadow-lg shadow-slate-100/80 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
+                <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-card p-8 sm:p-12 shadow-lg shadow-slate-100/80 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
                   
                   // Security Icon Badge
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#133866] to-[#005eb8] text-white flex items-center justify-center mx-auto shadow-md shadow-[#005eb8]/20 mb-6">
@@ -852,7 +844,7 @@ const Gallery = () => {
                     <button
                       type="submit"
                       disabled={pinSuccess}
-                      className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-gradient-to-r from-[#133866] to-[#005eb8] hover:from-[#0f2d52] hover:to-[#004b93] text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+                      className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-gradient-to-r from-[#133866] to-[#005eb8] hover:from-[#0f2d52] hover:to-[#004b93] text-white font-bold text-sm rounded-card shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
                     >
                       <HiKey className="text-base" />
                       <span>Unlock Archive</span>

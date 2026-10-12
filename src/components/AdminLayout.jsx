@@ -3,17 +3,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import {
-  HiViewGrid, HiCog, HiCollection, HiUsers, HiStar,
-  HiMail, HiLogout, HiMenuAlt2, HiExternalLink, HiX
+  HiViewGrid, HiStar,
+  HiMail, HiLogout, HiMenuAlt2, HiExternalLink, HiX, HiChartBar
 } from 'react-icons/hi';
 
 const navItems = [
   { icon: HiViewGrid, label: 'Dashboard', path: '/admin' },
-  { icon: HiCog, label: 'Services', path: '/admin/services' },
-  { icon: HiCollection, label: 'Projects', path: '/admin/projects' },
-  { icon: HiUsers, label: 'Team', path: '/admin/team' },
   { icon: HiStar, label: 'Testimonials', path: '/admin/testimonials' },
   { icon: HiMail, label: 'Messages', path: '/admin/messages' },
+  { icon: HiChartBar, label: 'Visitors', path: '/admin/visitors' },
 ];
 
 const SidebarContent = ({ onClose }) => {
@@ -95,9 +93,9 @@ const AdminLayout = ({ children, title }) => {
       )}
 
       {/* Main */}
-      <div className="flex-1 lg:ml-56 flex flex-col min-h-screen">
+      <div className="flex-1 min-w-0 lg:ml-56 flex flex-col min-h-screen">
         {/* Top bar */}
-        <header className="bg-white border-b border-gray-100 px-6 h-14 flex items-center justify-between sticky top-0 z-20">
+        <header className="bg-white border-b border-gray-100 px-4 sm:px-6 h-14 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <button
               className="lg:hidden text-[#64748b] hover:text-[#0f172a] p-1"
@@ -110,7 +108,7 @@ const AdminLayout = ({ children, title }) => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 min-w-0 p-4 sm:p-6">
           {children}
         </main>
       </div>

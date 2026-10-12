@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { HiHome, HiOutlineMail } from 'react-icons/hi';
+import ArrowButton from '../components/ArrowButton';
 
 const NotFound = () => {
   return (
@@ -50,23 +49,10 @@ const NotFound = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-row items-center justify-center gap-2.5 sm:gap-4 w-full max-w-md mx-auto px-2"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto px-2"
           >
-            <Link
-              to="/"
-              className="bg-[#005eb8] hover:bg-[#00488e] text-white font-bold text-[11px] sm:text-xs md:text-sm uppercase tracking-wider px-4 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-center gap-1.5 sm:gap-2 transition-all shadow-sm hover:shadow-md whitespace-nowrap"
-            >
-              <HiHome className="text-sm sm:text-base shrink-0" />
-              <span>Back to Home</span>
-            </Link>
-
-            <Link
-              to="/contact"
-              className="bg-[#f8c543] hover:bg-[#ebb52d] text-slate-800 font-bold text-[11px] sm:text-xs md:text-sm uppercase tracking-wider px-4 sm:px-6 py-2.5 sm:py-3.5 border border-[#e0af34] flex items-center justify-center gap-1.5 sm:gap-2 transition-all shadow-sm whitespace-nowrap"
-            >
-              <HiOutlineMail className="text-sm sm:text-base shrink-0" />
-              <span>Contact Us</span>
-            </Link>
+            <ArrowButton to="/" variant="solid" className="justify-between">Back to Home</ArrowButton>
+            <ArrowButton to="/contact" className="justify-between">Contact Us</ArrowButton>
           </motion.div>
         </div>
       </main>

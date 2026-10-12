@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { HiArrowRight, HiChevronRight, HiCheckCircle } from 'react-icons/hi';
-import bgImage from '../assets/33353.jpg';
+import { HiChevronRight } from 'react-icons/hi';
+import ArrowButton from '../components/ArrowButton';
+import bgImage from '../assets/33353.webp';
 
 const rotatingWords = [
   'Software Solutions',
@@ -15,7 +16,7 @@ const rotatingWords = [
 const heroServices = [
   {
     id: 1,
-    title: 'Web Platforms & APIs',
+    title: 'Website Development',
     category: 'Full-Stack Engineering',
     desc: 'High-performance React, Next.js & Node web systems.',
     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80',
@@ -23,7 +24,7 @@ const heroServices = [
   },
   {
     id: 2,
-    title: 'Cross-Platform Mobile Apps',
+    title: 'Mobile App Development',
     category: 'iOS & Android',
     desc: 'Native React Native & Flutter mobile applications.',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&q=80',
@@ -94,10 +95,9 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-[#005eb8] text-white text-[11px] font-black px-4 py-2 uppercase tracking-widest mb-6 shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#005eb8] text-white text-[10px] sm:text-[11px] font-black px-3.5 sm:px-4.5 py-2 rounded-[40px] uppercase tracking-wider sm:tracking-widest mb-6 shadow-sm"
             >
               <span>ENTERPRISE QUALITY GUARANTEED</span>
-              <HiCheckCircle className="text-white text-base" />
             </motion.div>
 
             {/* Main Headline (Inspired by CoPilot layout) */}
@@ -108,7 +108,7 @@ const HeroSection = () => {
               className="text-[#191919] font-black tracking-tight leading-[1.15] mb-6 font-sans text-3xl sm:text-5xl lg:text-6xl"
             >
               Build &amp; Scale <br />
-              <span className="inline-block max-w-full relative bg-[#005eb8] text-white px-2.5 sm:px-3.5 py-0.5 sm:py-1 uppercase tracking-tight my-1 shadow-md text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="inline-block max-w-full relative text-[#005eb8] uppercase tracking-tight my-1 text-[clamp(1.25rem,7vw,1.875rem)] sm:text-4xl md:text-5xl lg:text-6xl">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={wordIndex}
@@ -135,32 +135,19 @@ const HeroSection = () => {
               Experience world-class software development, mobile applications, and intelligent AI solutions crafted to drive measurable impact.
             </motion.p>
 
-            {/* Action Buttons — Single Line on Mobile UI */}
+            {/* Action Buttons — stacked full-width on phones, side by side from sm */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
             >
-              <Link
-                to="/contact"
-                style={{
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 600,
-                  color: 'rgb(34, 34, 34)',
-                }}
-                className="flex-1 sm:flex-initial justify-center bg-[#f8c543] hover:bg-[#ebb52d] text-[12px] sm:text-[14px] px-4 sm:px-8 py-3 sm:py-4 rounded-none border border-[#e0af34] uppercase tracking-wider inline-flex items-center gap-1.5 sm:gap-2 transition-colors duration-200 shadow-sm whitespace-nowrap cursor-pointer"
-              >
-                <span>Start a Project</span>
-                <HiArrowRight size={14} className="shrink-0 text-[#222222]" />
-              </Link>
-              <Link
-                to="/services"
-                className="flex-1 sm:flex-initial justify-center bg-white border-2 border-slate-300 hover:border-[#005eb8] hover:bg-slate-50 text-slate-800 hover:text-[#005eb8] font-bold text-[11px] xs:text-xs sm:text-sm px-3.5 sm:px-8 py-3 sm:py-4 rounded-none uppercase tracking-wider inline-flex items-center gap-1.5 sm:gap-2 transition-all duration-200 shadow-sm whitespace-nowrap"
-              >
-                <span>Explore Services</span>
-                <HiChevronRight size={14} className="shrink-0" />
-              </Link>
+              <ArrowButton to="/contact" variant="solid" size="lg" className="w-full sm:w-auto justify-between">
+                Start a Project
+              </ArrowButton>
+              <ArrowButton to="/services" size="lg" className="w-full sm:w-auto justify-between">
+                Explore Services
+              </ArrowButton>
             </motion.div>
 
           </div>
@@ -169,7 +156,7 @@ const HeroSection = () => {
 
       {/* ── Overlapping Floating Services Bar (Exact CoPilot Bottom Card Style) ── */}
       <section className="relative max-w-7xl mx-auto px-6 md:px-12 -mt-20 lg:-mt-24 z-20 pb-16">
-        <div className="bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.09)] rounded-none p-6 sm:p-8 md:p-10">
+        <div className="bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.09)] rounded-card p-6 sm:p-8 md:p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* Left Column: Heading & Link */}
@@ -177,16 +164,10 @@ const HeroSection = () => {
               <span className="text-[#005eb8] text-[10px] font-extrabold uppercase tracking-widest mb-1.5 block">
                 Our Capabilities
               </span>
-              <h3 className="text-[#191919] text-2xl font-black tracking-tight mb-4 leading-tight">
+              <h2 className="text-[#191919] text-2xl font-black tracking-tight mb-4 leading-tight">
                 Our Services
-              </h3>
-              <Link
-                to="/services"
-                className="bg-[#005eb8] hover:bg-[#00488e] text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-none inline-flex items-center gap-2 transition-colors duration-200"
-              >
-                <span>View All</span>
-                <HiArrowRight size={14} />
-              </Link>
+              </h2>
+              <ArrowButton to="/services">View All</ArrowButton>
             </div>
 
             {/* Right Column: Interactive Featured Services Cards */}
@@ -196,16 +177,16 @@ const HeroSection = () => {
                   <Link
                     key={item.id}
                     to={item.link}
-                    className="group bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-none p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left"
+                    className="group bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-card p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left"
                   >
                     <div>
-                      <div className="w-full h-32 overflow-hidden bg-slate-200 mb-3.5 relative">
+                      <div className="w-full h-32 overflow-hidden rounded-xl bg-slate-200 mb-3.5 relative">
                         <img
                           src={item.image}
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <span className="absolute top-2 left-2 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5">
+                        <span className="absolute top-2 left-2 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">
                           {item.category}
                         </span>
                       </div>
@@ -222,7 +203,7 @@ const HeroSection = () => {
                       <span className="text-[11px] font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
                         View details
                       </span>
-                      <div className="w-6 h-6 rounded-none bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
+                      <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
                         <HiChevronRight size={14} />
                       </div>
                     </div>

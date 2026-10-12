@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import ArrowButton from '../components/ArrowButton';
 
 const CTASection = () => {
   return (
@@ -24,12 +24,9 @@ const CTASection = () => {
 
           {/* Right Action Button */}
           <div className="w-full md:w-auto shrink-0">
-            <Link
-              to="/contact"
-              className="w-full md:w-auto bg-[#005eb8] hover:bg-[#00488e] text-white font-extrabold text-xs sm:text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-none uppercase tracking-wider transition-colors duration-200 shadow-md block md:inline-block text-center cursor-pointer"
-            >
-              Schedule a 30-minute introductory call
-            </Link>
+            <ArrowButton to="/contact" size="lg" className="w-full md:w-auto justify-between">
+              Schedule a 30-Minute Call
+            </ArrowButton>
           </div>
         </motion.div>
       </div>

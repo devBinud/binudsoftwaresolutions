@@ -1,25 +1,32 @@
+import { lazy, Suspense } from 'react';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import MarqueeBar from '../components/MarqueeBar';
 import HeroSection from '../sections/HeroSection';
-import StatsSection from '../sections/StatsSection';
-import AboutPreview from '../sections/AboutPreview';
-import ServicesPreview from '../sections/ServicesPreview';
-import TestimonialsSection from '../sections/TestimonialsSection';
-import CTASection from '../sections/CTASection';
-import LatestBlogsSection from '../sections/LatestBlogsSection';
-import ConnectSection from '../sections/ConnectSection';
+
+// Everything below the first screen is downloaded in the background, so the hero appears sooner.
+const StatsSection = lazy(() => import('../sections/StatsSection'));
+const AboutPreview = lazy(() => import('../sections/AboutPreview'));
+const ServicesPreview = lazy(() => import('../sections/ServicesPreview'));
+const WhyChooseUsSection = lazy(() => import('../sections/WhyChooseUsSection'));
+const TestimonialsSection = lazy(() => import('../sections/TestimonialsSection'));
+const CTASection = lazy(() => import('../sections/CTASection'));
+const LatestBlogsSection = lazy(() => import('../sections/LatestBlogsSection'));
+const ConnectSection = lazy(() => import('../sections/ConnectSection'));
+const Footer = lazy(() => import('../components/Footer'));
 
 
 const homeJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': 'https://binudsoftwaresolutions.in/#organization',
   'name': 'Binud Software Solutions',
   'alternateName': 'BSS Tech Solutions',
   'url': 'https://binudsoftwaresolutions.in/',
   'logo': 'https://binudsoftwaresolutions.in/logo.png',
-  'image': 'https://binudsoftwaresolutions.in/hero_3d_illustration.png',
+  'image': 'https://binudsoftwaresolutions.in/og-image.png',
+  'telephone': '+91-97063-93924',
+  'email': 'binudsoftwaresolutions@gmail.com',
   'description': 'Binud Software Solutions provides custom software engineering, cross-platform mobile app development, React & Next.js web applications, and AI automation solutions for startups and enterprises.',
   'founder': {
     '@type': 'Person',
@@ -85,35 +92,23 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <SEOHead
-        title="Binud Software Solutions | Custom Software, Mobile Apps & AI Development Company"
-        description="Binud Software Solutions is a premier custom software, mobile app (React Native & Flutter), web development, and AI automation company. We architect scalable digital platforms for startups and enterprises worldwide."
-        keywords={[
-          'Binud Software Solutions',
-          'custom software development',
-          'mobile app development company',
-          'React Native development',
-          'Laravel REST API',
-          'AI automation services',
-          'web application development',
-          'cloud solutions AWS',
-          'Guwahati Assam software agency',
-          'Binud Panging'
-        ]}
         canonicalPath="/"
         jsonLd={homeJsonLd}
       />
       <Navbar />
       <HeroSection />
       <MarqueeBar />
-      <StatsSection />
-      <AboutPreview />
-      <ServicesPreview />
-      <TestimonialsSection />
-
-      <CTASection />
-      <LatestBlogsSection />
-      <ConnectSection />
-      <Footer />
+      <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
+        <StatsSection />
+        <AboutPreview />
+        <ServicesPreview />
+        <WhyChooseUsSection />
+        <TestimonialsSection />
+        <CTASection />
+        <LatestBlogsSection />
+        <ConnectSection />
+        <Footer />
+      </Suspense>
     </div>
   );
 };
