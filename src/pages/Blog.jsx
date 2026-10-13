@@ -5,7 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
-import { HiArrowRight, HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi';
+import BlogCard from '../components/BlogCard';
 
 // Import banner background image
 import bannerBgImage from '../assets/bg4.webp';
@@ -151,75 +151,11 @@ const Blog = () => {
               variants={containerVariants}
               initial="hidden"
               animate="show"
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12"
             >
               {filteredPosts.map((post) => (
-                <motion.article
-                  key={post.id}
-                  variants={cardVariants}
-                  className="bg-white border border-slate-200/90 rounded-card overflow-hidden shadow-sm hover:shadow-md hover:border-[#005eb8] transition-all duration-300 flex flex-col h-full group"
-                >
-                  {/* Card Image Banner */}
-                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="inline-block px-2.5 py-1 rounded-md text-[9px] font-extrabold uppercase tracking-wider bg-[#005eb8] text-white shadow-sm">
-                        {post.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-6 flex flex-col flex-grow text-left">
-                    {/* Meta info */}
-                    <div className="flex items-center gap-4 text-xs font-bold text-slate-400 mb-3">
-                      <span className="inline-flex items-center gap-1">
-                        <HiOutlineCalendar className="text-slate-400 text-sm" />
-                        {post.date}
-                      </span>
-                      <span className="inline-flex items-center gap-1">
-                        <HiOutlineClock className="text-slate-400 text-sm" />
-                        {post.readTime}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-black text-[#191919] group-hover:text-[#005eb8] leading-snug tracking-tight mb-2.5 transition-colors duration-300 line-clamp-2">
-                      <Link to={`/blog/${post.id}`}>{post.title}</Link>
-                    </h3>
-
-                    <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 font-medium">
-                      {post.excerpt}
-                    </p>
-
-                    {/* Author profile & Action row */}
-                    <div className="mt-auto pt-4 flex flex-col gap-4">
-                      <div className="-mx-6 border-t border-dashed border-slate-200" />
-                      <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <img loading="lazy" decoding="async"
-                          src={post.author.avatar}
-                          alt={post.author.name}
-                          className="w-8 h-8 rounded-full object-cover border border-slate-200"
-                        />
-                        <div className="flex flex-col">
-                          <span className="text-xs font-bold text-slate-800 leading-none mb-0.5">{post.author.name}</span>
-                          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider leading-none">{post.author.role}</span>
-                        </div>
-                      </div>
-                      <Link
-                        to={`/blog/${post.id}`}
-                        className="text-xs font-extrabold text-[#005eb8] group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center gap-1"
-                      >
-                        Read Post <HiArrowRight size={14} />
-                      </Link>
-                      </div>
-                    </div>
-                  </div>
+                <motion.article key={post.id} variants={cardVariants} className="h-full">
+                  <BlogCard post={post} />
                 </motion.article>
               ))}
             </motion.div>

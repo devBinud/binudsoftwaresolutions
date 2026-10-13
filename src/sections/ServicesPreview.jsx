@@ -80,7 +80,7 @@ const ServicesPreview = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="badge mb-3">
-                Our Capabilities
+                What We Offer
               </span>
               <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
                 Our Services

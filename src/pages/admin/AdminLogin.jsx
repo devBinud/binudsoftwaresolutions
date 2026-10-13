@@ -6,6 +6,20 @@ import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 
+// Turns Firebase sign-in errors into a clear message, so setup problems aren't reported as a wrong password.
+const loginErrorMessage = (code = '') => {
+  if (['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-email'].includes(code)) {
+    return 'Invalid admin credentials. Please verify and try again.';
+  }
+  if (code === 'auth/too-many-requests') return 'Too many attempts. Please wait a few minutes and try again.';
+  if (code === 'auth/network-request-failed') return 'Network error. Check your connection and try again.';
+  if (code === 'auth/user-disabled') return 'This admin account has been disabled.';
+  if (code.includes('api-key') || code === 'auth/configuration-not-found' || code.includes('referer') || code === 'auth/unauthorized-domain') {
+    return 'Admin login is not set up correctly on this site (Firebase configuration). Please check the deployment settings.';
+  }
+  return `Login failed${code ? ` (${code})` : ''}. Please try again.`;
+};
+
 const AdminLogin = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,8 +31,8 @@ const AdminLogin = () => {
       await login(email, password);
       toast.success('Welcome back to Admin Portal!');
       navigate('/admin');
-    } catch {
-      toast.error('Invalid admin credentials. Please verify and try again.');
+    } catch (err) {
+      toast.error(loginErrorMessage(err?.code));
     }
   };
 

@@ -35,6 +35,18 @@ service cloud.firestore {
       allow read, delete: if isAdmin();
     }
 
+    // Public visitor counter shown in the footer: anyone can read it,
+    // visitors can only ever raise it by exactly 1 (admins can set any value).
+    match /stats/{docId} {
+      allow read: if docId == 'site';
+      allow create: if docId == 'site'
+        && request.resource.data.keys().hasOnly(['visitors'])
+        && request.resource.data.visitors == 1;
+      allow update: if docId == 'site'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visitors'])
+        && request.resource.data.visitors == resource.data.visitors + 1;
+    }
+
     // Testimonials: shown publicly on the website, managed only by admins.
     match /testimonials/{testimonialId} {
       allow read: if true;

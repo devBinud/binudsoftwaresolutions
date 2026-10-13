@@ -1,6 +1,39 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { HiOutlineEye } from 'react-icons/hi';
+import { fetchVisitorCount } from '../utils/visitorCount';
+
+/* "12,345 visitors" pill; renders nothing until a count is available. */
+const VisitorCounter = () => {
+  const [count, setCount] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchVisitorCount().then((value) => {
+      if (active) setCount(value);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (!count) return null;
+
+  return (
+    <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
+      <span className="relative flex w-2 h-2" aria-hidden="true">
+        <span className="absolute inset-0 rounded-full bg-emerald-400 opacity-75 animate-ping motion-reduce:animate-none" />
+        <span className="relative w-2 h-2 rounded-full bg-emerald-400" />
+      </span>
+      <HiOutlineEye size={15} aria-hidden="true" />
+      <span>
+        <span className="font-bold text-white tabular-nums">{count.toLocaleString('en-IN')}</span> visitors
+      </span>
+    </span>
+  );
+};
 
 const Footer = () => {
   const companyLinks = [
@@ -43,11 +76,8 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="sm:col-span-2 lg:col-span-4">
             <Link to="/" className="inline-flex items-center gap-3">
-              <img
-                src="/logo.png"
-                alt=""
-                className="h-11 w-11 object-contain bg-white rounded-full p-1"
-              />
+              {/* logo-on-dark.png: same logo with its see-through "bp" filled white, for the dark footer */}
+              <img src="/logo-on-dark.png" alt="" className="h-11 w-11 shrink-0 object-contain" />
               <span className="text-xl font-black tracking-tight text-white">
                 Binud Software Solutions
               </span>
@@ -141,6 +171,7 @@ const Footer = () => {
         {/* ── Bottom Bar ── */}
         <div className="pt-6 border-t border-slate-700/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-300">
           <p>© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
+          <VisitorCounter />
           <div className="flex items-center gap-8">
             <Link to="/privacy" className="hover:text-white transition-colors">
               Privacy Policy

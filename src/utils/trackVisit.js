@@ -1,4 +1,5 @@
 import { loadFirestore, whenIdle } from '../firebase/loadFirestore';
+import { countVisitorOnce } from './visitorCount';
 
 /**
  * First-party, privacy-friendly page-view tracking stored in Firestore (`visits` collection).
@@ -72,6 +73,9 @@ export const trackVisit = (path) => {
   const now = Date.now();
   if (lastTracked.path === path && now - lastTracked.time < DUPLICATE_WINDOW_MS) return;
   lastTracked = { path, time: now };
+
+  // Adds this browser to the public visitor counter in the footer (only the first time)
+  countVisitorOnce();
 
   const visit = {
     path: path.slice(0, 300),

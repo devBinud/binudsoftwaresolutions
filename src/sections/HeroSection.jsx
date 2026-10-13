@@ -51,7 +51,7 @@ const HeroSection = () => {
               transition={{ duration: 0.5 }}
               className="badge mb-6"
             >
-              Enterprise Quality Guaranteed
+              Your Vision, Our Expertise
             </motion.div>
 
             {/* Main Headline (Inspired by CoPilot layout) */}
