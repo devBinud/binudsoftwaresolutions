@@ -78,7 +78,7 @@ const Contact = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
@@ -115,7 +115,7 @@ const Contact = () => {
             
             {/* Left side: Heading and details */}
             <div className="lg:col-span-7 text-left">
-              <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-3">
+              <span className="badge mb-3">
                 Google My Business
               </span>
               <h2 className="text-[#191919] text-3xl sm:text-[40px] font-black leading-tight tracking-tight font-sans mb-6">

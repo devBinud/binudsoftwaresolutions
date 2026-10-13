@@ -471,7 +471,7 @@ const AIAutomation = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
@@ -509,9 +509,9 @@ const AIAutomation = () => {
             transition={{ duration: 0.8 }}
             className="max-w-4xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold mb-6 uppercase tracking-wider animate-pulse">
-              <HiSparkles className="text-blue-500" /> Shaping The Future of Intelligence
-            </div>
+            <span className="badge mb-6">
+              Shaping The Future of Intelligence
+            </span>
             
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#3E4265] leading-[1.1] tracking-tight mb-6">
               Supercharge Operations With <br className="hidden sm:inline" />
@@ -544,7 +544,7 @@ const AIAutomation = () => {
             
             {/* Left Column: Title & Intro (4 Columns) */}
             <div className="lg:col-span-4 flex flex-col justify-center text-left">
-              <span className="text-[#005eb8] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 inline-block">
+              <span className="badge mb-3">
                 Our Services
               </span>
               <h2 className="text-[#3E4265] text-3xl sm:text-4xl font-black leading-[1.15] tracking-tight mb-5">
@@ -633,7 +633,7 @@ const AIAutomation = () => {
 
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
-            <span className="text-[#005eb8] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 inline-block">
+            <span className="badge mb-3">
               Interactive Survey
             </span>
             <h2 className="text-[#3E4265] text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">

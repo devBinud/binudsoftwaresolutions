@@ -91,7 +91,6 @@ const CaseStudyDetails = () => {
       pdf: kangkanPdf,
       primaryColor: '#274e85',
       accentColor: '#1d3d6b',
-      lightColor: '#e8eef7',
       gradient: 'from-[#274e85]/10 via-[#274e85]/5 to-transparent',
       meta: {
         client: 'Kangkan Retail Brands',
@@ -189,7 +188,6 @@ const CaseStudyDetails = () => {
       pdf: gtnPdf,
       primaryColor: '#695dd3',
       accentColor: '#574cbd',
-      lightColor: '#f3f2fc',
       gradient: 'from-[#695dd3]/10 via-[#695dd3]/5 to-transparent',
       meta: {
         client: 'GiveTheNeedy Foundation',
@@ -336,7 +334,7 @@ const CaseStudyDetails = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
@@ -372,10 +370,7 @@ const CaseStudyDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7">
-              <span 
-                className="inline-block px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-5"
-                style={{ backgroundColor: data.lightColor, color: data.primaryColor }}
-              >
+              <span className="badge mb-5">
                 Case Study Overview
               </span>
               
@@ -463,10 +458,7 @@ const CaseStudyDetails = () => {
       <section className="py-20 bg-slate-50 border-b border-slate-100 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
           <div className="text-center">
-            <span 
-              className="inline-block px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-3"
-              style={{ backgroundColor: data.lightColor, color: data.primaryColor }}
-            >
+            <span className="badge mb-3">
               Application Interface
             </span>
             <h2 className="text-2xl sm:text-[34px] font-black text-[#191919] tracking-tight leading-tight">
@@ -641,10 +633,7 @@ const CaseStudyDetails = () => {
       <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
-            <span 
-              className="inline-block px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-3"
-              style={{ backgroundColor: data.lightColor, color: data.primaryColor }}
-            >
+            <span className="badge mb-3">
               Technical Execution
             </span>
             <h2 className="text-2xl sm:text-[34px] font-black text-[#191919] tracking-tight leading-tight">

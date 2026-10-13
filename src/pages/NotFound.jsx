@@ -15,7 +15,7 @@ const NotFound = () => {
       <Navbar />
 
       {/* Main Content with generous top and bottom padding accounting for fixed navbar */}
-      <main className="flex-1 flex flex-col items-center justify-center pt-36 pb-28 md:pt-44 md:pb-36 px-6 md:px-12 relative overflow-hidden">
+      <main className="flex-1 flex flex-col items-center justify-center pt-16 pb-28 md:pt-24 md:pb-36 px-6 md:px-12 relative overflow-hidden">
         {/* Subtle decorative background glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#005eb8]/5 rounded-full blur-[140px] pointer-events-none" />
 

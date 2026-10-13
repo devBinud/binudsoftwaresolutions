@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
-import { HiMail, HiPhone, HiChatAlt2, HiShieldCheck, HiPaperClip } from 'react-icons/hi';
+import { HiMail, HiPhone, HiChatAlt2, HiPaperClip } from 'react-icons/hi';
 import { loadFirestore } from '../firebase/loadFirestore';
 import ArrowButton from '../components/ArrowButton';
 import toast from 'react-hot-toast';
@@ -225,21 +225,13 @@ const ConnectSection = () => {
           <div className="lg:col-span-8 bg-white rounded-card border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 text-left relative">
             
             {/* Top Header Row */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight leading-snug">
-                  Need a Consultation on Your Software Project?
-                </h2>
-                <p className="text-slate-500 text-sm font-medium mt-1">
-                  Drop us a line! We are here to answer your questions 24/7.
-                </p>
-              </div>
-
-              {/* Verified & Secured Badge */}
-              <div className="shrink-0 inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-sm">
-                <HiShieldCheck size={16} className="text-emerald-600" />
-                <span>VERIFIED &amp; SECURED</span>
-              </div>
+            <div className="mb-6">
+              <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight leading-snug">
+                Need a Consultation on Your Software Project?
+              </h2>
+              <p className="text-slate-500 text-sm font-medium mt-1">
+                Drop us a line! We are here to answer your questions 24/7.
+              </p>
             </div>
 
             {/* Form */}

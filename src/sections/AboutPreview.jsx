@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { HiArrowRight } from 'react-icons/hi';
+import ArrowButton from '../components/ArrowButton';
 
 const AboutPreview = () => {
   return (
     <section className="relative py-16 md:py-24 bg-white overflow-hidden">
-      {/* Container matches StatsSection layout constraints perfectly to guarantee pixel-perfect left-aligned symmetry */}
+      {/* Same container width and padding as the other home sections, so content lines up */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Main Two-Column Corporate Content */}
@@ -27,7 +26,7 @@ const AboutPreview = () => {
             </p>
           </motion.div>
 
-          {/* Right Column: Narrative Block & Premium Circular About Link */}
+          {/* Right Column: Narrative Block & About Us button */}
           <motion.div
             initial={{ opacity: 0, x: 25 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -46,21 +45,7 @@ const AboutPreview = () => {
               architect high-performance digital platforms to become recognized industry leaders.
             </p>
 
-            {/* Circular outline right arrow About Link matching the mockup (Using #191919 for border & text) */}
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-4 group cursor-pointer w-fit"
-            >
-              {/* Circular Arrow button */}
-              <div className="w-12 h-12 rounded-full border border-[#191919]/30 flex items-center justify-center text-[#191919] group-hover:bg-[#005eb8] group-hover:text-white group-hover:border-[#005eb8] group-hover:scale-105 transition-all duration-300 shrink-0">
-                <HiArrowRight size={18} className="transform group-hover:translate-x-0.5 transition-transform" />
-              </div>
-              
-              {/* Link Label */}
-              <span className="text-[#191919] font-bold text-sm tracking-wide uppercase">
-                About Us
-              </span>
-            </Link>
+            <ArrowButton to="/about" className="w-fit self-start">About Us</ArrowButton>
           </motion.div>
 
         </div>

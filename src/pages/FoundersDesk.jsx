@@ -97,7 +97,7 @@ const FoundersDesk = () => {
           >
             <FaQuoteLeft size={34} className="text-[#005eb8]/15 mb-6" />
 
-            <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4">
+            <span className="badge mb-4">
               A Message From Our Founder
             </span>
             <h2 className="text-[#191919] text-3xl sm:text-4xl font-black leading-tight tracking-tight mb-8">

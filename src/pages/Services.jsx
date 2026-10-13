@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { HiChevronRight } from 'react-icons/hi';
 import SEOHead from '../components/SEOHead';
+import ArrowButton from '../components/ArrowButton';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
@@ -170,7 +170,7 @@ const Services = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
@@ -268,14 +268,8 @@ const Services = () => {
                     </ul>
                   </div>
 
-                  {/* Full Width Dashed Footer Bar */}
-                  <div className="-mx-4 px-4 pt-3 border-t border-dashed border-slate-300 mt-auto flex items-center justify-between">
-                    <span className="text-[11px] sm:text-xs font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
-                      View Details
-                    </span>
-                    <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
-                      <HiChevronRight size={14} />
-                    </div>
+                  <div className="mt-auto">
+                    <ArrowButton as="span" size="sm">View Details</ArrowButton>
                   </div>
                 </Link>
               </motion.div>

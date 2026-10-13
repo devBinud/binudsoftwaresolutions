@@ -81,7 +81,7 @@ const VisionMission = () => {
       {/* ── Intro ── */}
       <section className="pt-16 md:pt-20 pb-12 bg-white">
         <motion.div {...fadeUp} className="max-w-3xl mx-auto px-6 text-center">
-          <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4">
+          <span className="badge mb-4">
             Our Purpose
           </span>
           <h2 className="text-[#191919] text-3xl sm:text-4xl lg:text-[42px] font-black leading-tight tracking-tight mb-5">
@@ -157,7 +157,7 @@ const VisionMission = () => {
       <section className="py-20 md:py-24 bg-slate-50/70 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <motion.div {...fadeUp} className="max-w-2xl mb-12 text-left">
-            <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4">
+            <span className="badge mb-4">
               Core Values
             </span>
             <h2 className="text-[#191919] text-3xl sm:text-4xl font-black leading-tight tracking-tight mb-3">

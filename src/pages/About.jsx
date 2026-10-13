@@ -214,7 +214,7 @@ const About = () => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img
@@ -355,7 +355,7 @@ const About = () => {
 
               {/* Section Header */}
               <div className="mb-14 max-w-3xl">
-                <span className="inline-block px-3.5 py-1.5 bg-[#e8f1fb] text-[#005eb8] font-bold text-xs uppercase tracking-wider mb-4 font-sans">
+                <span className="badge mb-4">
                   Our Process
                 </span>
                 <h2 className="text-[#172b4d] text-3xl sm:text-4xl lg:text-[40px] font-black leading-tight tracking-tight font-sans mb-3">
@@ -491,7 +491,7 @@ const About = () => {
           <section className="py-20 md:py-24 bg-[#f8fafc] text-left">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
               <div className="max-w-2xl mb-10">
-                <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#005eb8]/10 text-[#005eb8] mb-4">
+                <span className="badge mb-4">
                   Get to Know Us
                 </span>
                 <h2 className="text-[#191919] text-3xl sm:text-4xl font-black leading-tight tracking-tight">

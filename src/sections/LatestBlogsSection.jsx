@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { blogPosts } from '../data/blogData';
 import { HiArrowRight, HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi';
+import ArrowButton from '../components/ArrowButton';
 
 const LatestBlogsSection = () => {
   // Get latest 3 blog posts
@@ -36,9 +37,9 @@ const LatestBlogsSection = () => {
         {/* ── Section Header ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-left">
           <div>
-            <p className="text-[#005eb8] text-sm font-bold tracking-widest uppercase mb-3">
+            <span className="badge mb-3">
               Explore Our Insights
-            </p>
+            </span>
             <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
               Latest from Our Blog
             </h2>
@@ -47,17 +48,7 @@ const LatestBlogsSection = () => {
             </p>
           </div>
 
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-4 group cursor-pointer w-fit pb-1 shrink-0"
-          >
-            <div className="w-12 h-12 rounded-full border border-[#191919]/30 flex items-center justify-center text-[#191919] group-hover:bg-[#005eb8] group-hover:text-white group-hover:border-[#005eb8] group-hover:scale-105 transition-all duration-300 shrink-0">
-              <HiArrowRight size={18} className="transform group-hover:translate-x-0.5 transition-transform" />
-            </div>
-            <span className="text-[#191919] font-bold text-sm tracking-wide uppercase">
-              View All Posts
-            </span>
-          </Link>
+          <ArrowButton to="/blog" className="w-fit shrink-0">View All Posts</ArrowButton>
         </div>
 
         {/* ── Blogs Grid ── */}

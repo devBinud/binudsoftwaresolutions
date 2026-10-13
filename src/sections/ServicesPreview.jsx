@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { HiArrowRight, HiChevronRight } from 'react-icons/hi';
+import ArrowButton from '../components/ArrowButton';
 
 const services = [
   {
@@ -79,7 +79,7 @@ const ServicesPreview = () => {
         <div className="flex flex-col text-left mb-14">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <span className="text-[#005eb8] text-xs font-black uppercase tracking-widest block mb-2">
+              <span className="badge mb-3">
                 Our Capabilities
               </span>
               <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
@@ -87,18 +87,7 @@ const ServicesPreview = () => {
               </h2>
             </div>
 
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-4 group cursor-pointer w-fit pb-1"
-            >
-              <div className="w-12 h-12 rounded-full border border-[#0f172a]/30 flex items-center justify-center text-[#0f172a] group-hover:bg-[#005eb8] group-hover:text-white group-hover:border-[#005eb8] group-hover:scale-105 transition-all duration-300 shrink-0">
-                <HiArrowRight size={18} className="transform group-hover:translate-x-0.5 transition-transform" />
-              </div>
-
-              <span className="text-[#0f172a] font-bold text-sm tracking-wide uppercase">
-                View All Services
-              </span>
-            </Link>
+            <ArrowButton to="/services" className="w-fit shrink-0">View All Services</ArrowButton>
           </div>
         </div>
 
@@ -139,14 +128,8 @@ const ServicesPreview = () => {
                   </p>
                 </div>
 
-                {/* Full Width Dashed Footer Bar */}
-                <div className="-mx-4 px-4 pt-3 border-t border-dashed border-slate-300 mt-auto flex items-center justify-between">
-                  <span className="text-[11px] sm:text-xs font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
-                    View Details
-                  </span>
-                  <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
-                    <HiChevronRight size={14} />
-                  </div>
+                <div className="mt-auto">
+                  <ArrowButton as="span" size="sm">View Details</ArrowButton>
                 </div>
               </Link>
             </motion.div>

@@ -148,26 +148,6 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
   border-radius: var(--radius-card) !important;
 }
 
-/* Horizontal testimonial scroller — visible brand-coloured scrollbar under the cards */
-.testimonial-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #005eb8 #e2e8f0;
-}
-
-.testimonial-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-
-.testimonial-scroll::-webkit-scrollbar-track {
-  background: #e2e8f0;
-  border-radius: 9999px;
-}
-
-.testimonial-scroll::-webkit-scrollbar-thumb {
-  background: #005eb8;
-  border-radius: 9999px;
-}
-
 /* Section spacing */
 .section-pad {
   padding: 5rem 0;
@@ -187,16 +167,17 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
   transform: translateY(-4px);
 }
 
-/* Badge */
+/* Badge: the red pill label above section headings ("Live Projects", "Our Capabilities", ...) */
 .badge {
   display: inline-block;
-  background: #e8f1fb;
-  color: #005eb8;
+  background: #e53935;
+  color: #ffffff;
   font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.3rem 0.9rem;
+  font-weight: 900;
+  line-height: 1rem;
+  padding: 0.375rem 0.875rem;
   border-radius: 100px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 

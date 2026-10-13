@@ -1,7 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { HiChevronRight } from 'react-icons/hi';
 import ArrowButton from '../components/ArrowButton';
 import bgImage from '../assets/33353.webp';
 
@@ -13,44 +11,8 @@ const rotatingWords = [
   'Cloud Architecture',
 ];
 
-const heroServices = [
-  {
-    id: 1,
-    title: 'Website Development',
-    category: 'Full-Stack Engineering',
-    desc: 'High-performance React, Next.js & Node web systems.',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80',
-    link: '/services',
-  },
-  {
-    id: 2,
-    title: 'Mobile App Development',
-    category: 'iOS & Android',
-    desc: 'Native React Native & Flutter mobile applications.',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&q=80',
-    link: '/services',
-  },
-  {
-    id: 3,
-    title: 'AI & Automation Systems',
-    category: 'GPT-4 & RAG Pipelines',
-    desc: 'Smart AI chatbots, OCR parsing & custom LLMs.',
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80',
-    link: '/services/ai-automation',
-  },
-  {
-    id: 4,
-    title: 'Enterprise DevOps & Cloud',
-    category: 'AWS & Microservices',
-    desc: 'Docker, CI/CD pipelines & zero-downtime hosting.',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=500&q=80',
-    link: '/services',
-  },
-];
-
 const HeroSection = () => {
   const [wordIndex, setWordIndex] = useState(0);
-  const [serviceIndex, setServiceIndex] = useState(0);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -59,18 +21,10 @@ const HeroSection = () => {
     return () => clearInterval(t);
   }, []);
 
-  const handleNextService = () => {
-    setServiceIndex((prev) => (prev + 1) % heroServices.length);
-  };
-
-  const handlePrevService = () => {
-    setServiceIndex((prev) => (prev - 1 + heroServices.length) % heroServices.length);
-  };
-
   return (
     <div className="relative w-full bg-slate-50 font-sans">
       {/* ── Main Hero Area ── */}
-      <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center pt-28 pb-28 md:pt-36 md:pb-36 overflow-hidden">
+      <section className="relative min-h-[calc(85vh-4rem)] md:min-h-[calc(85vh-4.5rem)] lg:min-h-[calc(92vh-4.5rem)] flex items-center py-16 md:py-24 overflow-hidden">
 
         {/* Background Image (33353.jpg) */}
         <div className="absolute inset-0 z-0">
@@ -95,9 +49,9 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-[#005eb8] text-white text-[10px] sm:text-[11px] font-black px-3.5 sm:px-4.5 py-2 rounded-[40px] uppercase tracking-wider sm:tracking-widest mb-6 shadow-sm"
+              className="badge mb-6"
             >
-              <span>ENTERPRISE QUALITY GUARANTEED</span>
+              Enterprise Quality Guaranteed
             </motion.div>
 
             {/* Main Headline (Inspired by CoPilot layout) */}
@@ -149,68 +103,6 @@ const HeroSection = () => {
                 Explore Services
               </ArrowButton>
             </motion.div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── Overlapping Floating Services Bar (Exact CoPilot Bottom Card Style) ── */}
-      <section className="relative max-w-7xl mx-auto px-6 md:px-12 -mt-20 lg:-mt-24 z-20 pb-16">
-        <div className="bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.09)] rounded-card p-6 sm:p-8 md:p-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-
-            {/* Left Column: Heading & Link */}
-            <div className="lg:col-span-3 text-left border-b lg:border-b-0 lg:border-r border-slate-100 pb-6 lg:pb-0 lg:pr-6">
-              <span className="text-[#005eb8] text-[10px] font-extrabold uppercase tracking-widest mb-1.5 block">
-                Our Capabilities
-              </span>
-              <h2 className="text-[#191919] text-2xl font-black tracking-tight mb-4 leading-tight">
-                Our Services
-              </h2>
-              <ArrowButton to="/services">View All</ArrowButton>
-            </div>
-
-            {/* Right Column: Interactive Featured Services Cards */}
-            <div className="lg:col-span-9 relative">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {heroServices.slice(0, 3).map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.link}
-                    className="group bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-card p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left"
-                  >
-                    <div>
-                      <div className="w-full h-32 overflow-hidden rounded-xl bg-slate-200 mb-3.5 relative">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <span className="absolute top-2 left-2 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md">
-                          {item.category}
-                        </span>
-                      </div>
-
-                      <h4 className="text-slate-900 font-bold text-sm leading-snug mb-1.5 group-hover:text-[#005eb8] transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="text-slate-500 text-xs font-medium leading-relaxed mb-4">
-                        {item.desc}
-                      </p>
-                    </div>
-
-                    <div className="-mx-4 px-4 pt-2.5 border-t border-dashed border-slate-300 flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-[#005eb8] uppercase tracking-wider group-hover:underline">
-                        View details
-                      </span>
-                      <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-[#005eb8] group-hover:bg-[#005eb8] group-hover:text-white transition-colors">
-                        <HiChevronRight size={14} />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
 
           </div>
         </div>

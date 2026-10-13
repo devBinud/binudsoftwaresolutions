@@ -5,10 +5,9 @@ import MarqueeBar from '../components/MarqueeBar';
 import HeroSection from '../sections/HeroSection';
 
 // Everything below the first screen is downloaded in the background, so the hero appears sooner.
-const StatsSection = lazy(() => import('../sections/StatsSection'));
 const AboutPreview = lazy(() => import('../sections/AboutPreview'));
 const ServicesPreview = lazy(() => import('../sections/ServicesPreview'));
-const WhyChooseUsSection = lazy(() => import('../sections/WhyChooseUsSection'));
+const WebsitesShowcase = lazy(() => import('../sections/WebsitesShowcase'));
 const TestimonialsSection = lazy(() => import('../sections/TestimonialsSection'));
 const CTASection = lazy(() => import('../sections/CTASection'));
 const LatestBlogsSection = lazy(() => import('../sections/LatestBlogsSection'));
@@ -99,10 +98,9 @@ const Home = () => {
       <HeroSection />
       <MarqueeBar />
       <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
-        <StatsSection />
         <AboutPreview />
         <ServicesPreview />
-        <WhyChooseUsSection />
+        <WebsitesShowcase limit={3} />
         <TestimonialsSection />
         <CTASection />
         <LatestBlogsSection />

@@ -4,6 +4,7 @@ import { FiArrowUpRight } from 'react-icons/fi';
 /**
  * Site-wide pill button with a circular arrow badge on the right.
  * Renders a router <Link> when `to` is set, an <a> when `href` is set, otherwise a <button>.
+ * as="span" renders a plain <span> instead, for use inside a card that is already a link.
  *
  * variant: 'outline' (default, white pill with blue border) | 'solid' (filled blue, for primary CTAs)
  *          | 'ghost' (transparent with white border, for secondary actions on dark backgrounds)
@@ -40,6 +41,7 @@ const ArrowButton = ({
   className = '',
   type = 'button',
   icon: Icon,
+  as,
   ...rest
 }) => {
   const v = variants[variant];
@@ -65,6 +67,9 @@ const ArrowButton = ({
   }
   if (href) {
     return <a href={href} className={classes} style={style} {...rest}>{content}</a>;
+  }
+  if (as === 'span') {
+    return <span className={classes} style={style} {...rest}>{content}</span>;
   }
   return <button type={type} className={classes} style={style} {...rest}>{content}</button>;
 };

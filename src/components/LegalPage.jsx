@@ -15,7 +15,7 @@ const LegalPage = ({ title, canonicalPath, lastUpdated, intro, sections }) => {
       <Navbar />
 
       {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src={bannerBgImage}

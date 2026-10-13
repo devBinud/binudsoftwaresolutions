@@ -127,7 +127,7 @@ const Tutorials = () => {
         <Navbar />
 
         {/* ── Breadcrumb Banner ── */}
-        <section className="relative bg-slate-900 text-white pt-36 pb-16 overflow-hidden border-b border-slate-800">
+        <section className="relative bg-slate-900 text-white py-16 overflow-hidden border-b border-slate-800">
           <div className="absolute inset-0 z-0 pointer-events-none">
             <img
               src={bannerBgImage}

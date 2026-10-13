@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
  * `crumbs` is an array of { name, path? }; the last crumb is the current page.
  */
 const PageBanner = ({ title, crumbs, image }) => (
-  <section className="relative bg-slate-900 text-white pt-28 pb-14 overflow-hidden border-b border-slate-800">
+  <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
     <div className="absolute inset-0 z-0 pointer-events-none">
       <img src={image} alt="" className="w-full h-full object-cover opacity-35" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
