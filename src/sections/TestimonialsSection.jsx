@@ -1,13 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { HiStar } from 'react-icons/hi';
-import { loadFirestore } from '../firebase/loadFirestore';
-import { DEFAULT_TESTIMONIALS, PREVIEW_TESTIMONIALS, sortTestimonials } from '../data/testimonials';
-import Skeleton from '../components/Skeleton';
-
-const isFirebaseConfigured =
-  import.meta.env.VITE_FIREBASE_PROJECT_ID &&
-  !/^your_project_id$/i.test(import.meta.env.VITE_FIREBASE_PROJECT_ID);
+import { TESTIMONIALS } from '../data/testimonials';
 
 const ratingOf = (t) => Math.min(5, Math.max(1, Number(t.rating) || 5));
 
@@ -77,79 +70,16 @@ const MarqueeRow = ({ list, reverse = false, seconds }) => {
   );
 };
 
-/* Placeholder card shown while testimonials load from the database. */
-const CardSkeleton = () => (
-  <div className="flex flex-col rounded-card p-7 sm:p-8 bg-[#f5f6f8]">
-    <div className="space-y-2">
-      <Skeleton className="h-4 w-32" />
-      <Skeleton className="h-3 w-24" />
-    </div>
-    <div className="space-y-3 mt-6">
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-2/3" />
-    </div>
-    <div className="mt-6 space-y-2">
-      <Skeleton className="h-4 w-24" />
-      <Skeleton className="h-3 w-28" />
-    </div>
-  </div>
-);
-
 const TestimonialsSection = () => {
-  // null = still loading; the built-in testimonials are used when nothing is managed in the admin panel yet
-  const [items, setItems] = useState(isFirebaseConfigured ? null : DEFAULT_TESTIMONIALS);
-  const [nearView, setNearView] = useState(false);
+  // Static list from src/data/testimonials.js — identical on localhost and the live site
+  const items = TESTIMONIALS;
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef(null);
 
-  // Only fetch once the section is about to scroll into view
-  useEffect(() => {
-    const node = sectionRef.current;
-    if (!isFirebaseConfigured || !node) return undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setNearView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '600px 0px' }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+  if (items.length === 0) return null;
 
-  useEffect(() => {
-    if (!isFirebaseConfigured || !nearView) return undefined;
-    let active = true;
-    loadFirestore()
-      .then(({ db, collection, getDocs }) => getDocs(collection(db, 'testimonials')))
-      .then((snap) => {
-        if (!active) return;
-        if (snap.empty) {
-          setItems(DEFAULT_TESTIMONIALS);
-          return;
-        }
-        const list = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((t) => t.visible !== false);
-        setItems(sortTestimonials(list));
-      })
-      .catch(() => {
-        if (active) setItems(DEFAULT_TESTIMONIALS);
-      });
-    return () => {
-      active = false;
-    };
-  }, [nearView]);
-
-  if (items && items.length === 0) return null;
-
-  const loading = items === null;
-  // The rating summary counts real reviews only
-  const count = items?.length || 0;
-  const average = count ? items.reduce((sum, t) => sum + ratingOf(t), 0) / count : 0;
-  // In development (npm run dev) dummy reviews are added to preview the full design; production builds never include them
-  const cards = import.meta.env.DEV && items ? [...items, ...PREVIEW_TESTIMONIALS] : items || [];
+  const count = items.length;
+  const average = items.reduce((sum, t) => sum + ratingOf(t), 0) / count;
+  const cards = items;
   // Moving rows need enough reviews (and are skipped for visitors who prefer reduced motion)
   const marquee = cards.length >= MARQUEE_MIN && !reduceMotion;
   // Each row gets its own half of the reviews, so nothing repeats on screen
@@ -160,7 +90,7 @@ const TestimonialsSection = () => {
   const basisFor = (text = '') => (cards.length <= 3 ? clampPx(text.length * 1.9, 280, 460) : widthFor(text));
 
   return (
-    <section ref={sectionRef} className="relative py-16 md:py-24 bg-white overflow-hidden font-sans">
+    <section className="relative py-16 md:py-24 bg-white overflow-hidden font-sans">
       {/* ── Header: heading on the left, rating summary on the right ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -179,27 +109,19 @@ const TestimonialsSection = () => {
           </p>
         </div>
 
-        {!loading && (
-          <div className="flex items-center gap-3.5 shrink-0">
-            <span className="text-5xl font-black text-[#191919] tracking-tight">{average.toFixed(1)}</span>
-            <div>
-              <Stars rating={average} size={20} />
-              <span className="block mt-1 text-sm text-slate-500">
-                From {count} client review{count === 1 ? '' : 's'}
-              </span>
-            </div>
+        <div className="flex items-center gap-3.5 shrink-0">
+          <span className="text-5xl font-black text-[#191919] tracking-tight">{average.toFixed(1)}</span>
+          <div>
+            <Stars rating={average} size={20} />
+            <span className="block mt-1 text-sm text-slate-500">
+              From {count} client review{count === 1 ? '' : 's'}
+            </span>
           </div>
-        )}
+        </div>
       </motion.div>
 
       {/* ── Cards ── */}
-      {loading ? (
-        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="status" aria-label="Loading testimonials">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <CardSkeleton key={i} />
-          ))}
-        </div>
-      ) : marquee ? (
+      {marquee ? (
         // Two rows drifting in opposite directions, faded at the screen edges; hovering a row pauses it
         <div className="space-y-6 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
           <MarqueeRow list={rowA} seconds={secondsFor(rowA)} />
