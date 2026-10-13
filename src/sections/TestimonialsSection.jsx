@@ -113,9 +113,7 @@ const TestimonialsSection = () => {
           <span className="text-5xl font-black text-[#191919] tracking-tight">{average.toFixed(1)}</span>
           <div>
             <Stars rating={average} size={20} />
-            <span className="block mt-1 text-sm text-slate-500">
-              From {count} client review{count === 1 ? '' : 's'}
-            </span>
+            <span className="block mt-1 text-sm text-slate-500">From client reviews</span>
           </div>
         </div>
       </motion.div>
