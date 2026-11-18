@@ -98,12 +98,12 @@ const AdminLayout = ({ children, title }) => {
         <header className="bg-white border-b border-gray-100 px-4 sm:px-6 h-14 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <button
-              className="lg:hidden text-[#64748b] hover:text-[#0f172a] p-1"
+              className="lg:hidden text-[#64748b] hover:text-ink p-1"
               onClick={() => setSidebarOpen(true)}
             >
               <HiMenuAlt2 size={20} />
             </button>
-            <h1 className="text-[#0f172a] font-semibold text-base">{title}</h1>
+            <h1 className="text-ink font-semibold text-base">{title}</h1>
           </div>
         </header>
 

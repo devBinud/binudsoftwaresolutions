@@ -1,34 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
-import { 
-  HiSparkles, 
-  HiChatAlt2, 
-  HiTrendingUp, 
-  HiCog, 
-  HiDocumentText, 
-  HiMail, 
-  HiPhone, 
-  HiArrowRight, 
-  HiArrowLeft, 
-  HiCheckCircle, 
-  HiChip, 
-  HiLightningBolt, 
-  HiDatabase,
-  HiCurrencyDollar,
-  HiChartBar,
-  HiHeart
-} from 'react-icons/hi';
+import { HiArrowRight, HiArrowLeft, HiCheckCircle, HiCheck } from 'react-icons/hi';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import ArrowButton from '../components/ArrowButton';
-import bannerBgImage from '../assets/bg2.webp';
 
 const aiAutomationJsonLd = {
   '@context': 'https://schema.org',
@@ -95,7 +76,7 @@ const aiAutomationJsonLd = {
 
 // Flag Components for Phone Dropdown (Matching ConnectSection.jsx)
 const IndiaFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="900" height="200" fill="#f93" />
     <rect y="200" width="900" height="200" fill="#fff" />
     <rect y="400" width="900" height="200" fill="#128807" />
@@ -119,7 +100,7 @@ const IndiaFlag = () => (
 );
 
 const AUFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="60" height="30" fill="#000033" />
     <g transform="scale(0.5)">
       <clipPath id="us">
@@ -149,7 +130,7 @@ const AUFlag = () => (
 );
 
 const USFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 741 390" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 741 390" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="741" height="390" fill="#b22234" />
     <path d="M0 30h741M0 90h741M0 150h741M0 210h741M0 270h741M0 330h741" stroke="#fff" strokeWidth="30" />
     <rect width="296" height="210" fill="#3c3b6e" />
@@ -168,7 +149,7 @@ const USFlag = () => (
 );
 
 const UKFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <clipPath id="s"><path d="M0 0 v30 h60 v-30 z" /></clipPath>
     <clipPath id="t"><path d="M0 0 L60 30 M60 0 L0 30" /></clipPath>
     <g clipPath="url(#s)">
@@ -190,6 +171,13 @@ const countries = [
   { code: '+1', flag: <USFlag />, name: 'United States', placeholder: '201 555 0123' },
   { code: '+44', flag: <UKFlag />, name: 'United Kingdom', placeholder: '7911 123456' },
 ];
+
+// Shared survey form styles
+const labelClass = 'block text-sm font-medium text-ink mb-2';
+const inputClass =
+  'w-full h-12 bg-white border border-line hover:border-[#b9dcee] rounded-xl px-4 text-ink placeholder:text-slate-400 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none transition-[border-color,box-shadow] duration-200 text-[15px]';
+const backBtnClass =
+  'inline-flex items-center gap-2 h-12 px-5 rounded-[var(--radius-btn)] border border-line bg-white text-body hover:text-primary hover:border-primary font-medium text-[15px] transition-colors duration-300 cursor-pointer';
 
 const AIAutomation = () => {
   const [surveyStep, setSurveyStep] = useState(1);
@@ -246,49 +234,47 @@ const AIAutomation = () => {
       title: 'AI Chatbots & Support Assistants',
       desc: 'Build smart customer support agents powered by GPT-4 and custom knowledge bases. Automate 24/7 conversations, handle queries, and collect qualified leads without human intervention.',
       features: ['Retrieval Augmented Generation (RAG)', 'Context-aware Dialogues', 'Multi-channel Deployment (Web, WhatsApp, Slack)', 'CRM & Lead Database Sync'],
-      icon: HiChatAlt2,
-      color: 'from-[#005eb8] to-[#00488e]',
+      color: 'from-[#0077b6] to-[#005f92]',
       image: 'https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?auto=format&fit=crop&w=600&q=80',
     },
     {
-      title: 'Smooth WhatsApp Automation & AI',
+      title: 'WhatsApp Automation & AI',
       desc: 'Deploy custom AI workflows on WhatsApp using official APIs to interact with users, send smart notifications, answer support questions, and handle bookings automatically.',
       features: ['Official WhatsApp Business API', 'AI Agent Contact Delegation', 'Auto-Reply & Notification Triggers', 'Interactive Catalog Integration'],
-      icon: HiLightningBolt,
-      color: 'from-[#005eb8] to-[#00488e]',
+      color: 'from-[#0077b6] to-[#005f92]',
       image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80',
     },
     {
       title: 'Robotic Process Automation (RPA)',
       desc: 'Say goodbye to repetitive manual entries. We construct software workflows that sync documents, auto-parse file data, generate invoice reconciliations, and bridge legacy systems.',
       features: ['OCR Document Classification', 'No-code / Low-code Automation Pipelines', 'Automated Email & SMS Alerts', 'System-to-System Integration API'],
-      icon: HiCog,
-      color: 'from-[#005eb8] to-[#00488e]',
+      color: 'from-[#0077b6] to-[#005f92]',
       image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80',
     },
     {
       title: 'Custom AI Agents & Integrations',
       desc: 'Develop autonomous AI agents capable of performing multi-step tasks like drafting responses, researching files, validating system outputs, and updating database values automatically.',
       features: ['Multi-agent Task Orchestration', 'Custom API Connectors', 'Human-in-the-loop Safeguards', 'Real-time Vector Databases'],
-      icon: HiSparkles,
-      color: 'from-[#005eb8] to-[#00488e]',
+      color: 'from-[#0077b6] to-[#005f92]',
       image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80',
     },
   ];
 
   const surveyInterests = [
-    { id: 'chatbots', label: '24/7 AI Chatbots & Customer Support', icon: HiChatAlt2 },
-    { id: 'whatsapp', label: 'Smooth WhatsApp Automation & AI Agents', icon: HiLightningBolt },
-    { id: 'document', label: 'Auto-OCR Document Parsing & Data Sync', icon: HiDocumentText },
-    { id: 'rpa', label: 'Workflow Automation & RPA Pipelines', icon: HiCog },
-    { id: 'llms', label: 'Custom GPTs & LLM Integrations', icon: HiChip },
+    { id: 'chatbots', label: 'AI Chatbots & Customer Support' },
+    { id: 'whatsapp', label: 'WhatsApp Automation & AI Agents' },
+    { id: 'document', label: 'Document Parsing (OCR) & Data Sync' },
+    { id: 'rpa', label: 'Workflow Automation (RPA)' },
+    { id: 'llms', label: 'Custom GPTs & LLM Integrations' },
   ];
 
+  const surveySteps = ['Capabilities', 'Goal', 'Your details'];
+
   const surveyGoals = [
-    { id: 'costs', label: 'Reduce operational costs', icon: HiCurrencyDollar },
-    { id: 'productivity', label: 'Boost team productivity & eliminate manual tasks', icon: HiLightningBolt },
-    { id: 'retention', label: 'Improve customer experience & response times', icon: HiHeart },
-    { id: 'capacity', label: 'Standardize & scale technical workflows', icon: HiCog },
+    { id: 'costs', label: 'Reduce operational costs' },
+    { id: 'productivity', label: 'Boost team productivity & eliminate manual tasks' },
+    { id: 'retention', label: 'Improve customer experience & response times' },
+    { id: 'capacity', label: 'Standardize & scale technical workflows' },
   ];
 
   const handleInterestToggle = (interestLabel) => {
@@ -299,37 +285,10 @@ const AIAutomation = () => {
     );
   };
 
+  // Next is disabled until the step has an answer, so no warning popup is needed
   const handleNextStep = () => {
-    if (surveyStep === 1 && selectedInterests.length === 0) {
-      Swal.fire({
-        title: 'Selection Required',
-        text: 'Please select at least one AI tool or capability of interest to proceed.',
-        icon: 'warning',
-        confirmButtonText: 'Understood',
-        confirmButtonColor: '#695dd3',
-        customClass: {
-          popup: 'rounded-card',
-          title: 'font-sans text-[#3E4265] font-extrabold',
-          confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
-        }
-      });
-      return;
-    }
-    if (surveyStep === 2 && !selectedGoal) {
-      Swal.fire({
-        title: 'Selection Required',
-        text: 'Please select your primary business goal with AI to proceed.',
-        icon: 'warning',
-        confirmButtonText: 'Understood',
-        confirmButtonColor: '#695dd3',
-        customClass: {
-          popup: 'rounded-card',
-          title: 'font-sans text-[#3E4265] font-extrabold',
-          confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
-        }
-      });
-      return;
-    }
+    if (surveyStep === 1 && selectedInterests.length === 0) return;
+    if (surveyStep === 2 && !selectedGoal) return;
     setSurveyStep(prev => prev + 1);
   };
 
@@ -370,7 +329,9 @@ const AIAutomation = () => {
           try {
             const errorData = await response.json();
             errMsg = errorData.details ? `${errorData.error}: ${errorData.details}` : (errorData.error || errMsg);
-          } catch (_) {}
+          } catch {
+            // Response body was not JSON; keep the generic message
+          }
           
           if (import.meta.env.DEV) {
             console.warn(`[DEV MODE] Email endpoint returned ${response.status} (${errMsg}). Mocking success.`);
@@ -430,10 +391,10 @@ const AIAutomation = () => {
           text: 'Thank you for sharing your interest. We will analyze your inputs and get in touch with some suggestions at binudp.dev@gmail.com.',
           icon: 'success',
           confirmButtonText: 'Great!',
-          confirmButtonColor: '#695dd3',
+          confirmButtonColor: '#0077b6',
           customClass: {
             popup: 'rounded-card',
-            title: 'font-sans text-[#3E4265] font-extrabold',
+            title: 'font-sans text-ink font-extrabold',
             confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
           }
         });
@@ -450,10 +411,10 @@ const AIAutomation = () => {
         text: err.message || 'Please try again or email us directly at binudp.dev@gmail.com.',
         icon: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#695dd3',
+        confirmButtonColor: '#0077b6',
         customClass: {
           popup: 'rounded-card',
-          title: 'font-sans text-[#3E4265] font-extrabold',
+          title: 'font-sans text-ink font-extrabold',
           confirmButton: 'rounded-full px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         }
       });
@@ -463,78 +424,30 @@ const AIAutomation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#005eb8] selection:text-white overflow-hidden">
+    <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-[#0077b6] selection:text-white overflow-hidden">
       <SEOHead
         canonicalPath="/services/ai-automation"
         jsonLd={aiAutomationJsonLd}
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={bannerBgImage} 
-            alt="" 
-            className="w-full h-full object-cover opacity-35" 
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
+      <PageBanner
+        title="AI & Automation Services"
+        crumbs={[{ name: 'Services', path: '/services' }, { name: 'AI & Automation' }]}
+        variant="ai"
+        description={[
+          'We design, build and integrate custom AI systems, smart chatbots and automated software robots that remove bottlenecks and scale your business capacity.',
+        ]}
+      >
+        <div className="flex flex-col sm:flex-row gap-3">
+          <ArrowButton href="#survey-section" variant="solid" className="justify-between">
+            Take AI Survey
+          </ArrowButton>
+          <ArrowButton href="#services-detail" className="justify-between">
+            Explore Capabilities
+          </ArrowButton>
         </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 text-white">
-            AI & Automation Services
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/services" className="hover:text-white transition-colors">Services</Link>
-            <span>/</span>
-            <span className="text-blue-400">AI & Automation</span>
-          </nav>
-        </div>
-      </section>
-
-      {/* ── Futuristic Hero Section ── */}
-      <section className="relative pt-20 pb-24 md:py-32 overflow-hidden">
-        {/* Glow grid background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e0f2fe_1px,transparent_1px),linear-gradient(to_bottom,#e0f2fe_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-35" />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl"
-          >
-            <span className="badge mb-6">
-              Shaping The Future of Intelligence
-            </span>
-            
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-[#3E4265] leading-[1.1] tracking-tight mb-6">
-              Supercharge Operations With <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-[#005eb8] via-[#00488e] to-[#003975] bg-clip-text text-transparent">
-                Intelligent AI & Automation
-              </span>
-            </h2>
-            
-            <p className="text-slate-500 text-base md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
-              We design, build, and integrate custom AI systems, smart chatbots, and automated software robots that eliminate bottlenecks and scale business capacity.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <ArrowButton href="#survey-section" variant="solid" size="lg" className="w-full sm:w-auto justify-between">
-                Take AI Survey
-              </ArrowButton>
-              <ArrowButton href="#services-detail" size="lg" className="w-full sm:w-auto justify-between">
-                Explore Capabilities
-              </ArrowButton>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      </PageBanner>
 
       {/* ── Centers of Excellence Style Services Carousel ── */}
       <section id="services-detail" className="py-20 md:py-28 relative border-t border-blue-100/50 bg-white overflow-hidden">
@@ -544,10 +457,7 @@ const AIAutomation = () => {
             
             {/* Left Column: Title & Intro (4 Columns) */}
             <div className="lg:col-span-4 flex flex-col justify-center text-left">
-              <span className="badge mb-3">
-                Our Services
-              </span>
-              <h2 className="text-[#3E4265] text-3xl sm:text-4xl font-black leading-[1.15] tracking-tight mb-5">
+              <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-[1.15] tracking-tight mb-5">
                 Specialized Care. <br />
                 Automation Excellence.
               </h2>
@@ -562,14 +472,14 @@ const AIAutomation = () => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => scrollSlider('left')}
-                    className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-650 hover:bg-slate-50 hover:border-slate-350 cursor-pointer active:scale-95 transition-all"
+                    className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-650 hover:bg-slate-50 hover:border-slate-350 cursor-pointer transition-colors duration-300 ease-in-out"
                     aria-label="Scroll left"
                   >
                     <HiArrowLeft size={16} />
                   </button>
                   <button
                     onClick={() => scrollSlider('right')}
-                    className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-650 hover:bg-slate-50 hover:border-slate-350 cursor-pointer active:scale-95 transition-all"
+                    className="w-10 h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-650 hover:bg-slate-50 hover:border-slate-350 cursor-pointer transition-colors duration-300 ease-in-out"
                     aria-label="Scroll right"
                   >
                     <HiArrowRight size={16} />
@@ -586,11 +496,10 @@ const AIAutomation = () => {
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {aiCapabilities.map((cap) => {
-                  const Icon = cap.icon;
                   return (
                     <div
                       key={cap.title}
-                      className="w-[200px] sm:w-[230px] md:w-[244px] h-[360px] rounded-card overflow-hidden relative group shrink-0 snap-start shadow-[0_12px_35px_rgba(0,0,0,0.06)] border border-slate-100/50 cursor-pointer"
+                      className="w-[200px] sm:w-[230px] md:w-[244px] h-[360px] rounded-card overflow-hidden relative group shrink-0 snap-start border border-slate-100/50 cursor-pointer"
                     >
                       {/* Background Image */}
                       <img
@@ -603,14 +512,9 @@ const AIAutomation = () => {
                       {/* Dark Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
                       
-                      {/* Floating Icon Badge */}
-                      <div className="absolute top-6 left-6 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white z-10 border border-white/20">
-                        <Icon size={18} />
-                      </div>
-                      
                       {/* Bottom Text Content */}
                       <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end h-[40%] z-10 text-left">
-                        <h3 className="text-white text-base md:text-lg font-black group-hover:text-blue-300 transition-colors leading-tight">
+                        <h3 className="text-white text-base md:text-lg font-semibold group-hover:text-blue-300 transition-colors leading-tight">
                           {cap.title}
                         </h3>
                       </div>
@@ -625,56 +529,66 @@ const AIAutomation = () => {
         </div>
       </section>
 
-      {/* ── Interactive Poll Survey Section ── */}
-      <section id="survey-section" className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-slate-50/60">
-        {/* Glow backdrops */}
-        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] rounded-full bg-blue-500/5 blur-[130px] pointer-events-none" />
-        <div className="absolute top-1/4 left-0 w-[300px] h-[300px] rounded-full bg-blue-500/5 blur-[100px] pointer-events-none" />
+      {/* ── AI needs survey: 3-step form ── */}
+      <section id="survey-section" className="py-16 md:py-24 bg-sky scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
 
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="badge mb-3">
-              Interactive Survey
-            </span>
-            <h2 className="text-[#3E4265] text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-              What AI Solutions Interest You?
+          <div className="max-w-3xl mx-auto text-center mb-10 md:mb-12">
+            <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight mb-4">
+              What AI solutions interest you?
             </h2>
-            <p className="text-slate-550 text-sm sm:text-base font-medium max-w-xl mx-auto">
-              Select your preferences below to let us know what features or workflows you want to construct, and request a tailored strategy outline.
+            <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8]">
+              Answer three quick questions and we&apos;ll send you a strategy outline tailored to your business.
             </p>
           </div>
 
-          {/* Survey Card Container */}
-          <div className="bg-white border border-slate-100 rounded-card p-5 sm:p-8 md:p-12 shadow-[0_15px_45px_rgba(0,0,0,0.055)]">
-            
-            {/* Progress indicators */}
+          <div className="bg-white border border-line rounded-3xl shadow-[0_20px_50px_-20px_rgba(3,47,49,0.18)] p-6 sm:p-8 md:p-12 text-left">
+
+            {/* Step indicator */}
             {!submitSuccess && (
-              <div className="mb-8 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-                  Step {surveyStep} of 3
-                </span>
-                <div className="flex gap-2">
-                  <div className={`h-1.5 w-10 rounded-full transition-all duration-300 ${surveyStep >= 1 ? 'bg-[#005eb8]' : 'bg-slate-100'}`} />
-                  <div className={`h-1.5 w-10 rounded-full transition-all duration-300 ${surveyStep >= 2 ? 'bg-[#005eb8]' : 'bg-slate-100'}`} />
-                  <div className={`h-1.5 w-10 rounded-full transition-all duration-300 ${surveyStep >= 3 ? 'bg-[#005eb8]' : 'bg-slate-100'}`} />
-                </div>
-              </div>
+              <ol className="flex items-center mb-10 md:mb-12" aria-label="Survey progress">
+                {surveySteps.map((label, i) => {
+                  const n = i + 1;
+                  const done = surveyStep > n;
+                  const current = surveyStep === n;
+                  return (
+                    <li key={label} className={`flex items-center ${i < surveySteps.length - 1 ? 'flex-1' : ''}`} aria-current={current ? 'step' : undefined}>
+                      <span className="shrink-0" aria-label={`Step ${n}: ${label}`}>
+                        <span
+                          className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300 ${
+                            done ? 'bg-primary text-white' : current ? 'bg-primary text-white ring-4 ring-primary/15' : 'bg-sky text-muted border border-line'
+                          }`}
+                        >
+                          {done ? <HiCheck size={16} aria-hidden="true" /> : n}
+                        </span>
+                      </span>
+                      {i < surveySteps.length - 1 && (
+                        <span className="flex-1 h-[2px] bg-line overflow-hidden" aria-hidden="true">
+                          <span className={`block h-full bg-primary transition-[width] duration-500 ${done ? 'w-full' : 'w-0'}`} />
+                        </span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
             )}
 
             <AnimatePresence mode="wait">
               {submitSuccess ? (
-                // SUCCESS SCREEN
                 <motion.div
                   key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center text-center py-12"
+                  transition={{ duration: 0.35 }}
+                  className="flex flex-col items-center justify-center text-center py-10"
                 >
-                  <HiCheckCircle className="text-emerald-500 w-20 h-20 mb-6 drop-shadow-[0_4px_10px_rgba(16,185,129,0.15)] animate-bounce" />
-                  <h3 className="text-[#3E4265] text-2xl font-bold mb-3">Survey Submitted!</h3>
-                  <p className="text-slate-500 text-sm max-w-md leading-relaxed font-medium mb-8">
-                    Thank you for sharing your interest. We will analyze your inputs and get in touch with some suggestions on how we can implement AI tools in your workflow.
+                  <span className="w-20 h-20 rounded-full bg-primary-light flex items-center justify-center mb-6">
+                    <HiCheckCircle className="text-primary w-11 h-11" aria-hidden="true" />
+                  </span>
+                  <h3 className="text-ink text-[22px] font-semibold mb-3">Thanks, we&apos;ve got it!</h3>
+                  <p className="text-body !text-[16px] max-w-md leading-relaxed mb-8">
+                    We&apos;ll review your answers and get back to you with suggestions on how AI can fit into your workflow.
                   </p>
                   <ArrowButton
                     onClick={() => {
@@ -682,255 +596,263 @@ const AIAutomation = () => {
                       setSurveyStep(1);
                     }}
                   >
-                    Submit Another Inquiry
+                    Submit another inquiry
                   </ArrowButton>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit(onSubmitSurvey)}>
-                  
-                  {/* STEP 1: INTERESTS SELECTOR */}
-                  {surveyStep === 1 && (
-                    <motion.div
-                      key="step1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h3 className="text-slate-800 text-base sm:text-lg font-bold mb-6 text-left">
-                        Which AI tools or capabilities are you interested in implementing?
-                      </h3>
-                      
-                      <div className="flex flex-col gap-3 mb-10">
-                        {surveyInterests.map((interest) => {
-                          const Icon = interest.icon;
-                          const active = selectedInterests.includes(interest.label);
-                          return (
-                            <button
-                              key={interest.id}
-                              type="button"
-                              onClick={() => handleInterestToggle(interest.label)}
-                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-card text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
-                                active
-                                  ? 'bg-blue-50/50 text-[#005eb8] border-[#005eb8]/45 shadow-sm'
-                                  : 'bg-slate-50/60 text-slate-650 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit(onSubmitSurvey)}
+                  exit={{ opacity: 0 }}
+                  noValidate
+                >
+                  <AnimatePresence mode="wait" initial={false}>
+
+                    {/* STEP 1: CAPABILITIES (multi-select) */}
+                    {surveyStep === 1 && (
+                      <motion.div
+                        key="step1"
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <h3 className="text-ink text-xl md:text-[22px] font-semibold leading-snug mb-1.5">
+                          Which AI capabilities do you want to implement?
+                        </h3>
+                        <p className="text-muted !text-[15px] mb-6">Choose all that apply.</p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                          {surveyInterests.map((interest) => {
+                            const active = selectedInterests.includes(interest.label);
+                            return (
+                              <button
+                                key={interest.id}
+                                type="button"
+                                role="checkbox"
+                                aria-checked={active}
+                                onClick={() => handleInterestToggle(interest.label)}
+                                className={`flex items-center justify-between gap-4 text-left rounded-xl border px-5 py-4 min-h-[64px] cursor-pointer select-none transition-colors duration-200 ${
+                                  active ? 'border-primary bg-primary-light' : 'border-line bg-white hover:border-primary/40'
+                                }`}
+                              >
+                                <span className="text-[15px] font-medium text-ink leading-snug">{interest.label}</span>
+                                <span
+                                  aria-hidden="true"
+                                  className={`w-5 h-5 rounded-md border-[1.5px] flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                                    active ? 'bg-primary border-primary text-white' : 'border-slate-300 bg-white'
+                                  }`}
+                                >
+                                  {active && <HiCheck size={13} />}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <div className="flex justify-end mt-10">
+                          <ArrowButton variant="solid" onClick={handleNextStep} disabled={selectedInterests.length === 0}>
+                            Next
+                          </ArrowButton>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* STEP 2: MAIN GOAL (single choice) */}
+                    {surveyStep === 2 && (
+                      <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <h3 className="text-ink text-xl md:text-[22px] font-semibold leading-snug mb-1.5">
+                          What is your main goal with AI?
+                        </h3>
+                        <p className="text-muted !text-[15px] mb-6">Pick the one that matters most.</p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4" role="radiogroup" aria-label="Main goal with AI">
+                          {surveyGoals.map((goal) => {
+                            const active = selectedGoal === goal.label;
+                            return (
+                              <button
+                                key={goal.id}
+                                type="button"
+                                role="radio"
+                                aria-checked={active}
+                                onClick={() => setSelectedGoal(goal.label)}
+                                className={`flex items-center justify-between gap-4 text-left rounded-xl border px-5 py-4 min-h-[64px] cursor-pointer select-none transition-colors duration-200 ${
+                                  active ? 'border-primary bg-primary-light' : 'border-line bg-white hover:border-primary/40'
+                                }`}
+                              >
+                                <span className="text-[15px] font-medium text-ink leading-snug">{goal.label}</span>
+                                <span
+                                  aria-hidden="true"
+                                  className={`w-5 h-5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                                    active ? 'border-primary bg-primary' : 'border-slate-300 bg-white'
+                                  }`}
+                                >
+                                  {active && <span className="w-2 h-2 rounded-full bg-white" />}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <div className="flex items-center justify-between gap-4 mt-10">
+                          <button type="button" onClick={handlePrevStep} className={backBtnClass}>
+                            <HiArrowLeft size={15} aria-hidden="true" /> Back
+                          </button>
+                          <ArrowButton variant="solid" onClick={handleNextStep} disabled={!selectedGoal}>
+                            Next
+                          </ArrowButton>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* STEP 3: CONTACT DETAILS */}
+                    {surveyStep === 3 && (
+                      <motion.div
+                        key="step3"
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -24 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <h3 className="text-ink text-xl md:text-[22px] font-semibold leading-snug mb-1.5">
+                          Where should we send your outline?
+                        </h3>
+                        <p className="text-muted !text-[15px] mb-6">A few details and we&apos;ll get in touch.</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                          <div>
+                            <label htmlFor="survey-name" className={labelClass}>Name</label>
+                            <input
+                              id="survey-name"
+                              type="text"
+                              autoComplete="name"
+                              {...register('name', { required: 'Name is required' })}
+                              placeholder="Your name"
+                              aria-invalid={!!errors.name}
+                              className={`${inputClass} ${errors.name ? '!border-red-400' : ''}`}
+                            />
+                            {errors.name && <p className="text-red-500 text-xs mt-1.5">{errors.name.message}</p>}
+                          </div>
+
+                          <div>
+                            <label htmlFor="survey-email" className={labelClass}>Email</label>
+                            <input
+                              id="survey-email"
+                              type="email"
+                              autoComplete="email"
+                              {...register('email', {
+                                required: 'Email is required',
+                                pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
+                              })}
+                              placeholder="you@company.com"
+                              aria-invalid={!!errors.email}
+                              className={`${inputClass} ${errors.email ? '!border-red-400' : ''}`}
+                            />
+                            {errors.email && <p className="text-red-500 text-xs mt-1.5">{errors.email.message}</p>}
+                          </div>
+
+                          {/* Phone with country code dropdown */}
+                          <div>
+                            <label htmlFor="survey-phone" className={labelClass}>Phone</label>
+                            <div
+                              className={`flex items-center h-12 bg-white border rounded-xl transition-[border-color,box-shadow] duration-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 ${
+                                errors.phone ? 'border-red-400' : 'border-line hover:border-[#b9dcee]'
                               }`}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${active ? 'bg-blue-100 text-[#005eb8]' : 'bg-slate-100 text-slate-400'}`}>
-                                  <Icon size={16} />
-                                </div>
-                                <span className="pr-2 text-left leading-snug">{interest.label}</span>
-                              </div>
-                              <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all ${
-                                active ? 'border-[#005eb8] bg-[#005eb8] text-white' : 'border-slate-350 bg-white'
-                              }`}>
-                                {active && (
-                                  <svg className="w-3.5 h-3.5 stroke-current stroke-3" fill="none" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                  </svg>
+                              <div ref={dropdownRef} className="relative h-full">
+                                <button
+                                  type="button"
+                                  onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                                  aria-haspopup="listbox"
+                                  aria-expanded={showCountryDropdown}
+                                  aria-label={`Country code ${selectedCountry.code}`}
+                                  className="h-full flex items-center gap-1.5 pl-3.5 pr-3 border-r border-line text-ink text-sm font-medium rounded-l-xl hover:bg-sky focus:outline-none cursor-pointer"
+                                >
+                                  {selectedCountry.flag}
+                                  <span>{selectedCountry.code}</span>
+                                </button>
+
+                                {showCountryDropdown && (
+                                  <div role="listbox" className="absolute left-0 bottom-full mb-2 bg-white border border-line rounded-xl shadow-[0_12px_32px_-8px_rgba(3,47,49,0.22)] z-50 py-1 min-w-[190px] max-h-48 overflow-y-auto">
+                                    {countries.map((c) => (
+                                      <button
+                                        key={c.code}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={c.code === selectedCountry.code}
+                                        onClick={() => {
+                                          setSelectedCountry(c);
+                                          setShowCountryDropdown(false);
+                                        }}
+                                        className="w-full text-left px-3.5 py-2.5 text-sm hover:bg-sky flex items-center gap-2.5 text-ink cursor-pointer"
+                                      >
+                                        {c.flag}
+                                        <span className="font-medium">{c.code}</span>
+                                        <span className="text-muted">{c.name}</span>
+                                      </button>
+                                    ))}
+                                  </div>
                                 )}
                               </div>
-                            </button>
-                          );
-                        })}
-                      </div>
 
-                      <div className="flex justify-end">
-                        <ArrowButton variant="solid" onClick={handleNextStep}>
-                          Next
-                        </ArrowButton>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* STEP 2: BUSINESS GOALS */}
-                  {surveyStep === 2 && (
-                    <motion.div
-                      key="step2"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h3 className="text-slate-800 text-base sm:text-lg font-bold mb-6 text-left">
-                        What is your primary business goal with AI?
-                      </h3>
-
-                      <div className="flex flex-col gap-3 mb-10">
-                        {surveyGoals.map((goal) => {
-                          const Icon = goal.icon;
-                          const active = selectedGoal === goal.label;
-                          return (
-                            <button
-                              key={goal.id}
-                              type="button"
-                              onClick={() => setSelectedGoal(goal.label)}
-                              className={`w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-card text-xs sm:text-sm font-bold transition-all border flex items-center justify-between cursor-pointer select-none ${
-                                active
-                                  ? 'bg-blue-50/50 text-[#005eb8] border-[#005eb8]/45 shadow-sm'
-                                  : 'bg-slate-50/60 text-slate-650 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
-                              }`}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${active ? 'bg-blue-100 text-[#005eb8]' : 'bg-slate-100 text-slate-400'}`}>
-                                  <Icon size={16} />
-                                </div>
-                                <span className="pr-2 text-left leading-snug">{goal.label}</span>
-                              </div>
-                              <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
-                                active ? 'border-[#005eb8] bg-[#005eb8]' : 'border-slate-350 bg-white'
-                              }`}>
-                                {active && <div className="w-2 h-2 rounded-full bg-white" />}
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      <div className="flex justify-between">
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          className="flex items-center gap-2 h-12 px-6 rounded-full bg-white border-[1.5px] border-slate-300 text-slate-600 hover:text-[#005eb8] hover:border-[#005eb8] font-semibold text-[15px] transition-colors cursor-pointer" style={{ fontFamily: "'Open Sans', sans-serif" }}
-                        >
-                          <HiArrowLeft size={14} /> Back
-                        </button>
-                        <ArrowButton variant="solid" onClick={handleNextStep}>
-                          Next
-                        </ArrowButton>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* STEP 3: CONTACT FORM */}
-                  {surveyStep === 3 && (
-                    <motion.div
-                      key="step3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h3 className="text-slate-800 text-lg sm:text-xl font-bold mb-6">
-                        Provide your details so we can send a custom brief
-                      </h3>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6 mb-8">
-                        {/* Name */}
-                        <div className="relative">
-                          <input
-                            type="text"
-                            {...register('name', { required: 'Name is required' })}
-                            placeholder="Your Name"
-                            className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
-                          />
-                          {errors.name && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.name.message}</p>}
-                        </div>
-
-                        {/* Email */}
-                        <div className="relative">
-                          <input
-                            type="email"
-                            {...register('email', {
-                              required: 'Email is required',
-                              pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' }
-                            })}
-                            placeholder="Your Email"
-                            className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium"
-                          />
-                          {errors.email && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.email.message}</p>}
-                        </div>
-
-                        {/* Phone Number with custom flag dropdown */}
-                        <div className="relative md:col-span-2">
-                          <div className="flex items-center bg-slate-50 border border-slate-200/85 rounded-card px-4 py-1.5 focus-within:border-[#005eb8] focus-within:bg-white transition-all duration-300">
-                            {/* Dropdown Toggle */}
-                            <div ref={dropdownRef} className="relative">
-                              <button
-                                type="button"
-                                onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                                className="flex items-center gap-1.5 pr-2 text-slate-600 hover:text-slate-800 text-sm font-bold focus:outline-none cursor-pointer"
-                              >
-                                <span>{selectedCountry.flag}</span>
-                                <span>{selectedCountry.code}</span>
-                                <span className="text-[8px] text-slate-400 ml-0.5">▼</span>
-                              </button>
-
-                              {/* Country Dropdown list */}
-                              {showCountryDropdown && (
-                                <div className="absolute left-0 bottom-full mb-3 bg-white border border-slate-200 rounded-xl shadow-2xl z-50 py-1.5 min-w-[170px] max-h-48 overflow-y-auto">
-                                  {countries.map((c) => (
-                                    <button
-                                      key={c.code}
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedCountry(c);
-                                        setShowCountryDropdown(false);
-                                      }}
-                                      className="w-full text-left px-3 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-bold cursor-pointer"
-                                    >
-                                      <span>{c.flag}</span>
-                                      <span>{c.code}</span>
-                                      <span className="text-slate-400 font-sans">({c.name})</span>
-                                    </button>
-                                  ))}
-                                </div>
-                              )}
+                              <input
+                                id="survey-phone"
+                                type="tel"
+                                autoComplete="tel-national"
+                                maxLength={10}
+                                onKeyPress={(e) => {
+                                  if (!/[0-9]/.test(e.key)) e.preventDefault();
+                                }}
+                                {...register('phone', {
+                                  required: 'Phone number is required',
+                                  pattern: {
+                                    value: /^[0-9]{10}$/,
+                                    message: 'Phone number must be exactly 10 digits'
+                                  }
+                                })}
+                                placeholder={selectedCountry.placeholder}
+                                aria-invalid={!!errors.phone}
+                                className="w-full min-w-0 bg-transparent h-full px-3.5 text-ink placeholder:text-slate-400 focus:outline-none text-[15px] rounded-r-xl"
+                              />
                             </div>
-
-                            <div className="h-5 w-[1px] bg-slate-200 mx-2" />
-
-                            <input
-                              type="tel"
-                              maxLength={10}
-                              onKeyPress={(e) => {
-                                if (!/[0-9]/.test(e.key)) e.preventDefault();
-                              }}
-                              {...register('phone', {
-                                required: 'Phone number is required',
-                                pattern: {
-                                  value: /^[0-9]{10}$/,
-                                  message: 'Phone number must be exactly 10 digits'
-                                }
-                              })}
-                              placeholder="Phone Number (10 digits)"
-                              className="w-full bg-transparent py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none text-sm font-medium"
-                            />
+                            {errors.phone && <p className="text-red-500 text-xs mt-1.5">{errors.phone.message}</p>}
                           </div>
-                          {errors.phone && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.phone.message}</p>}
                         </div>
-                      </div>
 
-                      {/* Tell us more */}
-                      <div className="relative mb-8">
-                        <textarea
-                          {...register('message')}
-                          placeholder="Tell us a bit about your business or what you want to automate..."
-                          rows={3}
-                          className="w-full bg-slate-50 border border-slate-200/85 rounded-card px-4 py-3.5 text-slate-800 placeholder-slate-400 focus:border-[#005eb8] focus:bg-white focus:outline-none transition-all duration-300 text-sm font-medium resize-none"
-                        />
-                      </div>
+                        <div>
+                          <label htmlFor="survey-message" className={labelClass}>
+                            About your business <span className="font-normal text-muted">(optional)</span>
+                          </label>
+                          <textarea
+                            id="survey-message"
+                            {...register('message')}
+                            placeholder="What do you want to automate?"
+                            rows={3}
+                            className={`${inputClass} !h-auto py-3.5 resize-y min-h-[110px] leading-relaxed`}
+                          />
+                        </div>
 
-                      <div className="flex justify-between">
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          className="flex items-center gap-2 h-12 px-6 rounded-full bg-white border-[1.5px] border-slate-300 text-slate-600 hover:text-[#005eb8] hover:border-[#005eb8] font-semibold text-[15px] transition-colors cursor-pointer" style={{ fontFamily: "'Open Sans', sans-serif" }}
-                        >
-                          <HiArrowLeft size={14} /> Back
-                        </button>
-                        <ArrowButton type="submit" variant="solid" disabled={isSubmittingForm}>
-                          {isSubmittingForm ? 'Submitting...' : 'Submit Survey'}
-                        </ArrowButton>
-                      </div>
-                    </motion.div>
-                  )}
+                        <div className="flex items-center justify-between gap-4 mt-10">
+                          <button type="button" onClick={handlePrevStep} className={backBtnClass}>
+                            <HiArrowLeft size={15} aria-hidden="true" /> Back
+                          </button>
+                          <ArrowButton type="submit" variant="solid" loading={isSubmittingForm}>
+                            {isSubmittingForm ? 'Sending' : 'Send survey'}
+                          </ArrowButton>
+                        </div>
+                      </motion.div>
+                    )}
 
-                </form>
+                  </AnimatePresence>
+                </motion.form>
               )}
             </AnimatePresence>
-
           </div>
         </div>
       </section>

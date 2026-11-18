@@ -1,7 +1,8 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import ArrowButton from '../components/ArrowButton';
 import { 
@@ -29,7 +30,6 @@ import kangkanPdf from '../assets/kangkan_case_studies.pdf';
 import gtnPdf from '../assets/givetheneedy_case_studies.pdf';
 
 // Import banner background image
-import bannerBgImage from '../assets/bg.webp';
 
 // Kangkan Images
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
@@ -333,32 +333,12 @@ const CaseStudyDetails = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={bannerBgImage} 
-            alt="" 
-            className="w-full h-full object-cover opacity-35" 
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
-            {id === 'kangkan' ? 'Kangkan Case Study' : 'GiveTheNeedy Case Study'}
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/case-studies" className="hover:text-white transition-colors">Case Studies</Link>
-            <span>/</span>
-            <span className="text-white">{id === 'kangkan' ? 'Kangkan' : 'GiveTheNeedy'}</span>
-          </nav>
-        </div>
-      </section>
+      <PageBanner
+        crumbs={[
+          { name: 'Case Studies', path: '/case-studies' },
+          { name: id === 'kangkan' ? 'Kangkan' : 'GiveTheNeedy' },
+        ]}
+      />
 
       {/* Main Overview Section */}
       <section className="relative py-16 bg-white border-b border-slate-100 overflow-hidden">
@@ -370,13 +350,10 @@ const CaseStudyDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7">
-              <span className="badge mb-5">
-                Case Study Overview
-              </span>
               
-              <h2 className="text-3xl sm:text-[40px] lg:text-[46px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4">
+              <h1 className="text-[28px] md:text-[34px] font-semibold text-ink leading-[1.15] tracking-tight mb-4">
                 {data.title}
-              </h2>
+              </h1>
               
               <p className="text-slate-400 text-lg font-bold mb-6 leading-snug">
                 {data.subtitle}
@@ -385,19 +362,19 @@ const CaseStudyDetails = () => {
               {/* Meta details list */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-y border-slate-100 my-8">
                 <div>
-                  <span className="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Client</span>
+                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Client</span>
                   <span className="text-xs font-bold text-slate-800">{data.meta.client}</span>
                 </div>
                 <div>
-                  <span className="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Industry</span>
+                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Industry</span>
                   <span className="text-xs font-bold text-slate-800">{data.meta.industry}</span>
                 </div>
                 <div>
-                  <span className="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Platform</span>
+                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Platform</span>
                   <span className="text-xs font-bold text-slate-800">{data.meta.platform}</span>
                 </div>
                 <div>
-                  <span className="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Timeline</span>
+                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Timeline</span>
                   <span className="text-xs font-bold text-slate-800">{data.meta.duration}</span>
                 </div>
               </div>
@@ -410,12 +387,12 @@ const CaseStudyDetails = () => {
 
             {/* Hero Right: Brand Card */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="bg-white border border-slate-100 rounded-card p-8 shadow-xl max-w-sm w-full relative overflow-hidden group">
+              <div className="bg-white border border-slate-100 rounded-card p-8 max-w-sm w-full relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full opacity-5 group-hover:scale-110 transition-transform duration-500" style={{ backgroundColor: data.primaryColor }} />
                 <div className="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center p-3.5 mb-6 mx-auto">
                   <img src={data.logo} alt={`${data.title} - Official Client Application Logo`} className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-center font-black text-slate-800 text-lg tracking-tight mb-3">Technical Summary</h3>
+                <h3 className="text-center font-semibold text-slate-800 text-lg tracking-tight mb-3">Technical Summary</h3>
                 <div className="flex flex-wrap justify-center gap-2 mb-6">
                   {data.meta.tech.split(',').map((techItem) => {
                     const trimmed = techItem.trim();
@@ -458,10 +435,7 @@ const CaseStudyDetails = () => {
       <section className="py-20 bg-slate-50 border-b border-slate-100 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
           <div className="text-center">
-            <span className="badge mb-3">
-              Application Interface
-            </span>
-            <h2 className="text-2xl sm:text-[34px] font-black text-[#191919] tracking-tight leading-tight">
+            <h2 className="text-[26px] md:text-[32px] font-semibold text-ink tracking-tight leading-tight">
               Production Mobile Showcase
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-lg mx-auto mt-2 font-medium">
@@ -482,7 +456,7 @@ const CaseStudyDetails = () => {
             {[...data.screenshots, ...data.screenshots].map((src, index) => (
               <div 
                 key={index} 
-                className="w-[180px] sm:w-[220px] aspect-[9/19] rounded-card overflow-hidden border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] bg-white shrink-0 mx-4 transition-all duration-300 hover:shadow-md"
+                className="w-[180px] sm:w-[220px] aspect-[9/19] rounded-card overflow-hidden border border-slate-200/80 bg-white shrink-0 mx-4 transition-all duration-300"
               >
                 <img 
                   src={src} 
@@ -506,7 +480,7 @@ const CaseStudyDetails = () => {
               
               {/* Introduction */}
               <div>
-                <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-4 flex items-center gap-2">
+                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
                   <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                   1. Project Introduction
                 </h3>
@@ -518,7 +492,7 @@ const CaseStudyDetails = () => {
               {/* Problem context */}
               {data.problemContext && (
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-4 flex items-center gap-2">
+                  <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
                     <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                     2. Problem Context
                   </h3>
@@ -530,7 +504,7 @@ const CaseStudyDetails = () => {
 
               {/* Objectives list */}
               <div>
-                <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-4 flex items-center gap-2">
+                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
                   <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                   3. Key Project Objectives
                 </h3>
@@ -549,7 +523,7 @@ const CaseStudyDetails = () => {
               {/* UX Strategy */}
               {data.strategy && (
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-4 flex items-center gap-2">
+                  <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
                     <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                     4. User Experience Strategy
                   </h3>
@@ -561,7 +535,7 @@ const CaseStudyDetails = () => {
 
               {/* Outcomes */}
               <div>
-                <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-4 flex items-center gap-2">
+                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
                   <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
                   5. Project Outcome & Metrics
                 </h3>
@@ -571,7 +545,7 @@ const CaseStudyDetails = () => {
                       <FaChartLine className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-slate-800 font-bold text-sm">Successful Deliverable</h4>
+                      <h4 className="text-slate-800 font-semibold text-sm">Successful Deliverable</h4>
                       <p className="text-slate-500 text-[14px] leading-relaxed font-medium mt-1">
                         {data.outcome}
                       </p>
@@ -587,19 +561,19 @@ const CaseStudyDetails = () => {
               
               {/* Architecture stack cards */}
               <div>
-                <h3 className="text-xl font-black text-[#191919] tracking-tight mb-6">
+                <h3 className="text-xl font-semibold text-ink tracking-tight mb-6">
                   System Architecture
                 </h3>
                 <div className="space-y-4">
                   {data.architecture.map((arch, index) => {
                     const ArchIcon = arch.icon;
                     return (
-                      <div key={index} className="bg-white border border-slate-100 rounded-card p-5 shadow-sm flex items-start gap-4">
+                      <div key={index} className="bg-white border border-slate-100 rounded-card p-5 flex items-start gap-4">
                         <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-500 shrink-0">
                           <ArchIcon className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className="text-[#191919] font-black text-sm">{arch.title}</h4>
+                          <h4 className="text-ink font-semibold text-sm">{arch.title}</h4>
                           <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{arch.desc}</p>
                         </div>
                       </div>
@@ -610,13 +584,13 @@ const CaseStudyDetails = () => {
 
               {/* Optimizations or considerations cards */}
               <div>
-                <h3 className="text-xl font-black text-[#191919] tracking-tight mb-6">
+                <h3 className="text-xl font-semibold text-ink tracking-tight mb-6">
                   Engineering &amp; Optimization
                 </h3>
                 <div className="space-y-4">
                   {data.optimizations.map((opt, index) => (
                     <div key={index} className="border-l-[3px] pl-4 py-1.5" style={{ borderColor: data.primaryColor }}>
-                      <h4 className="text-slate-800 font-black text-xs uppercase tracking-wider">{opt.title}</h4>
+                      <h4 className="text-slate-800 font-semibold text-xs uppercase tracking-wider">{opt.title}</h4>
                       <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{opt.desc}</p>
                     </div>
                   ))}
@@ -633,10 +607,7 @@ const CaseStudyDetails = () => {
       <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
-            <span className="badge mb-3">
-              Technical Execution
-            </span>
-            <h2 className="text-2xl sm:text-[34px] font-black text-[#191919] tracking-tight leading-tight">
+            <h2 className="text-[26px] md:text-[32px] font-semibold text-ink tracking-tight leading-tight">
               Solving Complex Challenges
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-lg mx-auto mt-2">
@@ -646,12 +617,12 @@ const CaseStudyDetails = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {data.challenges.map((chal, index) => (
-              <div key={index} className="bg-white border border-slate-100 rounded-card p-6 shadow-sm flex items-start gap-4">
+              <div key={index} className="bg-white border border-slate-100 rounded-card p-6 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 shrink-0">
                   <FaShieldAlt className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-[#191919] font-black text-sm">{chal.title}</h4>
+                  <h4 className="text-ink font-semibold text-sm">{chal.title}</h4>
                   <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{chal.desc}</p>
                 </div>
               </div>
@@ -667,7 +638,7 @@ const CaseStudyDetails = () => {
             
             {/* Key Learnings */}
             <div>
-              <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-8 flex items-center gap-3">
+              <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-8 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500">
                   <FaLightbulb className="w-5 h-5" />
                 </div>
@@ -685,7 +656,7 @@ const CaseStudyDetails = () => {
 
             {/* Future Scope */}
             <div className="pt-8 lg:pt-0 border-t lg:border-t-0 lg:pl-16 lg:border-l border-slate-100">
-              <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-8 flex items-center gap-3">
+              <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-8 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500">
                   <FaMicrochip className="w-5 h-5" />
                 </div>
@@ -716,7 +687,7 @@ const CaseStudyDetails = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />
             
             <div className="relative z-10 max-w-2xl mx-auto">
-              <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-4">
+              <h3 className="text-white text-[22px] md:text-2xl font-semibold tracking-tight mb-4">
                 Interested in building a similar app?
               </h3>
               <p className="text-white/80 text-sm md:text-base font-medium mb-8">

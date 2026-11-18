@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
 import BlogCard from '../components/BlogCard';
 
 // Import banner background image
-import bannerBgImage from '../assets/bg4.webp';
 
 const blogJsonLd = {
   '@context': 'https://schema.org',
@@ -90,44 +89,19 @@ const Blog = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src={bannerBgImage}
-            alt=""
-            className="w-full h-full object-cover opacity-35"
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 animate-fadeIn">
-            Our Blog
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">Blog</span>
-          </nav>
-        </div>
-      </section>
+      <PageBanner
+        title="Our Blog"
+        crumbs={[{ name: 'Blog' }]}
+        variant="blog"
+        description={[
+          'Engineering insights, tech trends and leadership lessons from the team at Binud Software Solutions.',
+          'Explore in-depth analysis and tutorials written by our developers, designers and tech architects on best practices in software development.',
+        ]}
+      />
 
       {/* Main Blog Archive Section */}
       <section className="py-16 bg-transparent relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-
-          {/* Section Introduction */}
-          <div className="text-left mb-12 max-w-4xl">
-            <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight mb-3">
-              Engineering Insights, Tech Trends &amp; Leadership
-            </h2>
-            <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">
-              Explore in-depth analysis and tutorials written by our developers, designers, and tech architects detailing best practices in software development.
-            </p>
-          </div>
 
           {/* Category Filter Chips */}
           <div className="flex flex-wrap gap-2.5 mb-10">
@@ -136,7 +110,7 @@ const Blog = () => {
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-5 py-2.5 rounded-card text-xs font-bold transition-all duration-300 border ${selectedCategory === category
-                  ? 'bg-[#005eb8] border-[#005eb8] text-white shadow-sm'
+                  ? 'bg-[#0077b6] border-[#0077b6] text-white '
                   : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-800 hover:bg-slate-50'
                   }`}
               >

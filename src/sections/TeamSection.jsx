@@ -27,7 +27,6 @@ const TeamSection = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-14"
         >
-          <span className="badge mb-3">Our Team</span>
           <h2 className="section-title mb-3">Meet the Founder</h2>
           <p className="section-sub mx-auto">
             The person behind Binud Software Solutions — building with purpose.
@@ -43,10 +42,10 @@ const TeamSection = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xs font-semibold text-[#005eb8] uppercase tracking-widest mb-3">
+            <p className="text-xs font-semibold text-[#0077b6] uppercase tracking-widest mb-3">
               Founder & CEO
             </p>
-            <h3 className="text-3xl font-bold text-[#0f172a] mb-5 leading-snug">
+            <h3 className="text-[22px] md:text-2xl font-semibold text-ink mb-5 leading-snug">
               Hi, I'm Binud Panging
             </h3>
 
@@ -66,7 +65,7 @@ const TeamSection = () => {
             <ul className="space-y-2.5">
               {highlights.map((item) => (
                 <li key={item} className="flex items-center gap-2.5 text-sm text-[#334155]">
-                  <HiCheckCircle className="text-[#005eb8] shrink-0" size={17} />
+                  <HiCheckCircle className="text-[#0077b6] shrink-0" size={17} />
                   {item}
                 </li>
               ))}
@@ -89,7 +88,7 @@ const TeamSection = () => {
                 style={{ bottom: '60px' }}
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d={blobPath} fill="#e8f1fb" />
+                <path d={blobPath} fill="#e6f5fc" />
               </svg>
 
               {/* Photo */}
@@ -100,14 +99,14 @@ const TeamSection = () => {
               />
 
               {/* Ground shadow */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-4 bg-[#005eb8]/10 rounded-full blur-md z-20" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-4 bg-[#0077b6]/10 rounded-full blur-md z-20" />
             </div>
 
             {/* Signature — directly below the image */}
             <div className="text-center border-t border-gray-200 pt-5 w-72 mt-1">
               <p
                 style={{ fontFamily: "'Dancing Script', cursive" }}
-                className="text-4xl text-[#0f172a] leading-none mb-2"
+                className="text-4xl text-ink leading-none mb-2"
               >
                 Binud Panging
               </p>
@@ -119,7 +118,7 @@ const TeamSection = () => {
                   <a
                     key={j}
                     href="#"
-                    className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-[#94a3b8] hover:bg-[#005eb8] hover:text-white transition-all"
+                    className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-[#94a3b8] hover:bg-[#0077b6] hover:text-white transition-all"
                   >
                     <Icon size={13} />
                   </a>

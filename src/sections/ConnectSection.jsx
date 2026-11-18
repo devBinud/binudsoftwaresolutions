@@ -1,22 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
-import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
-import { HiMail, HiPhone, HiChatAlt2, HiPaperClip } from 'react-icons/hi';
+import { FaWhatsapp } from 'react-icons/fa';
+import { HiMail, HiPhone, HiPaperClip, HiChevronDown, HiX } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 import { loadFirestore } from '../firebase/loadFirestore';
 import ArrowButton from '../components/ArrowButton';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import cufBg from '../assets/cuf-form-background.svg';
-
-const socials = [
-  { name: 'Facebook', icon: FaFacebook, href: 'https://facebook.com' },
-  { name: 'Instagram', icon: FaInstagram, href: 'https://instagram.com' },
-  { name: 'LinkedIn', icon: FaLinkedin, href: 'https://linkedin.com' },
-];
 
 const IndiaFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="900" height="200" fill="#f93" />
     <rect y="200" width="900" height="200" fill="#fff" />
     <rect y="400" width="900" height="200" fill="#128807" />
@@ -40,7 +33,7 @@ const IndiaFlag = () => (
 );
 
 const AUFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="60" height="30" fill="#000033" />
     <g transform="scale(0.5)">
       <clipPath id="us">
@@ -70,7 +63,7 @@ const AUFlag = () => (
 );
 
 const USFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 741 390" className="w-5 h-3.5 rounded-[1px] shadow-sm border border-slate-100 object-cover shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 741 390" className="w-5 h-3.5 rounded-[1px] border border-slate-100 object-cover shrink-0">
     <rect width="741" height="390" fill="#b22234" />
     <path d="M0 30h741M0 90h741M0 150h741M0 210h741M0 270h741M0 330h741" stroke="#fff" strokeWidth="30" />
     <rect width="296" height="210" fill="#3c3b6e" />
@@ -188,7 +181,9 @@ const ConnectSection = () => {
           submittedAt: new Date().toISOString(),
         });
         localStorage.setItem('binud_consultation_inquiries', JSON.stringify(localInquiries.slice(0, 50)));
-      } catch (_) {}
+      } catch {
+        // Local storage unavailable (private mode or blocked): skip the backup copy
+      }
 
       // 4. Show success notification
       await Swal.fire({
@@ -196,7 +191,7 @@ const ConnectSection = () => {
         text: 'Thank you for reaching out. Our software team will contact you shortly.',
         icon: 'success',
         confirmButtonText: 'Great!',
-        confirmButtonColor: '#005eb8',
+        confirmButtonColor: '#0077b6',
         customClass: {
           confirmButton: 'rounded-card px-8 py-3 text-xs uppercase font-extrabold tracking-wider',
         },
@@ -210,288 +205,297 @@ const ConnectSection = () => {
     }
   };
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setAttachedFiles((prev) => [...prev, ...Array.from(e.dataTransfer.files)]);
+    }
+  };
+
+  const fieldClass = (hasError) =>
+    `w-full h-12 rounded-xl border bg-white px-4 text-[15px] text-ink placeholder:text-slate-400 transition-[border-color,box-shadow] duration-200 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 ${
+      hasError ? 'border-red-400' : 'border-line hover:border-[#b9dcee]'
+    }`;
+  const labelClass = 'block text-sm font-medium text-ink mb-2';
+  const errorClass = 'text-red-500 text-xs mt-1.5';
+
+  const contactMethods = [
+    { label: 'Call us', value: '+91 97063 93924', href: 'tel:+919706393924', icon: HiPhone },
+    { label: 'Email us', value: 'binudsoftwaresolutions@gmail.com', href: 'mailto:binudsoftwaresolutions@gmail.com', icon: HiMail },
+    { label: 'WhatsApp', value: 'Chat with us on WhatsApp', href: 'https://wa.me/919706393924', icon: FaWhatsapp, external: true },
+  ];
+
   return (
-    <section 
-      className="relative py-16 md:py-24 bg-cover bg-center overflow-hidden font-sans border-t border-slate-200/60"
-      style={{ backgroundImage: `url(${cufBg})` }}
-    >
-      {/* Light Gradient Overlay */}
-      <div className="absolute inset-0 bg-slate-900/5 pointer-events-none" />
+    <section className="py-16 md:py-24 bg-sky font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* ── Left: intro + direct contact ── */}
+          <div className="lg:col-span-5 text-left lg:sticky lg:top-28">
+            <span className="block text-primary text-sm font-medium mb-3">Contact us</span>
+            <h2 className="text-ink text-[26px] md:text-[32px] font-semibold tracking-tight leading-tight mb-4">
+              Need a consultation on your software project?
+            </h2>
+            <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8] mb-8">
+              Tell us a little about what you are building. Our team will review your request and get back to you
+              with clear next steps.
+            </p>
 
-          {/* ── Left Column: Consultation Form Card (8 cols) ── */}
-          <div className="lg:col-span-8 bg-white rounded-card border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 text-left relative">
-            
-            {/* Top Header Row */}
-            <div className="mb-6">
-              <h2 className="text-[#191919] text-2xl sm:text-3xl font-black tracking-tight leading-snug">
-                Need a Consultation on Your Software Project?
-              </h2>
-              <p className="text-slate-500 text-sm font-medium mt-1">
-                Drop us a line! We are here to answer your questions 24/7.
-              </p>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              
-              {/* Main Message Box */}
-              <div>
-                <div className="rounded-card border border-slate-300 focus-within:border-[#005eb8] transition-colors p-3 bg-slate-50/50">
-                  <textarea
-                    {...register('message', { required: 'Please describe how we can help you' })}
-                    rows={4}
-                    placeholder="How can we help you?"
-                    className="w-full bg-transparent text-slate-800 placeholder-slate-400 focus:outline-none text-sm font-medium resize-none"
-                  />
-                  
-                  {/* File Drag & Drop Hint Line */}
-                  <div className="pt-2 border-t border-dashed border-slate-300 flex items-center justify-between text-xs text-slate-400 font-medium">
-                    <div className="flex items-center gap-2">
-                      <HiPaperClip size={16} className="text-[#005eb8]" />
-                      <span>Drag and drop or <button type="button" onClick={() => fileInputRef.current?.click()} className="text-[#005eb8] font-bold underline cursor-pointer">browse</button> to upload your file(s)</span>
-                    </div>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      multiple
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </div>
-
-                  {/* Attached files list */}
-                  {attachedFiles.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {attachedFiles.map((file, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-[#005eb8] text-xs font-semibold rounded border border-blue-100"
-                        >
-                          <span className="truncate max-w-[150px]">{file.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(idx)}
-                            className="text-red-500 hover:text-red-700 font-bold ml-1 cursor-pointer"
-                          >
-                            ✕
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                {errors.message && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.message.message}</p>}
-              </div>
-
-              {/* NDA Toggle Switch */}
-              <div className="flex items-center gap-3 pt-1">
-                <label htmlFor="nda-toggle" className="text-xs sm:text-sm font-bold text-slate-700 cursor-pointer">
-                  I'd like to sign an NDA
-                </label>
-                <button
-                  id="nda-toggle"
-                  type="button"
-                  role="switch"
-                  aria-checked={wantNda}
-                  aria-label="I'd like to sign an NDA"
-                  onClick={() => setWantNda(!wantNda)}
-                  className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-200 cursor-pointer ${
-                    wantNda ? 'bg-[#005eb8]' : 'bg-slate-300'
-                  }`}
-                >
-                  <div
-                    className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-200 ${
-                      wantNda ? 'translate-x-5' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* 2x2 Input Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Full name */}
-                <div>
-                  <input
-                    type="text"
-                    {...register('name', { required: 'Full name is required' })}
-                    placeholder="Full name *"
-                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
-                  />
-                  {errors.name && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.name.message}</p>}
-                </div>
-
-                {/* Company */}
-                <div>
-                  <input
-                    type="text"
-                    {...register('company')}
-                    placeholder="Company"
-                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
-                  />
-                </div>
-
-                {/* Work email */}
-                <div>
-                  <input
-                    type="email"
-                    {...register('email', {
-                      required: 'Work email is required',
-                      pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' }
-                    })}
-                    placeholder="Work email *"
-                    className="w-full rounded-card border border-slate-300 px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:border-[#005eb8] focus:outline-none bg-white transition-colors"
-                  />
-                  {errors.email && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.email.message}</p>}
-                </div>
-
-                {/* Phone number */}
-                <div className="relative flex rounded-card border border-slate-300 focus-within:border-[#005eb8] bg-white transition-colors">
-                  <div ref={dropdownRef} className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                      className="h-full px-3 rounded-l-card flex items-center gap-1.5 border-r border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+            <ul className="space-y-3">
+              {contactMethods.map((method) => {
+                const Icon = method.icon;
+                return (
+                  <li key={method.label}>
+                    <a
+                      href={method.href}
+                      {...(method.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="flex items-center gap-4 rounded-2xl bg-white border border-line px-4 py-3.5 transition-colors duration-200 hover:border-primary/40"
                     >
-                      <span>{selectedCountry.flag}</span>
-                      <span>{selectedCountry.code}</span>
-                    </button>
-
-                    {showCountryDropdown && (
-                      <div className="absolute left-0 top-full mt-1 bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xl z-50 py-1 min-w-[140px]">
-                        {countries.map((c) => (
-                          <button
-                            key={c.code}
-                            type="button"
-                            onClick={() => {
-                              setSelectedCountry(c);
-                              setShowCountryDropdown(false);
-                            }}
-                            className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 flex items-center gap-2 text-slate-700 font-medium cursor-pointer"
-                          >
-                            <span>{c.flag}</span>
-                            <span>{c.code}</span>
-                            <span>({c.name})</span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <input
-                    type="tel"
-                    {...register('phone', { required: 'Phone number is required' })}
-                    placeholder="Phone number *"
-                    className="w-full px-4 py-3 text-slate-800 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none bg-transparent"
-                  />
-                </div>
-              </div>
-
-              {/* Preferred way of communication */}
-              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-600 font-medium pt-2">
-                <span className="font-bold text-slate-800">Preferred way of communication:</span>
-                {['Any', 'E-Mail', 'Phone'].map((mode) => (
-                  <label key={mode} className="inline-flex items-center gap-1.5 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="communication"
-                      value={mode}
-                      checked={preferredComm === mode}
-                      onChange={() => setPreferredComm(mode)}
-                      className="accent-[#005eb8]"
-                    />
-                    <span>{mode}</span>
-                  </label>
-                ))}
-              </div>
-
-              {/* Submit Button */}
-              <div className="pt-2">
-                <ArrowButton type="submit" variant="solid" disabled={isSubmitting}>
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </ArrowButton>
-              </div>
-
-            </form>
+                      <span className="w-11 h-11 rounded-xl bg-primary-light text-primary flex items-center justify-center shrink-0">
+                        <Icon size={19} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-xs text-muted">{method.label}</span>
+                        <span className="block text-[15px] font-medium text-ink truncate">{method.value}</span>
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
-          {/* ── Right Column: Get in touch instantly (4 cols) ── */}
-          <div className="lg:col-span-4 bg-white/80 backdrop-blur-md rounded-card border border-slate-200 p-6 sm:p-8 text-left space-y-6 shadow-sm">
-            <h3 className="text-[#191919] text-xl font-black tracking-tight border-b border-slate-200 pb-4">
-              Get in touch instantly
-            </h3>
+          {/* ── Right: form ── */}
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-line p-6 sm:p-8 md:p-10 text-left">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
 
-            <div className="space-y-4 text-sm font-bold text-slate-700">
-              
-              {/* Call us */}
-              <a 
-                href="tel:+919706393924"
-                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
-                  <HiPhone size={18} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="cf-name" className={labelClass}>Full name <span className="text-red-500">*</span></label>
+                  <input
+                    id="cf-name"
+                    type="text"
+                    autoComplete="name"
+                    aria-invalid={!!errors.name}
+                    {...register('name', { required: 'Full name is required' })}
+                    placeholder="Your name"
+                    className={fieldClass(errors.name)}
+                  />
+                  {errors.name && <p className={errorClass}>{errors.name.message}</p>}
                 </div>
-                <div className="min-w-0">
-                  <div className="text-xs text-slate-400 font-medium">Call us</div>
-                  <div className="text-slate-900 group-hover:text-[#005eb8] transition-colors text-xs sm:text-sm font-bold truncate">
-                    +91 97063 93924
+
+                <div>
+                  <label htmlFor="cf-company" className={labelClass}>Company</label>
+                  <input
+                    id="cf-company"
+                    type="text"
+                    autoComplete="organization"
+                    {...register('company')}
+                    placeholder="Company name"
+                    className={fieldClass(false)}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="cf-email" className={labelClass}>Work email <span className="text-red-500">*</span></label>
+                  <input
+                    id="cf-email"
+                    type="email"
+                    autoComplete="email"
+                    aria-invalid={!!errors.email}
+                    {...register('email', {
+                      required: 'Work email is required',
+                      pattern: { value: /^\S+@\S+$/i, message: 'Please enter a valid email' },
+                    })}
+                    placeholder="you@company.com"
+                    className={fieldClass(errors.email)}
+                  />
+                  {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+                </div>
+
+                <div>
+                  <label htmlFor="cf-phone" className={labelClass}>Phone number <span className="text-red-500">*</span></label>
+                  <div
+                    className={`relative flex h-12 rounded-xl border bg-white transition-[border-color,box-shadow] duration-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 ${
+                      errors.phone ? 'border-red-400' : 'border-line hover:border-[#b9dcee]'
+                    }`}
+                  >
+                    <div ref={dropdownRef} className="relative">
+                      <button
+                        type="button"
+                        aria-haspopup="listbox"
+                        aria-expanded={showCountryDropdown}
+                        aria-label={`Country code ${selectedCountry.code}`}
+                        onClick={() => setShowCountryDropdown(!showCountryDropdown)}
+                        className="h-full pl-3.5 pr-3 rounded-l-xl flex items-center gap-2 border-r border-line text-sm font-medium text-ink hover:bg-sky cursor-pointer"
+                      >
+                        {selectedCountry.flag}
+                        <span>{selectedCountry.code}</span>
+                        <HiChevronDown size={14} className="text-muted" aria-hidden="true" />
+                      </button>
+
+                      {showCountryDropdown && (
+                        <ul role="listbox" className="absolute left-0 top-full mt-2 bg-white rounded-xl overflow-hidden border border-line z-50 py-1 min-w-[190px]">
+                          {countries.map((c) => (
+                            <li key={c.code}>
+                              <button
+                                type="button"
+                                role="option"
+                                aria-selected={c.code === selectedCountry.code}
+                                onClick={() => {
+                                  setSelectedCountry(c);
+                                  setShowCountryDropdown(false);
+                                }}
+                                className="w-full text-left px-3.5 py-2.5 text-sm hover:bg-sky flex items-center gap-2.5 text-ink cursor-pointer"
+                              >
+                                {c.flag}
+                                <span className="font-medium">{c.code}</span>
+                                <span className="text-muted">{c.name}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <input
+                      id="cf-phone"
+                      type="tel"
+                      autoComplete="tel-national"
+                      aria-invalid={!!errors.phone}
+                      {...register('phone', { required: 'Phone number is required' })}
+                      placeholder="98765 43210"
+                      className="w-full min-w-0 px-4 text-[15px] text-ink placeholder:text-slate-400 bg-transparent focus:outline-none rounded-r-xl"
+                    />
+                  </div>
+                  {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
+                </div>
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="cf-message" className={labelClass}>How can we help you? <span className="text-red-500">*</span></label>
+                <textarea
+                  id="cf-message"
+                  rows={5}
+                  aria-invalid={!!errors.message}
+                  {...register('message', { required: 'Please describe how we can help you' })}
+                  placeholder="Tell us about your project, goals and timeline…"
+                  className={`${fieldClass(errors.message)} h-auto py-3.5 resize-y min-h-[140px] leading-relaxed`}
+                />
+                {errors.message && <p className={errorClass}>{errors.message.message}</p>}
+              </div>
+
+              {/* Attachments */}
+              <div>
+                <div
+                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={handleDrop}
+                  className={`flex items-center gap-3 rounded-xl border border-dashed px-4 py-3.5 text-sm transition-colors ${
+                    isDragging ? 'border-primary bg-primary-light' : 'border-[#b9dcee] bg-sky/60'
+                  }`}
+                >
+                  <HiPaperClip size={18} className="text-primary shrink-0" aria-hidden="true" />
+                  <span className="text-body">
+                    Drag and drop files here, or{' '}
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="text-primary font-medium underline underline-offset-2 cursor-pointer"
+                    >
+                      browse
+                    </button>
+                  </span>
+                  <input ref={fileInputRef} type="file" multiple onChange={handleFileChange} className="hidden" />
+                </div>
+
+                {attachedFiles.length > 0 && (
+                  <ul className="flex flex-wrap gap-2 mt-3">
+                    {attachedFiles.map((file, idx) => (
+                      <li
+                        key={`${file.name}-${idx}`}
+                        className="inline-flex items-center gap-2 pl-3 pr-1.5 py-1 rounded-full bg-primary-light text-primary text-xs font-medium"
+                      >
+                        <span className="truncate max-w-[180px]">{file.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeFile(idx)}
+                          aria-label={`Remove ${file.name}`}
+                          className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-white/70 cursor-pointer"
+                        >
+                          <HiX size={12} aria-hidden="true" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {/* Preferences */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
+                <fieldset>
+                  <legend className={labelClass}>Preferred way to reach you</legend>
+                  <div className="inline-flex p-1 rounded-xl bg-sky border border-line" role="radiogroup">
+                    {['Any', 'E-Mail', 'Phone'].map((mode) => (
+                      <label
+                        key={mode}
+                        className={`px-4 py-2 rounded-lg text-sm cursor-pointer transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent ${
+                          preferredComm === mode ? 'bg-white text-primary font-medium ' : 'text-body hover:text-ink'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="communication"
+                          value={mode}
+                          checked={preferredComm === mode}
+                          onChange={() => setPreferredComm(mode)}
+                          className="sr-only"
+                        />
+                        {mode === 'E-Mail' ? 'Email' : mode}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div>
+                  <span className={labelClass} id="nda-label">Confidentiality</span>
+                  <div className="flex items-center justify-between gap-3 h-[46px] px-4 rounded-xl border border-line">
+                    <span className="text-sm text-body">I&apos;d like to sign an NDA</span>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={wantNda}
+                      aria-labelledby="nda-label"
+                      onClick={() => setWantNda(!wantNda)}
+                      className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-200 cursor-pointer shrink-0 ${
+                        wantNda ? 'bg-primary' : 'bg-slate-300'
+                      }`}
+                    >
+                      <span
+                        className={`bg-white w-4 h-4 rounded-full shadow transform transition-transform duration-200 ${
+                          wantNda ? 'translate-x-5' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
                   </div>
                 </div>
-              </a>
+              </div>
 
-              {/* Email us */}
-              <a 
-                href="mailto:binudsoftwaresolutions@gmail.com"
-                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
-                  <HiMail size={20} />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs text-slate-400 font-medium">Email us</div>
-                  <div className="text-slate-900 group-hover:text-[#005eb8] transition-colors text-xs sm:text-sm font-bold truncate">
-                    binudsoftwaresolutions@gmail.com
-                  </div>
-                </div>
-              </a>
-
-              {/* WhatsApp */}
-              <a 
-                href="https://wa.me/919706393924" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
-                  <FaWhatsapp size={20} />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs text-slate-400 font-medium">WhatsApp</div>
-                  <div className="text-slate-900 group-hover:text-[#005eb8] transition-colors text-xs sm:text-sm font-bold truncate">
-                    Chat on WhatsApp
-                  </div>
-                </div>
-              </a>
-
-              {/* Live Chat */}
-              <a 
-                href="mailto:binudsoftwaresolutions@gmail.com"
-                className="flex items-center gap-3.5 p-3 rounded-card hover:bg-slate-50 border border-transparent hover:border-[#005eb8] transition-colors group cursor-pointer"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#005eb8] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00488e] transition-colors">
-                  <HiChatAlt2 size={20} />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xs text-slate-400 font-medium">Live chat</div>
-                  <div className="text-slate-900 group-hover:text-[#005eb8] transition-colors text-xs sm:text-sm font-bold truncate">
-                    Direct Support
-                  </div>
-                </div>
-              </a>
-
-            </div>
+              {/* Submit */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3">
+                <p className="!text-xs text-muted">
+                  By sending this form you agree to our{' '}
+                  <Link to="/privacy" className="text-primary underline underline-offset-2">Privacy Policy</Link>.
+                </p>
+                <ArrowButton type="submit" variant="solid" loading={isSubmitting} disabled={isSubmitting} className="justify-between sm:min-w-[190px]">
+                  {isSubmitting ? 'Sending…' : 'Send Message'}
+                </ArrowButton>
+              </div>
+            </form>
           </div>
 
         </div>

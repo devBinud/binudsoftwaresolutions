@@ -63,12 +63,12 @@ const Footer = () => {
     { name: 'YouTube', href: 'https://youtube.com', icon: <FaYoutube size={17} /> },
   ];
 
-  const headingClass = 'text-white text-sm font-bold uppercase tracking-wide';
-  const linkClass = 'text-slate-300 hover:text-white text-sm font-medium transition-colors inline-block';
+  const headingClass = 'text-white text-base font-semibold';
+  const linkClass = 'text-[#b9cfdc] hover:text-white text-sm transition-colors inline-block';
 
   return (
-    <footer className="bg-[#092c4c] text-white border-t border-slate-700/60 font-sans z-20 relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-14 pb-8">
+    <footer className="bg-navy text-white font-sans z-20 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-16 pb-8">
 
         {/* ── Main Columns ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 text-left">
@@ -78,30 +78,30 @@ const Footer = () => {
             <Link to="/" className="inline-flex items-center gap-3">
               {/* logo-on-dark.png: same logo with its see-through "bp" filled white, for the dark footer */}
               <img src="/logo-on-dark.png" alt="" className="h-11 w-11 shrink-0 object-contain" />
-              <span className="text-xl font-black tracking-tight text-white">
+              <span className="text-xl font-bold tracking-tight text-white">
                 Binud Software Solutions
               </span>
             </Link>
 
             <p className="mt-5 text-base font-semibold text-white">
-              <span className="text-blue-300">Engineered</span> for Growth.{' '}
-              <span className="text-amber-300">Built</span> to Last.
+              <span className="text-[#7fd0f2]">Engineered</span> for Growth.{' '}
+              <span className="text-[#7fd0f2]">Built</span> to Last.
             </p>
 
-            <p className="mt-4 text-sm text-slate-300 leading-relaxed max-w-sm">
+            <p className="mt-4 !text-sm text-[#b9cfdc] max-w-sm">
               We are a custom software engineering company in Guwahati, Assam, building
               web platforms, mobile apps and AI automation that help businesses scale.
             </p>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-4 mt-6 text-slate-300">
+            <div className="flex items-center gap-2.5 mt-7">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="w-10 h-10 rounded-full border border-white/15 text-[#b9cfdc] flex items-center justify-center hover:bg-accent hover:border-accent hover:text-white transition-colors"
                   title={social.name}
                   aria-label={social.name}
                 >
@@ -143,7 +143,7 @@ const Footer = () => {
           <div className="sm:col-span-2 lg:col-span-3 space-y-6">
             <div>
               <h4 className={`${headingClass} mb-3`}>Office Address</h4>
-              <p className="text-slate-300 text-sm leading-relaxed">
+              <p className="text-[#b9cfdc] !text-sm">
                 Guwahati, Assam, India
               </p>
             </div>
@@ -169,8 +169,8 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom Bar ── */}
-        <div className="pt-6 border-t border-slate-700/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-300">
-          <p>© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#b9cfdc]">
+          <p className="!text-sm">© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
           <VisitorCounter />
           <div className="flex items-center gap-8">
             <Link to="/privacy" className="hover:text-white transition-colors">

@@ -7,14 +7,14 @@ const AdminLoadError = ({ message, onRetry }) => (
       <HiExclamationCircle size={22} />
     </div>
     <div className="flex-1 min-w-0">
-      <h3 className="text-[#0f172a] font-bold mb-1">Couldn&apos;t load data</h3>
+      <h3 className="text-ink font-bold mb-1">Couldn&apos;t load data</h3>
       <p className="text-[#64748b] text-sm leading-relaxed">{message}</p>
     </div>
     {onRetry && (
       <button
         type="button"
         onClick={onRetry}
-        className="self-start inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-[#0f172a] hover:bg-slate-50 transition-colors cursor-pointer"
+        className="self-start inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-ink hover:bg-slate-50 transition-colors cursor-pointer"
       >
         <HiRefresh size={16} /> Retry
       </button>

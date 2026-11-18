@@ -22,7 +22,7 @@ const TickerBar = () => {
   const doubled = [...items, ...items];
 
   return (
-    <div className="bg-[#005eb8] border-y border-[#005eb8]/20 overflow-hidden shadow-sm">
+    <div className="bg-[#0077b6] border-y border-[#0077b6]/20 overflow-hidden">
       <div className="ticker-track flex items-center">
         {doubled.map((item, i) => (
           <span

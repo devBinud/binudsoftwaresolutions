@@ -10,7 +10,7 @@ const CollaborationsSection = () => {
 
       {/* Ambient background glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[240px] bg-[#005eb8]/5 blur-[100px] rounded-full" />
+        <div className="w-[600px] h-[240px] bg-[#0077b6]/5 blur-[100px] rounded-full" />
       </div>
 
       <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
@@ -22,10 +22,10 @@ const CollaborationsSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <p className="text-[#005eb8] text-xs sm:text-sm font-bold tracking-widest uppercase mb-3">
+          <p className="text-[#0077b6] text-xs sm:text-sm font-bold tracking-widest uppercase mb-3">
             Official Collaboration
           </p>
-          <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
+          <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight font-sans">
             Our Technology Partners
           </h2>
           <p className="text-slate-500 text-sm sm:text-base font-semibold leading-relaxed font-sans mt-3 max-w-xl mx-auto">
@@ -73,9 +73,9 @@ const CollaborationsSection = () => {
 
               {/* ── CENTER: Partnership Badge (Line passes right through it) ── */}
               <div className="relative z-10 flex items-center justify-center">
-                <div className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#005eb8] to-[#004080] text-white shadow-lg shadow-[#005eb8]/30 border-2 border-white ring-2 ring-[#f8c543]">
+                <div className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#0077b6] to-[#004080] text-white border-2 border-white ring-2 ring-[#f8c543]">
                   <FaHandshake className="text-[#f8c543] text-base sm:text-xl animate-pulse" />
-                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider whitespace-nowrap">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap">
                     Partnership
                   </span>
                 </div>

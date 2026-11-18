@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { blogPosts } from '../data/blogData';
 import ArrowButton from '../components/ArrowButton';
 import BlogCard from '../components/BlogCard';
+import SectionHeading from '../components/SectionHeading';
 
 const LatestBlogsSection = () => {
   // Get latest 3 blog posts
@@ -27,28 +28,15 @@ const LatestBlogsSection = () => {
   };
 
   return (
-    <section className="relative py-20 md:py-28 bg-[#f8fafc] overflow-hidden">
-      {/* Decorative background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#005eb8]/4 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
-        {/* ── Section Header ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-left">
-          <div>
-            <span className="badge mb-3">
-              Explore Our Insights
-            </span>
-            <h2 className="text-[#0f172a] text-3xl sm:text-[42px] font-black leading-tight tracking-tight font-sans">
-              Latest from Our Blog
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base font-semibold leading-relaxed font-sans mt-2 max-w-xl">
-              Stay updated with tech insights, software architecture trends, and mobile development best practices.
-            </p>
-          </div>
-
-          <ArrowButton to="/blog" className="w-fit shrink-0">View All Posts</ArrowButton>
-        </div>
+    <section aria-labelledby="blog-heading" className="relative py-20 md:py-28 bg-sky overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+        <SectionHeading
+          id="blog-heading"
+          title={<>Latest From <span className="text-gradient">Our Blog</span></>}
+          description="Practical notes on software architecture, mobile development and AI from our engineering team."
+          action={<ArrowButton to="/blog">View All Posts</ArrowButton>}
+          className="mb-14"
+        />
 
         {/* ── Blogs Grid ── */}
         <motion.div
@@ -56,7 +44,7 @@ const LatestBlogsSection = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {latestPosts.map((post) => (
             <motion.article key={post.id} variants={cardVariants} className="h-full">

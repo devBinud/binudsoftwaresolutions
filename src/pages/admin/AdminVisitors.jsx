@@ -194,7 +194,7 @@ const AdminVisitors = () => {
                 key={r.days}
                 type="button"
                 onClick={() => changeRange(r.days)}
-                className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${days === r.days ? 'bg-[#005eb8] text-white' : 'text-[#475569] hover:bg-slate-50'}`}
+                className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer ${days === r.days ? 'bg-[#0077b6] text-white' : 'text-[#475569] hover:bg-slate-50'}`}
               >
                 {r.label}
               </button>
@@ -205,7 +205,7 @@ const AdminVisitors = () => {
               type="checkbox"
               checked={includeLocal}
               onChange={(e) => setIncludeLocal(e.target.checked)}
-              className="w-4 h-4 accent-[#005eb8] cursor-pointer"
+              className="w-4 h-4 accent-[#0077b6] cursor-pointer"
             />
             Include localhost visits{stats.localCount > 0 ? ` (${stats.localCount})` : ''}
           </label>

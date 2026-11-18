@@ -3,10 +3,16 @@ import { motion } from 'framer-motion';
 import SEOHead from '../components/SEOHead';
 import { blogPostSeo, toIsoDate } from '../seo/routes';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import { blogPosts } from '../data/blogData';
-import { HiArrowLeft, HiOutlineCalendar, HiOutlineClock, HiOutlineUser, HiOutlineShare, HiOutlineChevronRight } from 'react-icons/hi';
-import bannerBgImage from '../assets/bg4.webp';
+import { HiOutlineCalendar, HiOutlineClock, HiOutlineShare } from 'react-icons/hi';
+import toast from 'react-hot-toast';
+import ArrowButton from '../components/ArrowButton';
+
+// Heading text → anchor id, for the "On this page" links
+const slugify = (text) =>
+  text.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -22,7 +28,12 @@ const BlogDetails = () => {
   // Find related articles (same category or others, up to 2 items)
   const relatedPosts = blogPosts
     .filter(p => p.id !== post.id)
-    .slice(0, 2);
+    .slice(0, 3);
+
+  // Section headings, listed in the sidebar
+  const sections = post.content
+    .filter((block) => block.type === 'heading')
+    .map((block) => ({ id: slugify(block.text), text: block.text }));
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -73,6 +84,11 @@ const BlogDetails = () => {
     ]
   };
 
+  // Unsplash covers are stored at w=800; ask for a sharper copy for the wide cover
+  const coverImage = post.image?.includes('images.unsplash.com')
+    ? post.image.replace(/([?&])w=\d+/, '$1w=1600')
+    : post.image;
+
   // Share handler (using browser native share or copy url)
   const handleShare = () => {
     if (navigator.share) {
@@ -80,15 +96,16 @@ const BlogDetails = () => {
         title: post.title,
         text: post.excerpt,
         url: window.location.href,
-      }).catch(console.error);
+      }).catch(() => {}); // closing the share sheet rejects; nothing to report
     } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Article link copied to clipboard!');
+      navigator.clipboard?.writeText(window.location.href)
+        .then(() => toast.success('Link copied'))
+        .catch(() => toast.error("Couldn't copy the link"));
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 font-sans text-left">
+    <div className="min-h-screen bg-white font-sans text-left">
       <SEOHead
         {...blogPostSeo(post)}
         keywords={post.tags}
@@ -99,188 +116,233 @@ const BlogDetails = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={bannerBgImage} 
-            alt="" 
-            className="w-full h-full object-cover opacity-35" 
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
-        </div>
+      <PageBanner crumbs={[{ name: 'Blog', path: '/blog' }, { name: post.title }]} />
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <HiOutlineChevronRight className="text-slate-500 text-[10px]" />
-            <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
-            <HiOutlineChevronRight className="text-slate-500 text-[10px]" />
-            <span className="text-white">{post.title}</span>
-          </nav>
-        </div>
-      </section>
+      {/* ── Article: full site width, content (left) + sticky sidebar (right) ── */}
+      <article className="bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 pt-10 md:pt-12 pb-16 md:pb-20 text-left">
 
-      {/* Main Blog Details View */}
-      <section className="py-16 bg-white border-b border-slate-100 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          
-          {/* Back button */}
-          <Link 
-            to="/blog" 
-            className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-[#274e85] transition-colors mb-8 group"
-          >
-            <HiArrowLeft className="group-hover:-translate-x-0.5 transition-transform" />
-            Back to Articles
-          </Link>
-
-          {/* Heading Section */}
-          <header className="mb-10 text-left">
-            <div className="flex items-center gap-2.5 mb-5">
-              <span className="px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#274e85]/10 text-[#274e85]">
+          {/* Header */}
+          <header className="max-w-5xl">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted mb-5">
+              <span className="inline-flex items-center h-7 px-3 rounded-full bg-primary-light text-primary font-medium">
                 {post.category}
               </span>
-              <span className="text-xs font-bold text-slate-400 inline-flex items-center gap-1">
-                <HiOutlineClock />
+              <span className="inline-flex items-center gap-1.5">
+                <HiOutlineCalendar aria-hidden="true" />
+                <time dateTime={toIsoDate(post.date)}>{post.date}</time>
+              </span>
+              <span aria-hidden="true" className="text-line">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <HiOutlineClock aria-hidden="true" />
                 {post.readTime}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-[40px] font-black text-[#191919] leading-[1.15] tracking-tight mb-6">
+            <h1 className="text-[28px] md:text-[34px] font-semibold text-ink leading-[1.2] tracking-tight max-w-4xl">
               {post.title}
             </h1>
 
-            {/* Author Profile + Publish Date */}
-            <div className="flex flex-wrap items-center justify-between gap-6 py-6 border-y border-slate-100">
-              <div className="flex items-center gap-3.5">
-                <img 
-                  src={post.author.avatar} 
-                  alt={post.author.name} 
-                  className="w-11 h-11 rounded-full object-cover border border-slate-100" 
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-800 leading-tight mb-0.5">{post.author.name}</span>
-                  <span className="text-xs font-semibold text-slate-400 leading-none">{post.author.role}</span>
-                </div>
-              </div>
+            {post.excerpt && (
+              <p className="mt-4 text-[17px] md:text-lg text-body leading-relaxed max-w-4xl">
+                {post.excerpt}
+              </p>
+            )}
 
-              <div className="flex items-center gap-6">
-                <div className="flex flex-col text-right sm:text-left">
-                  <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider mb-0.5">Published</span>
-                  <span className="text-xs font-bold text-slate-600 inline-flex items-center gap-1">
-                    <HiOutlineCalendar />
-                    {post.date}
-                  </span>
-                </div>
-
-                <button 
-                  onClick={handleShare}
-                  className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500 hover:text-[#274e85] hover:bg-[#274e85]/5 hover:border-[#274e85]/20 transition-all duration-300"
-                  title="Share Article"
-                >
-                  <HiOutlineShare size={16} />
-                </button>
+            <div className="mt-8 flex items-center gap-3">
+              <img
+                src={post.author.avatar}
+                alt=""
+                className="w-11 h-11 rounded-full object-cover bg-sky shrink-0"
+              />
+              <div className="min-w-0">
+                <p className="text-[15px] font-semibold text-ink leading-tight">{post.author.name}</p>
+                <p className="text-sm text-muted leading-tight mt-1">{post.author.role}</p>
               </div>
             </div>
           </header>
 
-          {/* Main Visual Image Banner */}
-          <div className="relative w-full h-[250px] sm:h-[380px] md:h-[460px] rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.02)] mb-12 border border-slate-100 bg-slate-50">
-            <img 
-              src={post.image} 
-              alt={post.title} 
-              className="w-full h-full object-cover" 
+          {/* Cover image */}
+          <div className="mt-10 aspect-[16/9] md:aspect-[21/9] w-full rounded-card overflow-hidden bg-sky">
+            <img
+              src={coverImage}
+              alt={post.title}
+              className="w-full h-full object-cover"
             />
           </div>
 
-            {/* Article Contents */}
-            <article className="prose prose-slate max-w-none text-left mb-16">
+          <div className="mt-12 md:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+
+            {/* Body */}
+            <div className="lg:col-span-8 min-w-0">
               {post.content.map((block, i) => {
                 if (block.type === 'paragraph') {
                   return (
-                    <p key={i} className="text-slate-600 text-[15px] sm:text-base leading-relaxed mb-6 font-medium">
+                    <p key={i} className="text-body text-[17px] leading-[1.85] mb-6">
                       {block.text}
                     </p>
                   );
                 }
                 if (block.type === 'heading') {
                   return (
-                    <h3 key={i} className="text-lg sm:text-xl md:text-2xl font-black text-[#191919] tracking-tight mt-10 mb-4">
+                    <h2
+                      key={i}
+                      id={slugify(block.text)}
+                      className="text-xl md:text-[22px] font-semibold text-ink leading-snug tracking-tight mt-10 mb-4 scroll-mt-28"
+                    >
                       {block.text}
-                    </h3>
+                    </h2>
                   );
                 }
                 if (block.type === 'list') {
                   return (
-                    <ul key={i} className="space-y-3 pl-6 my-6 list-disc text-slate-600 text-[15px] sm:text-base font-medium">
+                    <ul key={i} className="my-6 space-y-3">
                       {block.items.map((item, idx) => (
-                        <li key={idx} className="leading-relaxed">
-                          {item}
+                        <li key={idx} className="flex gap-3 text-body text-[17px] leading-[1.75]">
+                          <span aria-hidden="true" className="mt-[11px] w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   );
                 }
+                if (block.type === 'quote') {
+                  return (
+                    <blockquote key={i} className="my-10 border-l-4 border-accent bg-sky rounded-r-card px-6 py-5 md:px-8 md:py-6">
+                      <p className="text-ink text-lg md:text-xl font-medium leading-relaxed">{block.text}</p>
+                    </blockquote>
+                  );
+                }
                 return null;
               })}
-            </article>
 
-            {/* Author Signature Bio Box */}
-            <div className="bg-slate-50 border border-slate-100 rounded-card p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left mb-20">
-              <img loading="lazy" decoding="async" 
-                src={post.author.avatar} 
-                alt={post.author.name} 
-                className="w-16 h-16 rounded-full object-cover border border-slate-200 shadow-sm" 
-              />
-              <div>
-                <h4 className="font-black text-[#191919] text-base mb-1">Written by {post.author.name}</h4>
-                <p className="text-xs font-bold text-[#274e85] uppercase tracking-wider mb-2">{post.author.role}</p>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
-                  Passionate about web architecture, mobile optimization, and building secure systems. Working with businesses to design responsive infrastructure that scales.
-                </p>
+              {/* Tags */}
+              {post.tags?.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-line flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span key={tag} className="inline-flex items-center h-8 px-3 rounded-full bg-sky text-body text-sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Author */}
+              <div className="mt-10 bg-sky rounded-card p-6 sm:p-8 flex flex-col sm:flex-row gap-5 items-start">
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={post.author.avatar}
+                  alt=""
+                  className="w-16 h-16 rounded-full object-cover bg-white shrink-0"
+                />
+                <div>
+                  <p className="text-sm text-muted">Written by</p>
+                  <p className="text-lg font-semibold text-ink leading-snug">{post.author.name}</p>
+                  <p className="text-sm text-primary font-medium mt-0.5">{post.author.role}</p>
+                  <p className="text-body text-[15px] leading-relaxed mt-3">
+                    Passionate about web architecture, mobile optimization, and building secure systems. Working with businesses to design responsive infrastructure that scales.
+                  </p>
+                </div>
               </div>
             </div>
 
-          {/* Related Articles Divider */}
-          <div className="border-t border-slate-100 pt-16">
-            <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight mb-8">
-              You Might Also Like
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Sidebar */}
+            <aside className="lg:col-span-4">
+              <div className="lg:sticky lg:top-28 space-y-6">
+                {sections.length > 0 && (
+                  <nav aria-label="On this page" className="border border-line rounded-card p-6">
+                    <p className="text-base font-semibold text-ink mb-4">On this page</p>
+                    <ol className="space-y-1">
+                      {sections.map((sec) => (
+                        <li key={sec.id}>
+                          <a
+                            href={`#${sec.id}`}
+                            className="block py-1.5 text-[15px] text-body leading-snug hover:text-accent transition-colors"
+                          >
+                            {sec.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ol>
+                  </nav>
+                )}
+
+                <div className="border border-line rounded-card p-6">
+                  <p className="text-base font-semibold text-ink mb-3">Share this article</p>
+                  <button
+                    type="button"
+                    onClick={handleShare}
+                    className="inline-flex items-center gap-2 h-10 px-4 rounded-[var(--radius-btn)] border-2 border-line text-body text-[15px] font-medium hover:border-accent hover:text-accent transition-colors duration-300 cursor-pointer"
+                  >
+                    <HiOutlineShare size={17} aria-hidden="true" />
+                    Share
+                  </button>
+                </div>
+
+                <div className="rounded-card bg-navy text-white p-6 sm:p-7">
+                  <p className="text-xl font-semibold !text-white leading-snug">Have a project in mind?</p>
+                  <p className="mt-2 text-[15px] text-white/75 leading-relaxed">
+                    Tell us what you want to build and we'll suggest the right approach.
+                  </p>
+                  <ArrowButton to="/contact" variant="solid" className="mt-5">
+                    Contact Us
+                  </ArrowButton>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </article>
+
+      {/* ── Related articles ── */}
+      {relatedPosts.length > 0 && (
+        <section className="bg-sky border-t border-line py-16 md:py-20">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 text-left">
+            <div className="flex items-end justify-between gap-4 mb-8">
+              <h2 className="text-2xl md:text-[28px] font-semibold text-ink tracking-tight">
+                You might also like
+              </h2>
+              <Link to="/blog" className="text-[15px] font-medium text-accent hover:text-primary transition-colors whitespace-nowrap">
+                All articles
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedPosts.map((rPost) => (
-                <Link 
+                <Link
                   key={rPost.id}
                   to={`/blog/${rPost.id}`}
-                  className="bg-white border border-slate-100 rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.01)] transition-all duration-300 flex flex-col group"
+                  className="group bg-white border border-line rounded-card overflow-hidden flex flex-col hover:border-[#9fd6ee] transition-colors duration-300"
                 >
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                    <img loading="lazy" decoding="async" 
-                      src={rPost.image} 
-                      alt={rPost.title} 
-                      className="w-full h-full object-cover" 
+                  <div className="aspect-[16/9] w-full overflow-hidden bg-sky">
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={rPost.image}
+                      alt=""
+                      className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-block px-2.5 py-1 rounded-lg text-[9px] font-extrabold uppercase tracking-wider bg-white/95 text-[#274e85]">
-                        {rPost.category}
-                      </span>
-                    </div>
                   </div>
-                  <div className="p-5 flex flex-col flex-grow text-left">
-                    <span className="text-[10px] font-bold text-slate-400 mb-2">{rPost.date}</span>
-                    <h4 className="font-black text-slate-800 group-hover:text-[#274e85] text-sm leading-snug line-clamp-2 transition-colors duration-200">
+                  <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                    <div className="flex items-center gap-2 text-sm text-muted mb-2">
+                      <span className="text-primary font-medium">{rPost.category}</span>
+                      <span aria-hidden="true" className="text-line">•</span>
+                      <span>{rPost.date}</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-ink leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-200">
                       {rPost.title}
-                    </h4>
+                    </h3>
+                    {rPost.excerpt && (
+                      <p className="mt-2 text-[15px] text-body leading-relaxed line-clamp-2">{rPost.excerpt}</p>
+                    )}
                   </div>
                 </Link>
               ))}
             </div>
           </div>
-
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </div>

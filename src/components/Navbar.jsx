@@ -1,302 +1,365 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ArrowButton from './ArrowButton';
 import { HiMenuAlt3, HiX, HiMail, HiPhone, HiChevronDown } from 'react-icons/hi';
+import ArrowButton from './ArrowButton';
+
+/* Menu structure. Items with `children` open a dropdown of simple links. */
+const navLinks = [
+  {
+    name: 'Services',
+    path: '/services',
+    children: [
+      { name: 'Web Development', path: '/services' },
+      { name: 'Mobile App Development', path: '/services' },
+      { name: 'AI & Automation', path: '/services/ai-automation' },
+      { name: 'Cloud & DevOps', path: '/services' },
+      { name: 'UI/UX Design', path: '/services' },
+      { name: 'IT Consulting', path: '/services' },
+    ],
+  },
+  { name: 'Case Studies', path: '/case-studies' },
+  {
+    name: 'Company',
+    path: '/about',
+    children: [
+      { name: 'About Company', path: '/about' },
+      { name: 'Vision & Mission', path: '/about/vision-mission' },
+      { name: "From Founder's Desk", path: '/about/founders-desk' },
+      { name: 'Gallery', path: '/gallery' },
+    ],
+  },
+  {
+    name: 'Resources',
+    path: '/blog',
+    children: [
+      { name: 'Blog', path: '/blog' },
+      { name: 'Coding Guides', path: '/coding-guides' },
+    ],
+  },
+];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [openSubmenu, setOpenSubmenu] = useState(null); // mobile accordion
+  const [openMenu, setOpenMenu] = useState(null); // desktop dropdown
   const location = useLocation();
+  const triggerRefs = useRef({});
 
-  /* ── Scroll listener ── */
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* ── Close drawer on route change ── */
-  useEffect(() => {
+  /* Close menus on route change (adjusting state during render, as React recommends) */
+  const [prevPath, setPrevPath] = useState(location.pathname);
+  if (prevPath !== location.pathname) {
+    setPrevPath(location.pathname);
     setDrawerOpen(false);
-  }, [location]);
+    setOpenMenu(null);
+  }
 
-  /* ── Lock body scroll when drawer is open ── */
+  /* Lock body scroll and allow Escape while the drawer is open */
   useEffect(() => {
-    if (drawerOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = drawerOpen ? 'hidden' : '';
+    if (!drawerOpen) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setDrawerOpen(false);
+    window.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
     };
   }, [drawerOpen]);
 
   const openDrawer = useCallback(() => setDrawerOpen(true), []);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    {
-      name: 'About Us',
-      path: '/about',
-      children: [
-        { name: 'About Company', path: '/about' },
-        { name: 'Vision & Mission', path: '/about/vision-mission' },
-        { name: "From Founder's Desk", path: '/about/founders-desk' },
-      ],
-    },
-    { name: 'Services', path: '/services' },
-    { name: 'Case Studies', path: '/case-studies' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const isLinkActive = (path) => location.pathname === path;
+  const isParentActive = (link) =>
+    isLinkActive(link.path) ||
+    (link.children || []).some((child) => location.pathname === child.path);
 
-  const isLinkActive = (linkPath) => {
-    const current = location.pathname + location.search;
-    if (linkPath.includes('?')) {
-      return current === linkPath;
-    }
-    return current === linkPath || (location.pathname === linkPath && !location.search);
+  /* Close a desktop dropdown when focus leaves it entirely */
+  const handleBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) setOpenMenu(null);
   };
 
-  const isParentActive = (link) =>
-    isLinkActive(link.path) || (link.children || []).some((child) => isLinkActive(child.path));
+  const handleMenuKeyDown = (e, name) => {
+    if (e.key === 'Escape') {
+      setOpenMenu(null);
+      triggerRefs.current[name]?.focus();
+    }
+  };
+
+  const linkBase =
+    'relative inline-flex items-center gap-1 h-full text-[16px] font-semibold transition-colors duration-200 whitespace-nowrap';
 
   return (
     <>
-      {/* ═══════════════════════════════════════════════════════
-          MAIN NAVBAR (full width, fixed to the top)
-      ═══════════════════════════════════════════════════════ */}
-      <header className="fixed left-0 right-0 top-0 z-50 font-navbar">
-        <nav
-          className={`bg-white border-b border-slate-200 transition-shadow duration-300 ${scrolled ? 'shadow-[0_8px_30px_rgba(0,0,0,0.08)]' : ''}`}
-        >
-          <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 md:h-[72px] flex items-center justify-between">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[1000] focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded-lg"
+      >
+        Skip to content
+      </a>
 
-            {/* ── Logo ── */}
-            <Link to="/" className="flex items-center gap-3 shrink-0 group">
+      <header className="fixed left-0 right-0 top-0 z-50 font-sans">
+        <nav
+          aria-label="Main"
+          className={`transition-[background-color,box-shadow] duration-300 ${
+            scrolled
+              ? 'bg-white/95 backdrop-blur-md shadow-[0_8px_24px_-6px_rgba(3,47,49,0.16)]'
+              : 'bg-white shadow-[0_6px_20px_-6px_rgba(3,47,49,0.12)]'
+          }`}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 h-16 md:h-20 flex items-center justify-between gap-6">
+            {/* Logo */}
+            <Link to="/" className="flex items-center shrink-0" aria-label="Binud Software Solutions — Home">
               <img
-                src="/logo.png"
+                src="/logo-navbar.png"
                 alt="Binud Software Solutions"
-                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                width={470}
+                height={120}
+                className="h-10 md:h-12 w-auto object-contain"
               />
             </Link>
 
-            {/* ── Desktop Links ── */}
-            <div className="hidden xl:flex items-center xl:gap-9 2xl:gap-10 h-full">
+            {/* Desktop links */}
+            <ul className="hidden lg:flex items-center gap-8 h-full">
               {navLinks.map((link) => {
                 const active = isParentActive(link);
-                const linkStyle = {
-                  fontFamily: "'Open Sans', sans-serif",
-                  fontWeight: 600,
-                  color: active ? '#005eb8' : 'rgb(34, 34, 34)',
-                };
-                const linkClass = `text-[15px] 2xl:text-[16px] transition-colors duration-200 py-2 whitespace-nowrap hover:text-[#005eb8] ${active ? 'font-bold' : ''}`;
+                // Active page: blue text only, no underline
+                const colour = active ? 'text-primary' : 'text-ink hover:text-primary';
 
                 if (!link.children) {
                   return (
-                    <Link key={link.name} to={link.path} style={linkStyle} className={linkClass}>
-                      {link.name}
-                    </Link>
+                    <li key={link.name} className="h-full flex items-center">
+                      <Link
+                        to={link.path}
+                        className={`${linkBase} ${colour}`}
+                        aria-current={active ? 'page' : undefined}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
                   );
                 }
 
+                const open = openMenu === link.name;
+                const panelId = `menu-${link.name.toLowerCase()}`;
                 return (
-                  <div key={link.name} className="relative group/dd h-full flex items-center">
-                    <Link
-                      to={link.path}
-                      style={linkStyle}
-                      className={`${linkClass} inline-flex items-center gap-1`}
-                      aria-haspopup="true"
-                    >
-                      {link.name}
-                      <HiChevronDown size={15} className="transition-transform duration-200 group-hover/dd:rotate-180 group-focus-within/dd:rotate-180" />
-                    </Link>
+                  <li
+                    key={link.name}
+                    className="relative h-full flex items-center"
+                    onMouseEnter={() => setOpenMenu(link.name)}
+                    onMouseLeave={() => setOpenMenu((current) => (current === link.name ? null : current))}
+                    onBlur={handleBlur}
+                    onKeyDown={(e) => handleMenuKeyDown(e, link.name)}
+                  >
+                    <span className={`${linkBase} ${colour}`}>
+                      <Link to={link.path} className="py-2">
+                        {link.name}
+                      </Link>
+                      <button
+                        type="button"
+                        ref={(el) => { triggerRefs.current[link.name] = el; }}
+                        onClick={() => setOpenMenu(open ? null : link.name)}
+                        aria-expanded={open}
+                        aria-controls={panelId}
+                        aria-label={`${link.name} submenu`}
+                        className="p-1 -mr-1 rounded cursor-pointer"
+                      >
+                        <HiChevronDown
+                          size={16}
+                          aria-hidden="true"
+                          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                    </span>
 
-                    {/* Dropdown Panel — hangs directly below the bar, left-aligned with the menu item */}
-                    <div className="absolute -left-4 top-full opacity-0 invisible group-hover/dd:opacity-100 group-hover/dd:visible group-focus-within/dd:opacity-100 group-focus-within/dd:visible transition-opacity duration-200">
-                      <div className="w-64 bg-white rounded-b-card overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.14)] divide-y divide-black/[0.06]">
-                        {link.children.map((child) => {
-                          const childActive = isLinkActive(child.path);
-                          return (
+                    {/* Dropdown panel: simple one-line links */}
+                    <div
+                      id={panelId}
+                      className={`absolute top-full -left-4 pt-2 transition-opacity duration-300 ease-in-out ${
+                        open ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+                      }`}
+                    >
+                      <ul className="w-60 bg-white rounded-xl border border-line overflow-hidden">
+                        {link.children.map((child) => (
+                          <li key={child.name}>
                             <Link
-                              key={child.path}
                               to={child.path}
-                              style={{ fontFamily: "'Open Sans', sans-serif" }}
-                              className={`block px-5 py-3 text-[14px] font-medium transition-colors duration-150 hover:bg-[#005eb8] hover:text-white ${childActive
-                                ? 'bg-[#005eb8] text-white'
-                                : 'text-[#222222]'
-                                }`}
+                              className="block px-5 py-3 text-[15px] font-medium text-ink whitespace-nowrap transition-colors duration-300 ease-in-out hover:bg-sky hover:text-primary focus-visible:bg-sky focus-visible:outline-offset-[-3px]"
                             >
                               {child.name}
                             </Link>
-                          );
-                        })}
-                      </div>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
-            {/* ── Right side actions ── */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="hidden md:block">
-                <ArrowButton to="/contact">Book a Call</ArrowButton>
-              </div>
+            {/* Right side actions */}
+            <div className="flex items-center gap-3 shrink-0">
+              <Link
+                to="/contact"
+                className="hidden sm:inline-flex items-center h-11 px-4 rounded-[var(--radius-btn)] bg-accent text-white text-[17px] font-medium transition-colors duration-300 ease-in-out hover:bg-primary"
+              >
+                Contact Us
+              </Link>
 
-              {/* Hamburger Toggle */}
               <button
-                className="xl:hidden p-2.5 rounded-full border border-slate-200 text-[#222222] hover:bg-slate-50 transition-colors"
+                type="button"
+                className="lg:hidden w-11 h-11 flex items-center justify-center rounded-[10px] border border-line bg-white text-ink hover:bg-sky transition-colors"
                 onClick={openDrawer}
                 aria-label="Open menu"
+                aria-expanded={drawerOpen}
+                aria-controls="mobile-drawer"
               >
-                <HiMenuAlt3 size={20} />
+                <HiMenuAlt3 size={22} aria-hidden="true" />
               </button>
             </div>
-
           </div>
         </nav>
       </header>
 
       {/* Reserves the header's height so page content starts below it */}
-      <div aria-hidden="true" className="h-16 md:h-[72px]" />
+      <div aria-hidden="true" className="h-16 md:h-20" />
+      <span id="main-content" tabIndex={-1} className="sr-only">Main content</span>
 
-      {/* ═══════════════════════════════════════════════════════
-          MOBILE DRAWER — Backdrop + Slide Panel
-      ═══════════════════════════════════════════════════════ */}
-
-      {/* Backdrop overlay */}
+      {/* ═══ Mobile drawer ═══ */}
       <div
         onClick={closeDrawer}
-        className="fixed inset-0 z-[998]"
-        style={{
-          background: 'rgba(15, 23, 42, 0.45)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-          opacity: drawerOpen ? 1 : 0,
-          pointerEvents: drawerOpen ? 'auto' : 'none',
-          transition: 'opacity 0.3s ease',
-        }}
+        aria-hidden="true"
+        className={`fixed inset-0 z-[998] bg-navy/50 backdrop-blur-sm transition-opacity duration-300 ${
+          drawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
       />
 
-      {/* Slide-out Drawer */}
       <div
-        className="fixed top-0 left-0 bottom-0 z-[999] flex flex-col font-navbar w-full h-screen bg-white"
-        style={{
-          width: '100%',
-          height: '100vh',
-          background: '#ffffff',
-          boxShadow: drawerOpen ? '4px 0 25px rgba(0,0,0,0.12)' : 'none',
-          transform: drawerOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-          willChange: 'transform',
-        }}
+        id="mobile-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        inert={!drawerOpen}
+        className={`fixed top-0 right-0 bottom-0 z-[999] flex flex-col w-full sm:w-[400px] bg-white transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          drawerOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        {/* Drawer Header */}
-        <div className="flex items-center justify-between p-6 pb-5">
-          <Link to="/" className="flex items-center" onClick={closeDrawer}>
+        <div className="flex items-center justify-between px-5 h-16 border-b border-line">
+          <Link to="/" className="flex items-center gap-2.5" onClick={closeDrawer}>
             <img
-              src="/logo.png"
+              src="/logo-navbar.png"
               alt="Binud Software Solutions"
-              className="h-9 w-auto object-contain"
+              width={470}
+              height={120}
+              className="h-10 w-auto object-contain"
             />
           </Link>
           <button
+            type="button"
             onClick={closeDrawer}
-            className="p-1.5 rounded-full border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-[10px] border border-line hover:bg-sky text-ink transition-colors"
             aria-label="Close menu"
           >
-            <HiX size={18} />
+            <HiX size={20} aria-hidden="true" />
           </button>
         </div>
 
-        {/* Drawer Navigation Links */}
-        <div className="flex-1 overflow-y-auto p-6 pt-4">
-          <div className="flex flex-col gap-1.5">
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <ul className="flex flex-col gap-1">
+            <li>
+              <Link
+                to="/"
+                onClick={closeDrawer}
+                className={`flex items-center w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold ${
+                  location.pathname === '/' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky'
+                }`}
+              >
+                Home
+              </Link>
+            </li>
             {navLinks.map((link) => {
               const active = isParentActive(link);
-              const itemStyle = {
-                fontFamily: "'Open Sans', sans-serif",
-                fontWeight: 600,
-                color: active ? '#005eb8' : 'rgb(34, 34, 34)',
-              };
-              const itemClass = `flex items-center justify-between w-full text-sm transition-all duration-200 py-3.5 px-5 rounded-card ${active
-                ? 'bg-[#005eb8]/8 font-bold'
-                : 'hover:bg-slate-50 hover:text-[#005eb8]'
-                }`;
+              const itemClass = `flex items-center justify-between w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold transition-colors ${
+                active ? 'bg-sky text-primary' : 'text-ink hover:bg-sky hover:text-primary'
+              }`;
 
               if (!link.children) {
                 return (
-                  <Link key={link.name} to={link.path} onClick={closeDrawer} style={itemStyle} className={itemClass}>
-                    <span>{link.name}</span>
-                  </Link>
+                  <li key={link.name}>
+                    <Link to={link.path} onClick={closeDrawer} className={itemClass}>
+                      {link.name}
+                    </Link>
+                  </li>
                 );
               }
 
               const expanded = openSubmenu === link.name;
               return (
-                <div key={link.name}>
+                <li key={link.name}>
                   <button
                     type="button"
                     onClick={() => setOpenSubmenu(expanded ? null : link.name)}
-                    style={itemStyle}
                     className={`${itemClass} cursor-pointer`}
                     aria-expanded={expanded}
                   >
                     <span>{link.name}</span>
-                    <HiChevronDown size={16} className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
+                    <HiChevronDown
+                      size={18}
+                      aria-hidden="true"
+                      className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                    />
                   </button>
 
                   {expanded && (
-                    <div className="mt-1 flex flex-col gap-1">
-                      {link.children.map((child) => {
-                        const childActive = isLinkActive(child.path);
-                        return (
+                    <ul className="mt-1 mb-2 ml-4 pl-3 border-l-2 border-line flex flex-col gap-0.5">
+                      {link.children.map((child) => (
+                        <li key={child.name}>
                           <Link
-                            key={child.path}
                             to={child.path}
                             onClick={closeDrawer}
-                            className={`py-3 px-5 rounded-card text-sm font-semibold transition-colors ${childActive
-                              ? 'text-[#005eb8] bg-[#005eb8]/8'
-                              : 'text-slate-600 hover:text-[#005eb8] hover:bg-slate-50'
-                              }`}
+                            className="block py-2.5 px-3 rounded-lg text-sm font-medium text-body hover:text-primary hover:bg-sky transition-colors"
                           >
                             {child.name}
                           </Link>
-                        );
-                      })}
-                    </div>
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </div>
+                </li>
               );
             })}
-          </div>
+            <li>
+              <Link
+                to="/contact"
+                onClick={closeDrawer}
+                className={`flex items-center w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold ${
+                  location.pathname === '/contact' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky'
+                }`}
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
         </div>
 
-        {/* Drawer Footer */}
-        <div className="p-6 border-t border-slate-100 bg-[#fbfbfe] font-navbar">
-          <div className="flex flex-col gap-3.5 text-xs text-slate-500 font-bold font-navbar">
-            <span className="text-[10px] text-slate-400 uppercase tracking-wider font-extrabold px-1">
-              Connect with us
-            </span>
-            <a
-              href="mailto:binudp.dev@gmail.com"
-              className="flex items-center gap-2.5 px-1 hover:text-[#005eb8] transition-colors"
-            >
-              <HiMail className="text-sm text-slate-400 shrink-0" />
+        <div className="p-5 border-t border-line bg-sky">
+          <ArrowButton to="/contact" variant="solid" className="w-full mb-4" onClick={closeDrawer}>
+            Get a Free Consultation
+          </ArrowButton>
+          <div className="flex flex-col gap-3 text-sm font-medium text-body">
+            <a href="mailto:binudp.dev@gmail.com" className="flex items-center gap-2.5 hover:text-primary transition-colors">
+              <HiMail className="text-primary shrink-0" size={18} aria-hidden="true" />
               <span className="truncate">binudp.dev@gmail.com</span>
             </a>
-            <a
-              href="tel:+919706393924"
-              className="flex items-center gap-2.5 px-1 hover:text-[#005eb8] transition-colors"
-            >
-              <HiPhone className="text-sm text-slate-400 shrink-0" />
+            <a href="tel:+919706393924" className="flex items-center gap-2.5 hover:text-primary transition-colors">
+              <HiPhone className="text-primary shrink-0" size={18} aria-hidden="true" />
               <span>+91 97063 93924</span>
             </a>
           </div>

@@ -1,17 +1,17 @@
 import { lazy, Suspense } from 'react';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
-import MarqueeBar from '../components/MarqueeBar';
 import HeroSection from '../sections/HeroSection';
 
 // Everything below the first screen is downloaded in the background, so the hero appears sooner.
-const AboutPreview = lazy(() => import('../sections/AboutPreview'));
+const ClientsSection = lazy(() => import('../sections/ClientsSection'));
+const WhyChooseSection = lazy(() => import('../sections/WhyChooseSection'));
+const GrowthBanner = lazy(() => import('../sections/GrowthBanner'));
+const TechnologiesSection = lazy(() => import('../sections/TechnologiesSection'));
 const ServicesPreview = lazy(() => import('../sections/ServicesPreview'));
-const WebsitesShowcase = lazy(() => import('../sections/WebsitesShowcase'));
-const TestimonialsSection = lazy(() => import('../sections/TestimonialsSection'));
-const CTASection = lazy(() => import('../sections/CTASection'));
+const ProcessSection = lazy(() => import('../sections/ProcessSection'));
+const ConsultationBanner = lazy(() => import('../sections/ConsultationBanner'));
 const LatestBlogsSection = lazy(() => import('../sections/LatestBlogsSection'));
-const ConnectSection = lazy(() => import('../sections/ConnectSection'));
 const Footer = lazy(() => import('../components/Footer'));
 
 
@@ -96,15 +96,15 @@ const Home = () => {
       />
       <Navbar />
       <HeroSection />
-      <MarqueeBar />
       <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
-        <AboutPreview />
         <ServicesPreview />
-        <WebsitesShowcase limit={3} />
-        <TestimonialsSection />
-        <CTASection />
+        <ClientsSection />
+        <WhyChooseSection />
+        <GrowthBanner />
+        <TechnologiesSection />
+        <ProcessSection />
+        <ConsultationBanner />
         <LatestBlogsSection />
-        <ConnectSection />
         <Footer />
       </Suspense>
     </div>

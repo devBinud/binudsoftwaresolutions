@@ -36,7 +36,7 @@ const AdminLogin = () => {
     }
   };
 
-  const inputClass = 'w-full h-12 px-4 bg-white text-[15px] text-[#191919] placeholder:text-slate-400 rounded-[10px] border border-slate-200 focus:border-[#005eb8] focus:ring-2 focus:ring-[#005eb8]/10 transition-colors outline-none';
+  const inputClass = 'w-full h-12 px-4 bg-white text-[15px] text-[#191919] placeholder:text-slate-400 rounded-[10px] border border-slate-200 focus:border-[#0077b6] focus:ring-2 focus:ring-[#0077b6]/10 transition-colors outline-none';
 
   const handleForgotPassword = () => {
     toast('Please contact root administration to reset admin access credentials.', {
@@ -46,7 +46,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#003366] via-[#005eb8] to-[#002244] relative overflow-hidden flex items-center justify-center p-4 sm:p-6 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-[#003366] via-[#0077b6] to-[#002244] relative overflow-hidden flex items-center justify-center p-4 sm:p-6 font-sans">
       
       {/* Background Ambient Glow Elements */}
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-sky-400/20 rounded-full blur-3xl pointer-events-none" />
@@ -62,7 +62,7 @@ const AdminLogin = () => {
       >
         {/* Centered Logo */}
         <div className="flex justify-center mb-6">
-          <Link to="/" className="inline-block transition-transform hover:scale-105">
+          <Link to="/" className="inline-block">
             <img
               src="/logo.png"
               alt="Binud Software Solutions"
@@ -141,7 +141,7 @@ const AdminLogin = () => {
             <button
               type="button"
               onClick={handleForgotPassword}
-              className="mt-3 text-sm font-bold text-[#191919] hover:text-[#005eb8] hover:underline transition-colors cursor-pointer"
+              className="mt-3 text-sm font-bold text-[#191919] hover:text-[#0077b6] hover:underline transition-colors cursor-pointer"
             >
               Forgot password?
             </button>
@@ -151,7 +151,7 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-[#005eb8] hover:bg-[#00488e] text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-[#005eb8]/30 hover:shadow-xl transition-all flex items-center justify-center gap-2 text-sm cursor-pointer disabled:opacity-60 mt-3"
+            className="w-full bg-[#0077b6] hover:bg-[#005f92] text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-[#0077b6]/30 hover:shadow-xl transition-all flex items-center justify-center gap-2 text-sm cursor-pointer disabled:opacity-60 mt-3"
           >
             {isSubmitting ? (
               <>

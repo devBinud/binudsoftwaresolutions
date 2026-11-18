@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import {
   FaAndroid,
@@ -16,14 +17,16 @@ import {
   FaLock
 } from 'react-icons/fa';
 
-// Import banner background image
-import bannerBgImage from '../assets/bg5.webp';
-
 // Import assets for Kangkan Case Study
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
 import kangkanHome from '../assets/case_studies/kangkan_screenshot/1.webp';
 import kangkanCategories from '../assets/case_studies/kangkan_screenshot/2.webp';
 import kangkanCart from '../assets/case_studies/kangkan_screenshot/4.webp';
+// GiveTheNeedy
+import gtnLogo from '../assets/case_studies/givetheneedy_screenshot/logo.webp';
+import gtnDonations from '../assets/case_studies/givetheneedy_screenshot/2.webp';
+import gtnWelcome from '../assets/case_studies/givetheneedy_screenshot/6.webp';
+import gtnHome from '../assets/case_studies/givetheneedy_screenshot/7.webp';
 import ArrowButton from '../components/ArrowButton';
 import WebsitesShowcase from '../sections/WebsitesShowcase';
 
@@ -114,7 +117,31 @@ const Portfolio = () => {
       stageColor: '#eadfdf', // matches the screenshots' background so the phones float
       platforms: ['Android', 'iOS'],
       tech: ['React Native', 'Laravel', 'MySQL', 'Razorpay', 'REST APIs'],
-    }
+      facts: [
+        { label: 'Client', value: 'Kangkan Retail Brands' },
+        { label: 'Industry', value: 'E-commerce & Retail' },
+        { label: 'Timeline', value: '4 months' },
+      ],
+    },
+    {
+      id: 'givetheneedy',
+      name: 'GiveTheNeedy',
+      category: 'Social Impact Mobile App',
+      title: 'GiveTheNeedy: A Purpose-Driven Social Impact App',
+      description: 'A donation platform that connects people who want to give with those in need, through a simple, transparent flow, backed by an event-driven Node.js engine and a flexible MongoDB data layer.',
+      logo: gtnLogo,
+      screens: [gtnHome, gtnWelcome, gtnDonations],
+      // These screenshots are device mockups on coloured strips: crop them into rounded frames
+      framed: true,
+      stageColor: '#ecebfb',
+      platforms: ['Android', 'iOS'],
+      tech: ['React Native', 'Node.js', 'Express', 'MongoDB'],
+      facts: [
+        { label: 'Client', value: 'GiveTheNeedy Foundation' },
+        { label: 'Industry', value: 'Nonprofit & Social Good' },
+        { label: 'Timeline', value: '3 months' },
+      ],
+    },
   ];
 
   const platformIcons = {
@@ -123,133 +150,130 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 font-sans">
+    <div className="min-h-screen bg-white font-sans">
       <SEOHead
         canonicalPath="/case-studies"
         jsonLd={portfolioJsonLd}
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src={bannerBgImage}
-            alt=""
-            className="w-full h-full object-cover opacity-45"
-          />
-          {/* Solid gradient overlay to guarantee perfect contrast and corporate look */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/85 to-transparent" />
-        </div>
+      <PageBanner
+        title="Portfolio & Case Studies"
+        crumbs={[{ name: 'Case Studies' }]}
+        variant="caseStudies"
+        description={[
+          'Real projects we have designed, built and shipped, from a culture-inspired e-commerce app to a social impact platform for Android and iOS.',
+          'Each case study walks through the challenge, our approach, the technology we chose and the results it delivered.',
+        ]}
+      />
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
-            Portfolio &amp; Case Studies
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">Case Studies</span>
-          </nav>
-        </div>
-      </section>
-
-      {/* Case Studies Showcase */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-10"
-          >
-            {caseStudies.map((cs) => (
-              <div
+      {/* Case studies: one full-width card each, visual and details alternating sides */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-8 md:gap-10">
+          {caseStudies.map((cs, idx) => {
+            const flip = idx % 2 === 1;
+            const link = `/case-studies/case-study/${cs.id}`;
+            return (
+              <motion.article
                 key={cs.id}
-                className="bg-white border border-slate-200/80 rounded-card overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex flex-col h-full text-left"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="group grid grid-cols-1 lg:grid-cols-2 bg-white border border-line rounded-card overflow-hidden text-left transition-colors duration-300 hover:border-[#9fd6ee]"
               >
-                {/* ── Visual Header: App Screens ── */}
-                <div
-                  className="relative h-64 sm:h-72 overflow-hidden"
+                {/* ── Visual: app screens on a matching stage ── */}
+                <Link
+                  to={link}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className={`relative block min-h-[300px] sm:min-h-[380px] lg:min-h-[460px] overflow-hidden ${flip ? 'lg:order-2' : ''}`}
                   style={{ backgroundColor: cs.stageColor }}
                 >
-                  {/* Logo & Platform Badges */}
-                  <div className="absolute top-4 left-4 right-4 z-20 flex items-start justify-between">
-                    <div className="w-14 h-14 rounded-xl bg-white p-1.5 shadow-md ring-1 ring-slate-200/70">
-                      <img src={cs.logo} alt={`${cs.name} logo`} className="w-full h-full object-contain" />
-                    </div>
-                    <div className="flex gap-1.5">
-                      {cs.platforms.map((platform) => {
-                        const { icon: PlatformIcon, color } = platformIcons[platform];
-                        return (
-                          <span
-                            key={platform}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm ring-1 ring-slate-200 text-[11px] font-bold text-slate-700 shadow-sm"
-                          >
-                            <PlatformIcon size={12} style={{ color }} />
-                            {platform}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Screenshots (centre screen raised) */}
-                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 sm:gap-4">
-                    {cs.screens.map((screen, i) => (
-                      <img
-                        key={screen}
-                        src={screen}
-                        alt={`${cs.name} app screen ${i + 1}`}
-                        loading="lazy"
-                        className={i === 1
-                          ? 'relative z-10 w-28 sm:w-32 translate-y-4'
-                          : 'w-24 sm:w-28 translate-y-12'
-                        }
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* ── Body ── */}
-                <div className="flex flex-col flex-grow p-6 sm:p-8">
-                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#005eb8] mb-2">
-                    {cs.category}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-[#191919] tracking-tight leading-tight mb-3">
-                    {cs.title}
-                  </h3>
-                  <p className="text-slate-500 leading-relaxed mb-6">
-                    {cs.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {cs.tech.map((techItem) => {
-                      const TechIcon = getTechIcon(techItem);
+                  <div className="absolute top-5 left-5 flex gap-2 z-20">
+                    {cs.platforms.map((platform) => {
+                      const { icon: PlatformIcon, color } = platformIcons[platform];
                       return (
                         <span
-                          key={techItem}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-700"
+                          key={platform}
+                          className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-white/90 text-sm font-medium text-ink"
                         >
-                          <TechIcon size={13} style={{ color: getTechColor(techItem) }} />
-                          {techItem}
+                          <PlatformIcon size={14} style={{ color }} />
+                          {platform}
                         </span>
                       );
                     })}
                   </div>
 
-                  {/* Call to Action */}
-                  <div className="mt-auto">
-                    <ArrowButton to={`/case-studies/case-study/${cs.id}`}>Read Case Study</ArrowButton>
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 sm:gap-5 transition-transform duration-500 ease-out group-hover:-translate-y-2">
+                    {cs.screens.map((screen, i) => {
+                      const centre = i === 1;
+                      const size = centre
+                        ? 'relative z-10 w-32 sm:w-40 lg:w-44 translate-y-6'
+                        : 'w-28 sm:w-32 lg:w-36 translate-y-16';
+                      return cs.framed ? (
+                        <div key={screen} className={`${size} aspect-[185/296] rounded-[18px] overflow-hidden bg-white`}>
+                          <img src={screen} alt="" loading="lazy" className="w-full h-full object-cover scale-[1.14]" />
+                        </div>
+                      ) : (
+                        <img key={screen} src={screen} alt="" loading="lazy" className={size} />
+                      );
+                    })}
+                  </div>
+                </Link>
+
+                {/* ── Details ── */}
+                <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                  <div className="flex items-center gap-3.5">
+                    <span className="w-12 h-12 rounded-xl bg-white border border-line p-1.5 shrink-0">
+                      <img src={cs.logo} alt={`${cs.name} logo`} className="w-full h-full object-contain" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[17px] font-semibold text-ink leading-tight">{cs.name}</p>
+                      <p className="text-sm text-muted leading-tight mt-1">{cs.category}</p>
+                    </div>
+                  </div>
+
+                  <h2 className="mt-6 text-[22px] md:text-[26px] font-semibold text-ink leading-snug tracking-tight">
+                    <Link to={link} className="hover:text-primary transition-colors duration-300">
+                      {cs.title}
+                    </Link>
+                  </h2>
+                  <p className="mt-3 text-body text-base leading-relaxed">
+                    {cs.description}
+                  </p>
+
+                  <dl className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 py-5 border-y border-line">
+                    {cs.facts.map((fact) => (
+                      <div key={fact.label} className="min-w-0">
+                        <dt className="text-sm text-muted">{fact.label}</dt>
+                        <dd className="mt-1 text-[15px] font-medium text-ink leading-snug">{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+
+                  <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technology used">
+                    {cs.tech.map((techItem) => {
+                      const TechIcon = getTechIcon(techItem);
+                      return (
+                        <li
+                          key={techItem}
+                          className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-sky text-sm text-body"
+                        >
+                          <TechIcon size={14} style={{ color: getTechColor(techItem) }} aria-hidden="true" />
+                          {techItem}
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  <div className="mt-8">
+                    <ArrowButton to={link} variant="solid">Read case study</ArrowButton>
                   </div>
                 </div>
-              </div>
-            ))}
-          </motion.div>
-
+              </motion.article>
+            );
+          })}
         </div>
       </section>
 

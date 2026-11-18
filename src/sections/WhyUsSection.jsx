@@ -34,10 +34,9 @@ const WhyUsSection = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5 }}
           >
-            <span className="badge mb-3">Why Choose Us</span>
             <h2 className="section-title mb-4">
               We Don't Just Build Software,<br />
-              We Build <span className="text-[#005eb8]">Partnerships</span>
+              We Build <span className="text-[#0077b6]">Partnerships</span>
             </h2>
             <p className="text-[#64748b] leading-relaxed mb-7">
               At Binud Software Solutions, we take the time to understand your business, your goals,
@@ -46,7 +45,7 @@ const WhyUsSection = () => {
             <ul className="space-y-3">
               {points.map((point) => (
                 <li key={point} className="flex items-center gap-3 text-[#475569] text-sm">
-                  <HiCheckCircle className="text-[#005eb8] shrink-0" size={18} />
+                  <HiCheckCircle className="text-[#0077b6] shrink-0" size={18} />
                   {point}
                 </li>
               ))}
@@ -63,10 +62,10 @@ const WhyUsSection = () => {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="card p-5"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#e8f1fb] flex items-center justify-center mb-3">
-                  <reason.icon size={17} className="text-[#005eb8]" />
+                <div className="w-10 h-10 rounded-xl bg-[#e6f5fc] flex items-center justify-center mb-3">
+                  <reason.icon size={17} className="text-[#0077b6]" />
                 </div>
-                <h4 className="text-[#0f172a] font-semibold text-sm mb-1.5">{reason.title}</h4>
+                <h4 className="text-ink font-semibold text-sm mb-1.5">{reason.title}</h4>
                 <p className="text-[#64748b] text-xs leading-relaxed">{reason.desc}</p>
               </motion.div>
             ))}

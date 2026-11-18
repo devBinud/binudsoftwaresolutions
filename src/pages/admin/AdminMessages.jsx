@@ -31,7 +31,7 @@ const MessageDetail = ({ msg, onClose, onDelete }) => {
       <div className="flex items-start justify-between gap-4 mb-5">
         <div className="min-w-0">
           <h3 className="text-[#0f172a] font-bold text-lg break-words">{msg.name}</h3>
-          <a href={`mailto:${msg.email}`} className="text-[#005eb8] text-sm hover:underline break-all">{msg.email}</a>
+          <a href={`mailto:${msg.email}`} className="text-[#0077b6] text-sm hover:underline break-all">{msg.email}</a>
           <p className="text-[#94a3b8] text-xs mt-1">{formatDate(msg, true)}</p>
         </div>
         <button onClick={onClose} className="text-[#94a3b8] hover:text-[#0f172a] cursor-pointer shrink-0" aria-label="Close message">
@@ -40,7 +40,7 @@ const MessageDetail = ({ msg, onClose, onDelete }) => {
       </div>
 
       {(msg.purpose || msg.service) && (
-        <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-[#005eb8]/10 text-[#005eb8] mb-4">
+        <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-[#0077b6]/10 text-[#0077b6] mb-4">
           {msg.purpose || msg.service}
         </span>
       )}
@@ -190,15 +190,15 @@ const AdminMessages = () => {
                   type="button"
                   onClick={() => openMessage(msg)}
                   className={`w-full text-left bg-white rounded-xl p-4 border transition-all cursor-pointer ${isSelected
-                    ? 'border-[#005eb8] shadow-sm'
-                    : 'border-gray-100 hover:border-[#005eb8]/40'
-                    } ${!msg.read ? 'border-l-4 border-l-[#005eb8]' : ''}`}
+                    ? 'border-[#0077b6] shadow-sm'
+                    : 'border-gray-100 hover:border-[#0077b6]/40'
+                    } ${!msg.read ? 'border-l-4 border-l-[#0077b6]' : ''}`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       {msg.read
                         ? <HiMailOpen size={16} className="text-[#94a3b8] shrink-0" />
-                        : <HiMail size={16} className="text-[#005eb8] shrink-0" />}
+                        : <HiMail size={16} className="text-[#0077b6] shrink-0" />}
                       <div className="min-w-0">
                         <div className={`text-sm truncate ${msg.read ? 'text-[#475569] font-medium' : 'text-[#0f172a] font-bold'}`}>
                           {msg.name}
@@ -210,7 +210,7 @@ const AdminMessages = () => {
                   </div>
                   <p className="text-[#64748b] text-xs mt-2 line-clamp-1">{msg.message}</p>
                   {(msg.purpose || msg.service) && (
-                    <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full mt-2 bg-[#005eb8]/10 text-[#005eb8]">
+                    <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-full mt-2 bg-[#0077b6]/10 text-[#0077b6]">
                       {msg.purpose || msg.service}
                     </span>
                   )}

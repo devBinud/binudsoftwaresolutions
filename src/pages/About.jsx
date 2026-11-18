@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
-import bannerBgImage from '../assets/bg1.webp';
-import binudAvatar from '../assets/team/binud.png';
-import { FaArrowRight, FaEye } from 'react-icons/fa';
+import founderPhoto from '../assets/team/founder.png';
+import { FiCheck } from 'react-icons/fi';
 import ArrowButton from '../components/ArrowButton';
 
 const aboutJsonLd = {
@@ -213,62 +213,21 @@ const About = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src={bannerBgImage}
-            alt=""
-            className="w-full h-full object-cover opacity-35"
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10 text-left">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
-            {isBlog ? 'Our Blog' : 'About Us'}
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            {isBlog ? (
-              <>
-                <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
-                <span>/</span>
-                <span className="text-white">Blog</span>
-              </>
-            ) : (
-              <span className="text-white">About Us</span>
-            )}
-          </nav>
-        </div>
-      </section>
+      <PageBanner
+        title={isBlog ? 'Our Blog' : 'About Us'}
+        crumbs={isBlog ? [{ name: 'About Us', path: '/about' }, { name: 'Blog' }] : [{ name: 'About Us' }]}
+        variant={isBlog ? 'blog' : 'about'}
+        description={isBlog ? [
+          'Insights, research papers and technical guides from our software engineering team.',
+        ] : [
+          'Founded in 2021, Binud Software Solutions is a custom software, mobile app and web development company helping businesses execute digital transformation.',
+          'As a true technology partner, we help startups and enterprises architect high-performance digital platforms and grow into recognised leaders in their industries.',
+        ]}
+      />
 
       {isBlog ? (
         /* Blog View */
         <>
-          {/* Blog Introduction Header */}
-          <section className="relative pt-16 pb-8 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="flex flex-col text-left"
-              >
-                <h2 className="text-[#3E4265] text-2xl md:text-3xl font-black mb-3 tracking-tight leading-tight">
-                  Insights &amp; Engineering Perspectives
-                </h2>
-                <div className="w-16 h-[3px] bg-[#005eb8] mb-6 rounded-full" />
-                <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-                  Insights, research papers, and technical guides from our elite software engineering team.
-                </p>
-              </motion.div>
-            </div>
-          </section>
-
           {/* Placeholder Grid Section */}
           <section className="py-16 md:py-24 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center relative z-10">
@@ -279,12 +238,12 @@ const About = () => {
                 transition={{ duration: 0.6 }}
                 className="bg-white rounded-card border border-slate-200 p-10 md:p-14 flex flex-col items-center justify-center max-w-xl w-full"
               >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-extrabold uppercase tracking-widest text-[#005eb8] mb-8">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#005eb8] animate-pulse" />
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-extrabold uppercase tracking-widest text-[#0077b6] mb-8">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0077b6] animate-pulse" />
                   Under Construction
                 </div>
 
-                <h3 className="text-[#191919] font-black text-2xl md:text-3xl tracking-tight mb-4 font-sans">
+                <h3 className="text-ink font-semibold text-[22px] md:text-2xl tracking-tight mb-4 font-sans">
                   We are working on this page
                 </h3>
 
@@ -300,277 +259,152 @@ const About = () => {
       ) : (
         /* About Us View */
         <>
-          {/* Hero Header Section */}
-          <section className="relative pt-16 pb-24 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-
-                {/* Left Column: Heading */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="flex flex-col text-left"
-                >
-                  <h2 className="text-[#191919] text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight font-sans">
-                    Top Web &amp; Mobile Application Development, Custom Software Engineering &amp; IT Consulting Company,
-                  </h2>
-                  <p className="text-slate-400 text-3xl sm:text-[38px] lg:text-[42px] font-black leading-[1.15] tracking-tight mt-0 font-sans">
-                    Building Smart Solutions For A Smarter World.
-                  </p>
-                </motion.div>
-
-                {/* Right Column: Narrative Block */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.15 }}
-                  className="flex flex-col text-left lg:pt-2"
-                >
-                  <p className="text-slate-600 text-base md:text-[17px] leading-relaxed font-medium mb-6">
-                    Founded in the year 2021, <strong className="text-[#191919] font-bold">Binud Software Solutions</strong> is
-                    a leading Custom Software, Mobile App, and Web development agency helping global businesses
-                    execute digital transformation.
-                  </p>
-
-                  <p className="text-slate-600 text-base md:text-[17px] leading-relaxed font-medium">
-                    Being a true technological companion, we help startups and enterprise-level businesses
-                    architect high-performance digital platforms to become recognized industry leaders.
-                  </p>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-
           {/* ── Our Process Section (Step-by-Step Methodology) ── */}
-          <section
-            className="py-16 md:py-24 bg-[#ffffff] text-[#172b4d] overflow-hidden text-left relative"
-            style={{
-              backgroundColor: 'rgb(255, 255, 255)',
-              color: 'rgb(23, 43, 77)',
-              fontFamily: "'Open Sans', sans-serif"
-            }}
-          >
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <section className="py-16 md:py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
 
               {/* Section Header */}
-              <div className="mb-14 max-w-3xl">
-                <span className="badge mb-4">
-                  Our Process
-                </span>
-                <h2 className="text-[#172b4d] text-3xl sm:text-4xl lg:text-[40px] font-black leading-tight tracking-tight font-sans mb-3">
+              <div className="max-w-3xl mx-auto text-center mb-12 md:mb-14">
+                <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight mb-4">
                   How We Engineer &amp; Deliver
                 </h2>
-                <p
-                  className="text-[#172b4d]/80 text-[16px] leading-relaxed"
-                  style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 400, fontSize: '16px' }}
-                >
-                  A proven, structured 7-step software engineering methodology designed for startups and enterprises seeking a long-term technology partner.
+                <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8]">
+                  A proven, structured 7-step software engineering methodology designed for startups and enterprises
+                  seeking a long-term technology partner.
                 </p>
               </div>
 
-              {/* Main 2-Column Content Layout */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-
-                {/* Left Column: Step-by-Step Editorial Flow */}
-                <div className="lg:col-span-8 flex flex-col space-y-12">
-                  {processSteps.map((step) => (
-                    <div
-                      key={step.id}
-                      id={`step-${step.id}`}
-                      className="pb-12 last:pb-0 scroll-mt-28"
-                    >
-                      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-
-                        {/* Step Number & Title + Left Side Visual Container */}
-                        <div className="md:col-span-5 flex flex-col">
-                          <h3 className="text-[#172b4d] font-black text-xl sm:text-2xl font-sans tracking-tight leading-snug">
-                            <span className="text-[#005eb8] mr-2">{step.numLabel}.</span>
-                            {step.name}
-                          </h3>
-                          <span className="text-[#005eb8] text-xs sm:text-sm font-bold italic mt-1.5 mb-3.5">
-                            {step.tagline}
-                          </span>
-
-                          {/* Left Side Image / Graphic Container */}
-                          <div className="w-full max-w-[240px] aspect-[4/3] rounded-xl overflow-hidden border border-slate-200/80 bg-slate-50 shadow-sm relative group">
-                            {step.image ? (
-                              <img loading="lazy" decoding="async"
-                                src={step.image}
-                                alt={`${step.name} - ${step.tagline}`}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center">
-                                <span className="text-2xl mb-1">🖼️</span>
-                                <span className="text-[11px] font-semibold">Image Placeholder</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Description & Structured Deliverables */}
-                        <div className="md:col-span-7 flex flex-col justify-center">
-                          <p
-                            className="text-[#172b4d] text-[16px] leading-relaxed mb-4"
-                            style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 400, fontSize: '16px' }}
-                          >
-                            {step.desc}
-                          </p>
-
-                          <ul className="space-y-3">
-                            {step.details.map((detail, dIdx) => (
-                              <li
-                                key={dIdx}
-                                className="flex items-start gap-3 text-[16px] text-[#172b4d] leading-relaxed"
-                                style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 400, fontSize: '16px' }}
-                              >
-                                <span className="w-1.5 h-1.5 bg-[#005eb8] rounded-none mt-2.5 shrink-0" />
-                                <span>{detail}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                      </div>
+              {/* Step cards */}
+              <div className="flex flex-wrap justify-center gap-6">
+                {processSteps.map((step, i) => (
+                  <motion.article
+                    key={step.id}
+                    id={`step-${step.id}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
+                    className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-sky border border-line rounded-card p-5 sm:p-6 text-left scroll-mt-28"
+                  >
+                    <div className="aspect-[16/9] rounded-xl overflow-hidden bg-line mb-5">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={step.image}
+                        alt={`${step.name} - ${step.tagline}`}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  ))}
-                </div>
 
-                {/* Right Column: Sticky Table of Contents & Action Widget */}
-                <div className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
+                    <span className="block text-primary text-sm font-medium mb-2">{step.tagline}</span>
 
-                  {/* Table of Contents Box */}
-                  <div className="bg-[#ffffff] rounded-card border border-slate-200 p-6 shadow-sm">
-                    <h4 className="text-xs font-black uppercase tracking-widest text-[#172b4d] pb-3 border-b border-slate-200 mb-4 font-sans">
-                      Table of Contents
-                    </h4>
+                    <h3 className="text-ink text-[22px] font-semibold tracking-tight leading-snug mb-3">
+                      {step.name}
+                    </h3>
+                    <p className="text-body !text-[15px] leading-[1.75] mb-4">{step.desc}</p>
 
-                    <nav className="flex flex-col space-y-1">
-                      {processSteps.map((step) => (
-                        <a
-                          key={step.id}
-                          href={`#step-${step.id}`}
-                          className="px-3 py-2 text-[14px] text-[#172b4d]/85 hover:text-[#005eb8] hover:bg-slate-50 border-l-2 border-transparent hover:border-[#005eb8] transition-all flex items-center justify-between group"
-                          style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 400 }}
-                        >
-                          <span className="flex items-center gap-2">
-                            <span className="text-[#005eb8] font-bold text-xs font-sans">{step.number}.</span>
-                            <span className="group-hover:translate-x-0.5 transition-transform">{step.name}</span>
-                          </span>
-                          <span className="text-slate-400 text-[11px] italic hidden sm:inline">{step.tagline}</span>
-                        </a>
+                    <ul className="space-y-2.5">
+                      {step.details.map((detail) => (
+                        <li key={detail} className="flex items-start gap-2.5 !text-[15px] text-ink/85 leading-relaxed">
+                          <FiCheck size={16} className="text-primary shrink-0 mt-1" aria-hidden="true" />
+                          <span>{detail}</span>
+                        </li>
                       ))}
-                    </nav>
-                  </div>
-
-                  {/* Schedule a Call Widget */}
-                  <div className="bg-[#f8fafc] rounded-card border border-slate-200 p-6 text-center flex flex-col items-center shadow-sm">
-                    <h4 className="text-[#172b4d] font-black text-base font-sans tracking-tight mb-2">
-                      Discuss a Potential Project
-                    </h4>
-
-                    <p
-                      className="text-[#172b4d]/80 text-[14px] leading-relaxed mb-5 max-w-xs"
-                      style={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 400 }}
-                    >
-                      Schedule a direct 20-minute consultation with our lead technical architect to explore scope, timeline, and strategy.
-                    </p>
-
-                    <ArrowButton to="/contact" className="w-full justify-between">Schedule a Call</ArrowButton>
-                  </div>
-
-                </div>
-
+                    </ul>
+                  </motion.article>
+                ))}
               </div>
-
             </div>
           </section>
 
           {/* ── Explore More: Vision & Mission / Founder's Desk ── */}
-          <section className="py-20 md:py-24 bg-[#f8fafc] text-left">
-            <div className="max-w-7xl mx-auto px-6 md:px-12">
-              <div className="max-w-2xl mb-10">
-                <span className="badge mb-4">
-                  Get to Know Us
-                </span>
-                <h2 className="text-[#191919] text-3xl sm:text-4xl font-black leading-tight tracking-tight">
+          <section className="py-16 md:py-24 bg-sky">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+              <div className="max-w-2xl mx-auto text-center mb-10 md:mb-12">
+                <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight mb-4">
                   What drives us, and who leads us
                 </h2>
+                <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8]">
+                  The purpose behind our work, and the person who started it all.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
 
                 {/* Vision & Mission */}
-                <motion.div
+                <motion.article
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
-                  className="relative overflow-hidden bg-[#092c4c] text-white rounded-card p-8 sm:p-10 flex flex-col"
+                  className="bg-white border border-line rounded-card p-7 sm:p-9 flex flex-col text-left"
                 >
-                  <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#005eb8]/40 blur-3xl pointer-events-none" />
-                  <div className="relative flex flex-col h-full">
-                    <div className="w-14 h-14 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center mb-6">
-                      <FaEye size={22} className="text-blue-300" />
+                  <span className="block text-primary text-sm font-medium mb-2">Vision &amp; Mission</span>
+                  <h3 className="text-ink text-[22px] font-semibold leading-snug tracking-tight mb-3">
+                    Building smart solutions for a smarter world
+                  </h3>
+                  <p className="text-body !text-[15px] md:!text-[16px] leading-[1.75] mb-6">
+                    Where we are headed, what we set out to do for every client, and the values behind every line
+                    of code.
+                  </p>
+
+                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div className="rounded-xl bg-sky border border-line p-5">
+                      <dt className="text-ink font-semibold mb-1.5">Our Vision</dt>
+                      <dd className="text-body !text-[15px] leading-relaxed">
+                        To be the most trusted technology partner from Northeast India.
+                      </dd>
                     </div>
-                    <span className="block text-xs font-extrabold uppercase tracking-widest text-blue-300 mb-3">
-                      Vision &amp; Mission
-                    </span>
-                    <h3 className="text-2xl font-black leading-snug tracking-tight mb-3">
-                      Building smart solutions for a smarter world
-                    </h3>
-                    <p className="text-slate-300 leading-relaxed mb-8">
-                      Discover where we are headed, what we set out to do for every client, and the core values
-                      behind every line of code.
-                    </p>
-                    <Link
-                      to="/about/vision-mission"
-                      className="group/cta mt-auto inline-flex items-center gap-2 w-fit text-sm font-bold uppercase tracking-wider text-white hover:text-blue-300 transition-colors"
-                    >
-                      Read Our Vision &amp; Mission
-                      <FaArrowRight size={12} className="group-hover/cta:translate-x-1 transition-transform duration-200" />
-                    </Link>
-                  </div>
-                </motion.div>
+                    <div className="rounded-xl bg-sky border border-line p-5">
+                      <dt className="text-ink font-semibold mb-1.5">Our Mission</dt>
+                      <dd className="text-body !text-[15px] leading-relaxed">
+                        To turn complex challenges into scalable, elegant technology solutions.
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <ArrowButton to="/about/vision-mission" variant="link" className="mt-auto w-fit">
+                    Read our Vision &amp; Mission
+                  </ArrowButton>
+                </motion.article>
 
                 {/* From Founder's Desk */}
-                <motion.div
+                <motion.article
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="bg-white border border-slate-200 rounded-card p-8 sm:p-10 shadow-sm flex flex-col"
+                  className="bg-white border border-line rounded-card overflow-hidden flex flex-col sm:flex-row text-left"
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <img loading="lazy" decoding="async"
-                      src={binudAvatar}
-                      alt="Binud Panging - Founder & CEO"
-                      className="w-14 h-14 rounded-full object-cover object-top bg-[#e8f1fb] ring-2 ring-white shadow-md"
+                  <div className="sm:w-[40%] shrink-0 bg-gradient-to-b from-sky to-primary-light flex items-end justify-center h-64 sm:h-auto">
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={founderPhoto}
+                      alt="Binud Panging, Founder & CEO"
+                      className="h-full w-full object-cover object-top sm:object-bottom"
                     />
-                    <div>
-                      <span className="block text-[#191919] font-black tracking-tight">Binud Panging</span>
-                      <span className="block text-xs font-semibold text-[#005eb8]">Founder &amp; CEO</span>
+                  </div>
+
+                  <div className="p-7 sm:p-8 flex flex-col flex-1">
+                    <span className="block text-primary text-sm font-medium mb-2">From Founder&apos;s Desk</span>
+                    <h3 className="text-ink text-[22px] font-semibold leading-snug tracking-tight mb-3">
+                      &ldquo;We don&apos;t just ship features, we shape your digital future.&rdquo;
+                    </h3>
+                    <p className="text-body !text-[15px] md:!text-[16px] leading-[1.75] mb-6">
+                      A personal note on why Binud Software Solutions was started, and how we approach every
+                      partnership.
+                    </p>
+
+                    <div className="mt-auto pt-5 border-t border-line">
+                      <span className="block text-ink font-semibold">Binud Panging</span>
+                      <span className="block text-sm text-muted mb-4">Founder &amp; CEO</span>
+                      <ArrowButton to="/about/founders-desk" variant="link" className="w-fit">
+                        Read the message
+                      </ArrowButton>
                     </div>
                   </div>
-                  <span className="block text-xs font-extrabold uppercase tracking-widest text-[#005eb8] mb-3">
-                    From Founder's Desk
-                  </span>
-                  <h3 className="text-[#191919] text-2xl font-black leading-snug tracking-tight mb-3">
-                    We don't just ship features, we shape your digital future
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed mb-8">
-                    A personal note from our founder on why Binud Software Solutions was started, and how we
-                    approach every partnership.
-                  </p>
-                  <Link
-                    to="/about/founders-desk"
-                    className="group/cta mt-auto inline-flex items-center gap-2 w-fit text-sm font-bold uppercase tracking-wider text-[#191919] hover:text-[#005eb8] transition-colors"
-                  >
-                    Read the Message
-                    <FaArrowRight size={12} className="group-hover/cta:translate-x-1 transition-transform duration-200" />
-                  </Link>
-                </motion.div>
+                </motion.article>
 
               </div>
             </div>

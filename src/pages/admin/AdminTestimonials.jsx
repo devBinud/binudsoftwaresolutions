@@ -16,7 +16,7 @@ import { FaStar } from 'react-icons/fa';
 const TEXT_LIMIT = 600;
 
 const inputClass =
-  'w-full bg-white border border-slate-200 rounded-[10px] px-4 py-2.5 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-[#005eb8] focus:ring-2 focus:ring-[#005eb8]/10';
+  'w-full bg-white border border-slate-200 rounded-[10px] px-4 py-2.5 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-[#0077b6] focus:ring-2 focus:ring-[#0077b6]/10';
 const labelClass = 'block text-sm font-medium text-[#0f172a] mb-1.5';
 
 const AdminTestimonials = () => {
@@ -225,7 +225,7 @@ const AdminTestimonials = () => {
                 <p className="text-[#334155] text-sm leading-relaxed line-clamp-4 mb-4 flex-1">&ldquo;{t.text}&rdquo;</p>
 
                 <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-9 h-9 shrink-0 rounded-full bg-[#005eb8] text-white flex items-center justify-center text-xs font-bold">
+                  <div className="w-9 h-9 shrink-0 rounded-full bg-[#0077b6] text-white flex items-center justify-center text-xs font-bold">
                     {(t.name || '?').split(' ').map((p) => p[0]).join('').slice(0, 2).toUpperCase()}
                   </div>
                   <div className="min-w-0">
@@ -236,10 +236,10 @@ const AdminTestimonials = () => {
                 </div>
 
                 <div className="flex gap-2 pt-3 border-t border-gray-100">
-                  <button onClick={() => openEdit(t)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-[#475569] hover:bg-slate-50 hover:text-[#005eb8] cursor-pointer">
+                  <button onClick={() => openEdit(t)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-[#475569] hover:bg-slate-50 hover:text-[#0077b6] cursor-pointer">
                     <HiPencil size={15} /> Edit
                   </button>
-                  <button onClick={() => toggleVisible(t)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-[#475569] hover:bg-slate-50 hover:text-[#005eb8] cursor-pointer">
+                  <button onClick={() => toggleVisible(t)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-[#475569] hover:bg-slate-50 hover:text-[#0077b6] cursor-pointer">
                     {hidden ? <><HiEye size={15} /> Show</> : <><HiEyeOff size={15} /> Hide</>}
                   </button>
                   <button onClick={() => handleDelete(t)} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-[#475569] hover:bg-red-50 hover:text-red-600 cursor-pointer">
@@ -307,7 +307,7 @@ const AdminTestimonials = () => {
               </div>
 
               <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                <input type="checkbox" {...register('visible')} className="w-4 h-4 accent-[#005eb8] cursor-pointer" />
+                <input type="checkbox" {...register('visible')} className="w-4 h-4 accent-[#0077b6] cursor-pointer" />
                 <span className="text-sm text-[#0f172a]">Show on website</span>
               </label>
 

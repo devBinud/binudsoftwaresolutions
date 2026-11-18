@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import { 
   HiX, 
@@ -22,7 +22,6 @@ import {
 import img1 from '../assets/gallery/1.jpeg';
 import img2 from '../assets/gallery/2.jpeg';
 import img3 from '../assets/gallery/3.jpeg';
-import bannerBgImage from '../assets/bg4.webp';
 
 // Import hostel memories images
 import hostel1 from '../assets/gallery/hostel_memories/1.jpeg';
@@ -308,7 +307,7 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-95"
+        className="absolute top-5 right-5 z-30 w-11 h-11 rounded-full bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-300 ease-in-out"
         aria-label="Close"
       >
         <HiX size={22} />
@@ -322,7 +321,7 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
       {/* Prev arrow */}
       <button
         onClick={prev}
-        className="absolute left-4 z-30 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg"
+        className="absolute left-4 z-30 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-300 ease-in-out"
         aria-label="Previous"
       >
         <HiArrowLeft size={22} />
@@ -331,7 +330,7 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
       {/* Next arrow */}
       <button
         onClick={next}
-        className="absolute right-4 z-30 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg"
+        className="absolute right-4 z-30 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 md:bg-white/10 md:hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-300 ease-in-out"
         aria-label="Next"
       >
         <HiArrowRight size={22} />
@@ -362,7 +361,7 @@ const Lightbox = ({ items, activeIndex, onClose }) => {
           <img
             src={item.src}
             alt={item.label}
-            className="w-full max-h-[75vh] object-contain rounded-lg shadow-2xl border border-white/5"
+            className="w-full max-h-[75vh] object-contain rounded-lg border border-white/5"
             draggable={false}
           />
           {/* Caption */}
@@ -571,30 +570,14 @@ const Gallery = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src={bannerBgImage}
-            alt=""
-            className="w-full h-full object-cover opacity-45"
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/85 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
-            Gallery
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">Gallery</span>
-          </nav>
-        </div>
-      </section>
+      <PageBanner
+        title="Gallery"
+        crumbs={[{ name: 'Gallery' }]}
+        variant="gallery"
+        description={[
+          'Moments from our journey: team milestones, client collaborations, events and the people behind the work.',
+        ]}
+      />
 
       {/* ── Gallery Section ── */}
       <section className="py-16 md:py-20 bg-[#f8fafc] border-t border-slate-100 flex-1">
@@ -609,9 +592,9 @@ const Gallery = () => {
             className="flex items-center justify-between mb-10 text-left"
           >
             <div>
-              <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">Past Experiences &amp; Memories</h2>
+              <h2 className="text-ink text-2xl font-semibold tracking-tight">Past Experiences &amp; Memories</h2>
               <p className="text-slate-500 text-[14.5px] italic mt-2 leading-relaxed max-w-2xl font-medium">
-                Every picture tells a story of collaboration and growth. What I am showing here is a collection of my <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#005eb8] not-italic font-bold">past professional experiences</span> and highlights from my journey working at Codepilot Technologies.
+                Every picture tells a story of collaboration and growth. What I am showing here is a collection of my <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#0077b6] not-italic font-bold">past professional experiences</span> and highlights from my journey working at Codepilot Technologies.
               </p>
             </div>
           </motion.div>
@@ -627,7 +610,7 @@ const Gallery = () => {
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
                 onClick={() => openLightbox(item)}
-                className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 transition-all duration-300 bg-white flex flex-col p-4"
               >
                 <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-slate-50 border border-slate-100">
                   <img loading="lazy" decoding="async"
@@ -638,7 +621,7 @@ const Gallery = () => {
                   />
                 </div>
                 <div className="pt-4 bg-white flex flex-col flex-1">
-                  <h3 className="text-slate-800 text-[15px] font-black leading-snug tracking-tight">
+                  <h3 className="text-slate-800 text-[15px] font-semibold leading-snug tracking-tight">
                     {item.label}
                   </h3>
                   <p className="text-slate-400 text-xs font-medium mt-1">
@@ -662,26 +645,26 @@ const Gallery = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 text-left">
                   <div>
                     <div className="flex items-center gap-3">
-                      <h2 className="text-[#0f172a] text-2xl font-black tracking-tight">
+                      <h2 className="text-ink text-2xl font-semibold tracking-tight">
                         Academic Days &amp; Hostel Memories
                       </h2>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                         <HiCheckCircle className="text-emerald-600 text-sm" />
                         Unlocked with PIN
                       </span>
                     </div>
                     <p className="text-slate-500 text-[14.5px] italic mt-2 leading-relaxed max-w-2xl font-medium">
-                      Before embarking on our professional careers, our foundational years were built during our academic and hostel days. This collection shares personal academic moments, hostel life highlights, and <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#005eb8] not-italic font-bold">special memories</span> shared with close hostelmates and batch mates.
+                      Before embarking on our professional careers, our foundational years were built during our academic and hostel days. This collection shares personal academic moments, hostel life highlights, and <span style={{ fontFamily: "'Caveat', 'Dancing Script', 'Brush Script MT', cursive" }} className="text-xl text-[#0077b6] not-italic font-bold">special memories</span> shared with close hostelmates and batch mates.
                     </p>
                   </div>
 
                   // Re-Lock Button
                   <button
                     onClick={lockAcademicSection}
-                    className="self-start sm:self-center inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg shadow-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
+                    className="self-start sm:self-center inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors duration-300 ease-in-out cursor-pointer"
                     title="Lock and protect this section again"
                   >
-                    <HiLockClosed className="text-[#005eb8] text-base" />
+                    <HiLockClosed className="text-[#0077b6] text-base" />
                     Lock Archive
                   </button>
                 </div>
@@ -696,7 +679,7 @@ const Gallery = () => {
                       initial="hidden"
                       animate="visible"
                       onClick={() => openLightbox(item)}
-                      className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300 bg-white flex flex-col p-4"
+                      className="group rounded-card overflow-hidden cursor-zoom-in border border-slate-200 hover:border-slate-300 transition-all duration-300 bg-white flex flex-col p-4"
                     >
                       <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-slate-50 border border-slate-100">
                         <img loading="lazy" decoding="async"
@@ -707,7 +690,7 @@ const Gallery = () => {
                         />
                       </div>
                       <div className="pt-4 bg-white flex flex-col flex-1">
-                        <h3 className="text-slate-800 text-[15px] font-black leading-snug tracking-tight">
+                        <h3 className="text-slate-800 text-[15px] font-semibold leading-snug tracking-tight">
                           {item.label}
                         </h3>
                         <p className="text-slate-400 text-xs font-medium mt-1">
@@ -727,10 +710,10 @@ const Gallery = () => {
                 transition={{ duration: 0.5 }}
                 className="max-w-2xl mx-auto"
               >
-                <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-card p-8 sm:p-12 shadow-lg shadow-slate-100/80 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
+                <div className={`bg-white border ${pinError ? 'border-red-300' : 'border-slate-200/90'} rounded-card p-8 sm:p-12 text-center transition-all ${isShaking ? 'animate-shake' : ''}`}>
                   
                   // Security Icon Badge
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#133866] to-[#005eb8] text-white flex items-center justify-center mx-auto shadow-md shadow-[#005eb8]/20 mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#0a4f75] to-[#0077b6] text-white flex items-center justify-center mx-auto mb-6">
                     {pinSuccess ? (
                       <HiLockOpen size={30} className="animate-bounce" />
                     ) : (
@@ -739,11 +722,11 @@ const Gallery = () => {
                   </div>
 
                   <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 mb-3 border border-slate-200">
-                    <HiShieldCheck className="text-[#005eb8] text-sm" />
+                    <HiShieldCheck className="text-[#0077b6] text-sm" />
                     Private &amp; Protected Archive
                   </div>
 
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
+                  <h3 className="text-xl md:text-[22px] font-semibold text-slate-900 tracking-tight mb-2">
                     Academic Days &amp; Hostel Memories
                   </h3>
                   
@@ -776,8 +759,8 @@ const Gallery = () => {
                           autoComplete="off"
                           className={`w-11 h-14 sm:w-13 sm:h-16 text-xl sm:text-2xl font-extrabold text-center rounded-xl transition-all duration-200 outline-none select-none font-mono ${
                             digit
-                              ? 'bg-blue-50/50 border-2 border-[#005eb8] text-[#133866] shadow-sm'
-                              : 'bg-slate-50 border-2 border-slate-200 text-slate-800 focus:bg-white focus:border-[#005eb8] focus:ring-4 focus:ring-[#005eb8]/10'
+                              ? 'bg-blue-50/50 border-2 border-[#0077b6] text-[#0a4f75] '
+                              : 'bg-slate-50 border-2 border-slate-200 text-slate-800 focus:bg-white focus:border-[#0077b6] focus:ring-4 focus:ring-[#0077b6]/10'
                           }`}
                           aria-label={`Digit ${index + 1}`}
                         />
@@ -822,7 +805,7 @@ const Gallery = () => {
                       <motion.div
                         initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center gap-2 text-rose-600 text-xs sm:text-sm font-bold bg-rose-50 border border-rose-200 px-4 py-2.5 rounded-xl mb-6 shadow-xs"
+                        className="flex items-center gap-2 text-rose-600 text-xs sm:text-sm font-bold bg-rose-50 border border-rose-200 px-4 py-2.5 rounded-xl mb-6"
                       >
                         <HiExclamationCircle className="text-base shrink-0" />
                         <span>{pinError}</span>
@@ -833,7 +816,7 @@ const Gallery = () => {
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="flex items-center gap-2 text-emerald-700 text-xs sm:text-sm font-bold bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl mb-6 shadow-xs"
+                        className="flex items-center gap-2 text-emerald-700 text-xs sm:text-sm font-bold bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl mb-6"
                       >
                         <HiCheckCircle className="text-base shrink-0 text-emerald-600" />
                         <span>Passcode verified! Unlocking memories...</span>
@@ -844,7 +827,7 @@ const Gallery = () => {
                     <button
                       type="submit"
                       disabled={pinSuccess}
-                      className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-gradient-to-r from-[#133866] to-[#005eb8] hover:from-[#0f2d52] hover:to-[#004b93] text-white font-bold text-sm rounded-card shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-75"
+                      className="w-full sm:w-auto min-w-[220px] px-8 py-3.5 bg-gradient-to-r from-[#0a4f75] to-[#0077b6] hover:from-[#0f2d52] hover:to-[#004b93] text-white font-bold text-sm rounded-card transition-[background-color,box-shadow] duration-300 ease-in-out flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
                     >
                       <HiKey className="text-base" />
                       <span>Unlock Archive</span>

@@ -95,7 +95,7 @@ const TeamGallerySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[#191919] text-3xl sm:text-[40px] font-black leading-tight tracking-tight font-sans mb-6"
+            className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight font-sans mb-6"
           >
             Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#274e85] to-[#695dd3]">Engineered Minds</span>
           </motion.h2>
@@ -122,7 +122,7 @@ const TeamGallerySection = () => {
               transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -8 }}
               onClick={() => setSelectedMember(member)}
-              className="group cursor-pointer relative bg-white rounded-card overflow-hidden shadow-[0_10px_35px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(39,78,133,0.12)] transition-all duration-500 border border-slate-100 flex flex-col"
+              className="group cursor-pointer relative bg-white rounded-card overflow-hidden transition-all duration-500 border border-slate-100 flex flex-col"
             >
               {/* Image Box */}
               <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
@@ -135,7 +135,7 @@ const TeamGallerySection = () => {
                 
                 {/* Floating Role Badge */}
                 <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-white/95 backdrop-blur-md text-[#274e85] text-[10px] font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm border border-slate-100">
+                  <span className="bg-white/95 backdrop-blur-md text-[#274e85] text-[10px] font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-slate-100">
                     {member.role.split(' ')[0]} {member.role.split(' ')[1] || ''}
                   </span>
                 </div>
@@ -148,7 +148,7 @@ const TeamGallerySection = () => {
                   <p className="text-[11px] font-bold text-[#9fc3f9] uppercase tracking-widest mb-1.5">
                     {member.role}
                   </p>
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-2 group-hover:text-[#9fc3f9] transition-colors">
+                  <h3 className="text-xl md:text-[22px] font-semibold tracking-tight mb-2 group-hover:text-[#9fc3f9] transition-colors">
                     {member.name}
                   </h3>
                   
@@ -185,7 +185,7 @@ const TeamGallerySection = () => {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 20, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 180 }}
-              className="bg-white rounded-card overflow-hidden max-w-4xl w-full shadow-2xl flex flex-col md:flex-row relative max-h-[90vh] md:max-h-[80vh]"
+              className="bg-white rounded-card overflow-hidden max-w-4xl w-full flex flex-col md:flex-row relative max-h-[90vh] md:max-h-[80vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -218,7 +218,7 @@ const TeamGallerySection = () => {
                   {selectedMember.role}
                 </span>
                 
-                <h3 className="text-2xl md:text-3xl font-black text-[#191919] tracking-tight">
+                <h3 className="text-[22px] md:text-2xl font-semibold text-ink tracking-tight">
                   {selectedMember.name}
                 </h3>
                 
@@ -234,7 +234,7 @@ const TeamGallerySection = () => {
 
                 {/* Specialties / Tech Stack */}
                 <div className="mb-8">
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-3">
+                  <h4 className="text-xs font-semibold text-slate-800 uppercase tracking-widest mb-3">
                     Core Specialties & Skills
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -260,7 +260,7 @@ const TeamGallerySection = () => {
                       href={selectedMember.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-all"
+                      className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#0077b6] hover:text-white hover:border-[#0077b6] transition-all"
                     >
                       <FaLinkedin size={15} />
                     </a>
@@ -274,7 +274,7 @@ const TeamGallerySection = () => {
                     </a>
                     <a
                       href={selectedMember.email}
-                      className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#005eb8] hover:text-white hover:border-[#005eb8] transition-all"
+                      className="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:bg-[#0077b6] hover:text-white hover:border-[#0077b6] transition-all"
                     >
                       <FaEnvelope size={14} />
                     </a>

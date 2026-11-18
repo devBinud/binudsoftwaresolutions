@@ -1,17 +1,43 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   Design tokens (see DESIGN.md)
+   primary   #0077b6 — buttons, links, small text (4.9:1 on white, WCAG AA)
+   accent    #0095d8 — icons, borders, focus rings, large display text only (3.3:1)
+   deep      #0a4f75 — two-tone heading accent
+   ink       #0b1b2b — headings
+   muted     #517584 — secondary text (4.9:1 on white)
+   sky       #f0faff — tinted section surface
+   navy      #06243a — footer / dark bands
+   ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-primary: #005eb8;
-  --color-primary-dark: #00488e;
-  --color-primary-light: #e8f1fb;
-  --color-accent: #005eb8;
-  --font-sans: 'Google Sans', 'Poppins', system-ui, sans-serif;
-  --font-opensans: 'Open Sans', sans-serif;
-  --font-navbar: 'Open Sans', sans-serif;
-  --font-dm: 'Open Sans', sans-serif;
-  --radius-card: 15px;
+  --color-primary: #0077b6;
+  --color-primary-dark: #005f92;
+  --color-primary-light: #e6f5fc;
+  --color-accent: #0095d8;
+  --color-deep: #0a4f75;
+  --color-ink: #0b1b2b;
+  --color-body: #34495c;
+  --color-muted: #517584;
+  --color-line: #d7ebf5;
+  --color-sky: #f0faff;
+  --color-navy: #06243a;
+
+  --font-sans: 'Poppins', 'Poppins Fallback', system-ui, Arial, Helvetica, sans-serif;
+  --font-opensans: 'Poppins', system-ui, sans-serif;
+  --font-navbar: 'Poppins', system-ui, sans-serif;
+  --font-dm: 'Poppins', system-ui, sans-serif;
+
+  --radius-card: 18px;
+  --radius-btn: 5px;
+
+  /* Flat look: no shadows on cards or buttons */
+  --shadow-soft: none;
+  --shadow-lift: none;
+  --shadow-accent: none;
 }
 
+@layer base {
 * {
   scroll-behavior: smooth;
   box-sizing: border-box;
@@ -23,23 +49,43 @@ html {
 
 body {
   background-color: #ffffff;
-  color: #3E4265;
-  font-family: 'Google Sans', 'Poppins', system-ui, sans-serif;
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 p, li, .prose p, .text-desc, blockquote p, .font-body {
-  font-family: 'Open Sans', system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-sans) !important;
   font-weight: 400;
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.75;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
 }
 
 #root {
   background-color: #ffffff;
   min-height: 100vh;
   isolation: isolate;
+}
+
+/* Keyboard focus: always visible, never removed */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: #bfe6f7;
+  color: var(--color-ink);
+}
 }
 
 /* Ticker scroll animation */
@@ -85,67 +131,87 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
   animation: shake 0.4s ease-in-out;
 }
 
+/* Gentle float for decorative hero cards */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #eef6fb;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #005eb8;
+  background: var(--color-primary);
   border-radius: 4px;
 }
 
-/* Buttons (solid primary color, rounded corners, no bg-gradients) */
-.btn-primary {
-  background: #005eb8;
-  color: #ffffff;
-  padding: 0.75rem 1.8rem;
-  border-radius: var(--radius-card);
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  border: 1px solid #005eb8;
-  cursor: pointer;
+@layer components {
+/* ── Buttons ── */
+.btn-primary,
+.btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.6rem;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.2;
   text-decoration: none;
+  cursor: pointer;
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #ffffff;
+  border: 1.5px solid var(--color-primary);
+  box-shadow: var(--shadow-accent);
 }
 
 .btn-primary:hover {
-  background: #00488e;
-  border-color: #00488e;
-  box-shadow: 0 4px 12px rgba(0, 94, 184, 0.25);
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
 .btn-outline {
-  background: transparent;
-  color: #005eb8;
-  padding: 0.75rem 1.8rem;
-  border-radius: var(--radius-card);
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  border: 2px solid #005eb8;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
+  background: #ffffff;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
 }
 
 .btn-outline:hover {
-  background: #005eb8;
+  background: var(--color-primary);
   color: #ffffff;
 }
 
+.btn-primary:disabled,
+.btn-outline:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* SweetAlert popups — match site corner radius (plain CSS, since swal styles outrank Tailwind utilities) */
-.swal2-popup,
-.swal2-styled {
+.swal2-popup {
   border-radius: var(--radius-card) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.swal2-styled {
+  border-radius: var(--radius-btn) !important;
 }
 
 /* Section spacing */
@@ -156,66 +222,66 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
 /* Card */
 .card {
   background: #ffffff;
-  border: 1px solid #e8edf2;
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-card);
-  transition: all 0.25s ease;
+  transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
 }
 
 .card:hover {
-  border-color: #005eb830;
-  box-shadow: 0 8px 30px rgba(0, 94, 184, 0.1);
+  border-color: #9fd6ee;
+  box-shadow: var(--shadow-lift);
   transform: translateY(-4px);
 }
 
-/* Badge: the red pill label above section headings ("Live Projects", "Our Capabilities", ...) */
-.badge {
-  display: inline-block;
-  background: #e53935;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 900;
-  line-height: 1rem;
-  padding: 0.375rem 0.875rem;
-  border-radius: 100px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 
 /* Section title */
 .section-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #3E4265;
+  font-size: clamp(1.625rem, 1.35rem + 1vw, 2rem);
+  font-weight: 600;
+  color: var(--color-ink);
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .section-sub {
-  color: #64748b;
+  color: var(--color-muted);
   font-size: 1rem;
-  line-height: 1.7;
-  max-width: 560px;
+  line-height: 1.75;
+  max-width: 600px;
+}
+
+/* Two-tone heading accent */
+.text-gradient {
+  background: linear-gradient(90deg, #0a4f75 0%, #0077b6 55%, #0095d8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Input */
 .form-input {
   width: 100%;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1.5px solid #d3e3ec;
+  border-radius: var(--radius-btn);
   padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  color: #3E4265;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
   background: #ffffff;
-  transition: border-color 0.2s;
+  transition: border-color 200ms, box-shadow 200ms;
   outline: none;
 }
 
 .form-input:focus {
-  border-color: #005eb8;
-  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.08);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 149, 216, 0.18);
+}
+
+.form-input[aria-invalid="true"] {
+  border-color: #c62828;
 }
 
 .form-input::placeholder {
-  color: #94a3b8;
+  color: #7b8f9c;
 }
 
 /* Admin sidebar */
@@ -234,23 +300,30 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
 
 .admin-nav-item:hover {
   background: #f1f5f9;
-  color: #005eb8;
+  color: var(--color-primary);
 }
 
 .admin-nav-item.active {
-  background: #e8f1fb;
-  color: #005eb8;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
   font-weight: 600;
 }
 
 /* Site-wide Typography Override */
 .scnsoft-font {
-  font-family: 'Google Sans', 'Poppins', system-ui, sans-serif !important;
+  font-family: var(--font-sans) !important;
 }
 
 /* Navbar Font Utility */
 .font-navbar {
-  font-family: 'DM Sans', sans-serif !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Subtle dotted grid used behind tinted sections */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(0, 119, 182, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
 }
 
 /* Continuous running dashed line and beam animations */
@@ -290,4 +363,98 @@ p, li, .prose p, .text-desc, blockquote p, .font-body {
 
 .animate-glow-beam {
   animation: pulseGlowBeam 2.5s ease-in-out infinite;
+}
+
+/* Respect reduced-motion preferences site-wide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Client logo grid: dashed lines between cells with a "+" where lines cross ──
+   2 columns on phones, 3 on tablets, 5 on desktop. Lines are drawn only between
+   cells (never on the outer edges), so the rules below drop the right border on the
+   last column and the bottom border on the last row for each column count. */
+@layer components {
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .logo-cell {
+    position: relative;
+    height: 120px;
+    border-style: dashed;
+    border-color: #9cc4d8;
+    border-width: 0 1px 1px 0;
+  }
+
+  .logo-cell::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    bottom: -7px;
+    z-index: 1;
+    width: 13px;
+    height: 13px;
+    background:
+      linear-gradient(#6fa6c0, #6fa6c0) center / 1px 100% no-repeat,
+      linear-gradient(#6fa6c0, #6fa6c0) center / 100% 1px no-repeat,
+      var(--color-sky);
+    pointer-events: none;
+  }
+
+  .logo-cell:last-child {
+    border-right-width: 0;
+  }
+
+  .logo-cell:last-child::after {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .logo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .logo-cell { height: 140px; }
+  }
+
+  @media (min-width: 1024px) {
+    .logo-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .logo-cell { height: 145px; }
+  }
+
+  /* Phones: 2 columns */
+  @media (max-width: 639px) {
+    .logo-cell:nth-child(2n) { border-right-width: 0; }
+    .logo-cell:nth-child(2n)::after { display: none; }
+    .logo-cell:nth-child(2n + 1):nth-last-child(-n + 2),
+    .logo-cell:nth-child(2n + 1):nth-last-child(-n + 2) ~ .logo-cell { border-bottom-width: 0; }
+    .logo-cell:nth-child(2n + 1):nth-last-child(-n + 2)::after,
+    .logo-cell:nth-child(2n + 1):nth-last-child(-n + 2) ~ .logo-cell::after { display: none; }
+  }
+
+  /* Tablets: 3 columns */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .logo-cell:nth-child(3n) { border-right-width: 0; }
+    .logo-cell:nth-child(3n)::after { display: none; }
+    .logo-cell:nth-child(3n + 1):nth-last-child(-n + 3),
+    .logo-cell:nth-child(3n + 1):nth-last-child(-n + 3) ~ .logo-cell { border-bottom-width: 0; }
+    .logo-cell:nth-child(3n + 1):nth-last-child(-n + 3)::after,
+    .logo-cell:nth-child(3n + 1):nth-last-child(-n + 3) ~ .logo-cell::after { display: none; }
+  }
+
+  /* Desktop: 5 columns */
+  @media (min-width: 1024px) {
+    .logo-cell:nth-child(5n) { border-right-width: 0; }
+    .logo-cell:nth-child(5n)::after { display: none; }
+    .logo-cell:nth-child(5n + 1):nth-last-child(-n + 5),
+    .logo-cell:nth-child(5n + 1):nth-last-child(-n + 5) ~ .logo-cell { border-bottom-width: 0; }
+    .logo-cell:nth-child(5n + 1):nth-last-child(-n + 5)::after,
+    .logo-cell:nth-child(5n + 1):nth-last-child(-n + 5) ~ .logo-cell::after { display: none; }
+  }
 }

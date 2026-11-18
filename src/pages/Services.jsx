@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { FiCheck } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
-import ArrowButton from '../components/ArrowButton';
 import Navbar from '../components/Navbar';
+import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import ConnectSection from '../sections/ConnectSection';
-import bannerBgImage from '../assets/bg2.webp';
 
 const servicesJsonLd = {
   '@context': 'https://schema.org',
@@ -96,35 +96,30 @@ const services = [
     title: 'Web Development',
     desc: 'Custom web apps built with modern frameworks. Fast, highly scalable, and SEO-optimized from landing pages to complex enterprise portals.',
     image: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Popular',
     features: ['Custom Web Apps', 'E-Commerce Platforms', 'CMS Development', 'API Development', 'Progressive Web Apps'],
   },
   {
     title: 'Mobile Apps',
     desc: 'Native and cross-platform apps for iOS and Android using Flutter and React Native. Smooth, performant apps that users love.',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: '15%',
     features: ['iOS & Android Apps', 'Cross-Platform (Flutter)', 'App Store Deployment', 'Push Notifications', 'Offline Support'],
   },
   {
     title: 'UI/UX Design',
     desc: 'Beautiful, intuitive interfaces designed with premium user experience in mind. Wireframes, interactive prototypes, and pixel-perfect design systems.',
     image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'New',
     features: ['User Research', 'Wireframing', 'Prototyping', 'Design Systems', 'Usability Testing'],
   },
   {
     title: 'Cloud Solutions',
     desc: 'Scalable cloud infrastructure on AWS, GCP, and Azure with full DevOps support. Deployment, containerization, and cost optimization.',
     image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: '15% OFF',
     features: ['Cloud Migration', 'CI/CD Pipelines', 'Docker & Kubernetes', 'Serverless Architecture', 'Cost Optimization'],
   },
   {
     title: 'AI & Automation',
     desc: 'Deploy smart workflows and chatbots to supercharge your business. Automate customer support, WhatsApp communication, and repetitive office tasks.',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: '20%',
     features: ['AI Chatbots & Support', 'WhatsApp Automation', 'RPA Workflow Pipelines', 'Custom GPT Integrations', 'Frictionless Automations'],
     link: '/services/ai-automation',
   },
@@ -132,34 +127,12 @@ const services = [
     title: 'IT Consulting',
     desc: 'Strategic technology consulting to help you make the right technical decisions. Tech stack assessment, project rescue, and architecture reviews.',
     image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&h=350&q=80',
-    badge: 'Free Audit',
     features: ['Tech Stack Assessment', 'Digital Transformation', 'Architecture Review', 'Team Augmentation', 'Project Rescue'],
   },
 ];
 
 const Services = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 85,
-        damping: 15,
-      },
-    },
-  };
+  const reduce = useReducedMotion();
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -169,112 +142,82 @@ const Services = () => {
       />
       <Navbar />
 
-      {/* ── Breadcrumb Banner ── */}
-      <section className="relative bg-slate-900 text-white py-14 overflow-hidden border-b border-slate-800">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img 
-            src={bannerBgImage} 
-            alt="" 
-            className="w-full h-full object-cover opacity-35" 
-          />
-          {/* Solid gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#133866]/80 to-transparent" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2">
-            Our Services
-          </h1>
-          <nav className="text-xs md:text-sm font-medium flex items-center gap-2 text-slate-300">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">Services</span>
-          </nav>
-        </div>
-      </section>
-
-      {/* Hero Header Section */}
-      <section className="relative pt-16 pb-16 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col text-left"
-          >
-            <h2 className="text-3xl sm:text-[42px] lg:text-[48px] font-black text-[#191919] leading-[1.15] tracking-tight mb-4 max-w-4xl">
-              Top-Notch Web, Mobile & AI Solutions
-            </h2>
-            <p className="text-slate-400 text-3xl sm:text-[42px] lg:text-[48px] font-black leading-[1.15] tracking-tight mt-0 mb-6 max-w-4xl">
-              for Startups &amp; Enterprises!
-            </p>
-            <div className="w-16 h-[3px] bg-[#005eb8] mb-8 rounded-full" />
-            <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl font-medium">
-              We architect high-performance digital platforms, helping global businesses execute seamless digital transformation from design to deployment.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageBanner
+        title="Our Services"
+        crumbs={[{ name: 'Services' }]}
+        variant="services"
+        description={[
+          'Top-notch web, mobile and AI solutions for startups and enterprises. We architect high-performance digital platforms that help businesses execute seamless digital transformation, from design to deployment.',
+          'From websites and mobile apps to custom software and AI automation, our team builds products that are fast, secure and ready to scale.',
+        ]}
+      />
 
       {/* Services Cards Grid */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-10 md:mb-12"
           >
-            {services.map((service) => (
+            <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight mb-4">
+              Services built around your goals
+            </h2>
+            <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8]">
+              Six ways we help startups and growing businesses design, build and scale digital products, from the
+              first idea to long after launch.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, i) => (
               <motion.div
                 key={service.title}
-                variants={cardVariants}
-                className="bg-slate-50 border border-slate-200/90 hover:border-[#005eb8] rounded-card p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md text-left cursor-pointer group"
+                initial={reduce ? false : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
               >
-                <Link to={service.link || '/contact'} className="flex flex-col h-full justify-between">
-                  <div>
-                    {/* Top Image Banner */}
-                    <div className="w-full h-40 sm:h-44 overflow-hidden rounded-xl bg-slate-200 mb-4 relative">
-                      <img loading="lazy" decoding="async"
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {service.badge && (
-                        <span className="absolute top-2.5 left-2.5 bg-[#005eb8] text-white text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
-                          {service.badge}
-                        </span>
-                      )}
-                    </div>
+                <Link
+                  to={service.link || '/contact'}
+                  className="group h-full flex flex-col bg-sky border border-line rounded-card overflow-hidden text-left"
+                >
+                  <div className="relative aspect-[16/9] bg-line">
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={service.image}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy/45 via-navy/10 to-transparent" />
+                  </div>
 
-                    {/* Content */}
-                    <h3 className="text-slate-900 font-extrabold text-base sm:text-lg leading-snug mb-2 group-hover:text-[#005eb8] transition-colors font-sans">
+                  <div className="flex flex-col flex-1 p-6 sm:p-7">
+                    <h3 className="text-ink text-[22px] font-semibold tracking-tight leading-snug mb-2.5">
                       {service.title}
                     </h3>
-                    <p className="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed mb-4">
-                      {service.desc}
-                    </p>
+                    <p className="text-body !text-[15px] leading-[1.75] mb-5">{service.desc}</p>
 
-                    {/* Features list */}
-                    <ul className="grid grid-cols-1 gap-1.5 pb-4">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 pt-5 border-t border-line mb-7">
                       {service.features.map((f) => (
-                        <li key={f} className="text-xs text-slate-600 font-medium flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-none bg-[#005eb8] shrink-0" />
-                          {f}
+                        <li key={f} className="flex items-start gap-2 !text-[14px] text-ink/85 leading-snug">
+                          <FiCheck size={15} className="text-primary shrink-0 mt-0.5" aria-hidden="true" />
+                          <span>{f}</span>
                         </li>
                       ))}
                     </ul>
-                  </div>
 
-                  <div className="mt-auto">
-                    <ArrowButton as="span" size="sm">View Details</ArrowButton>
+                    <span className="mt-auto inline-flex items-center justify-center w-full h-11 rounded-[var(--radius-btn)] bg-accent text-white text-[15px] font-medium transition-colors duration-300 group-hover:bg-primary">
+                      {service.link ? 'View Details' : 'Discuss Your Project'}
+                    </span>
                   </div>
                 </Link>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
