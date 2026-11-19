@@ -23,7 +23,7 @@ const LegalPage = ({ title, canonicalPath, lastUpdated, intro, sections }) => {
       />
 
       {/* ── Content ── */}
-      <section className="py-16 md:py-20 bg-slate-50/60">
+      <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
 
           {/* Table of Contents */}
@@ -46,7 +46,7 @@ const LegalPage = ({ title, canonicalPath, lastUpdated, intro, sections }) => {
           </aside>
 
           {/* Document */}
-          <article className="lg:col-span-9 bg-white rounded-card border border-slate-200 p-6 sm:p-10 md:p-12 text-left">
+          <article className="lg:col-span-9 text-left">
             <span className="inline-block px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-[#0077b6]/10 text-[#0077b6] mb-4">
               Last updated: {lastUpdated}
             </span>

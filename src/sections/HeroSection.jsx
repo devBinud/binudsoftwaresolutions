@@ -72,18 +72,19 @@ const HeroSection = () => {
           {/* Rotating outlined tag */}
           <motion.p
             {...rise(0)}
-            className="relative inline-flex items-center h-11 sm:h-12 px-4 sm:px-5 rounded-[6px] border border-[#9fd3ea] bg-[#e4f4fc] text-primary text-lg sm:text-[26px] font-medium !leading-none overflow-hidden"
+            className="relative grid overflow-hidden text-primary text-lg sm:text-[26px] font-medium !leading-[1.35]"
           >
             <span className="sr-only">Custom software development company</span>
-            <AnimatePresence mode="wait" initial={false}>
+            {/* Old and new words share one grid cell and slide up together, so there is never a blank frame */}
+            <AnimatePresence initial={false}>
               <motion.span
                 key={wordIndex}
                 aria-hidden="true"
-                initial={{ opacity: 0, filter: 'blur(6px)' }}
-                animate={{ opacity: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, filter: 'blur(6px)' }}
-                transition={{ duration: 0.45 }}
-                className="whitespace-nowrap"
+                initial={{ y: '100%', opacity: 0 }}
+                animate={{ y: '0%', opacity: 1 }}
+                exit={{ y: '-100%', opacity: 0 }}
+                transition={{ duration: 0.6, ease: [0.65, 0, 0.35, 1] }}
+                className="col-start-1 row-start-1 whitespace-nowrap"
               >
                 {tagWords[wordIndex]}
               </motion.span>

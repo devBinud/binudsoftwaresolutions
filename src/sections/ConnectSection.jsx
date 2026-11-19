@@ -244,7 +244,7 @@ const ConnectSection = () => {
               with clear next steps.
             </p>
 
-            <ul className="space-y-3">
+            <ul className="rounded-2xl bg-white border border-line overflow-hidden">
               {contactMethods.map((method) => {
                 const Icon = method.icon;
                 return (
@@ -252,7 +252,7 @@ const ConnectSection = () => {
                     <a
                       href={method.href}
                       {...(method.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="flex items-center gap-4 rounded-2xl bg-white border border-line px-4 py-3.5 transition-colors duration-200 hover:border-primary/40"
+                      className="flex items-center gap-4 px-4 py-3.5 transition-colors duration-200 hover:bg-sky"
                     >
                       <span className="w-11 h-11 rounded-xl bg-primary-light text-primary flex items-center justify-center shrink-0">
                         <Icon size={19} aria-hidden="true" />

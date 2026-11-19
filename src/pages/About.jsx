@@ -4,7 +4,6 @@ import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
-import founderPhoto from '../assets/team/founder.png';
 import { FiCheck } from 'react-icons/fi';
 import ArrowButton from '../components/ArrowButton';
 
@@ -313,99 +312,6 @@ const About = () => {
                     </ul>
                   </motion.article>
                 ))}
-              </div>
-            </div>
-          </section>
-
-          {/* ── Explore More: Vision & Mission / Founder's Desk ── */}
-          <section className="py-16 md:py-24 bg-sky">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-              <div className="max-w-2xl mx-auto text-center mb-10 md:mb-12">
-                <h2 className="text-ink text-[26px] md:text-[32px] font-semibold leading-tight tracking-tight mb-4">
-                  What drives us, and who leads us
-                </h2>
-                <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8]">
-                  The purpose behind our work, and the person who started it all.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-
-                {/* Vision & Mission */}
-                <motion.article
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-white border border-line rounded-card p-7 sm:p-9 flex flex-col text-left"
-                >
-                  <span className="block text-primary text-sm font-medium mb-2">Vision &amp; Mission</span>
-                  <h3 className="text-ink text-[22px] font-semibold leading-snug tracking-tight mb-3">
-                    Building smart solutions for a smarter world
-                  </h3>
-                  <p className="text-body !text-[15px] md:!text-[16px] leading-[1.75] mb-6">
-                    Where we are headed, what we set out to do for every client, and the values behind every line
-                    of code.
-                  </p>
-
-                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    <div className="rounded-xl bg-sky border border-line p-5">
-                      <dt className="text-ink font-semibold mb-1.5">Our Vision</dt>
-                      <dd className="text-body !text-[15px] leading-relaxed">
-                        To be the most trusted technology partner from Northeast India.
-                      </dd>
-                    </div>
-                    <div className="rounded-xl bg-sky border border-line p-5">
-                      <dt className="text-ink font-semibold mb-1.5">Our Mission</dt>
-                      <dd className="text-body !text-[15px] leading-relaxed">
-                        To turn complex challenges into scalable, elegant technology solutions.
-                      </dd>
-                    </div>
-                  </dl>
-
-                  <ArrowButton to="/about/vision-mission" variant="link" className="mt-auto w-fit">
-                    Read our Vision &amp; Mission
-                  </ArrowButton>
-                </motion.article>
-
-                {/* From Founder's Desk */}
-                <motion.article
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="bg-white border border-line rounded-card overflow-hidden flex flex-col sm:flex-row text-left"
-                >
-                  <div className="sm:w-[40%] shrink-0 bg-gradient-to-b from-sky to-primary-light flex items-end justify-center h-64 sm:h-auto">
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      src={founderPhoto}
-                      alt="Binud Panging, Founder & CEO"
-                      className="h-full w-full object-cover object-top sm:object-bottom"
-                    />
-                  </div>
-
-                  <div className="p-7 sm:p-8 flex flex-col flex-1">
-                    <span className="block text-primary text-sm font-medium mb-2">From Founder&apos;s Desk</span>
-                    <h3 className="text-ink text-[22px] font-semibold leading-snug tracking-tight mb-3">
-                      &ldquo;We don&apos;t just ship features, we shape your digital future.&rdquo;
-                    </h3>
-                    <p className="text-body !text-[15px] md:!text-[16px] leading-[1.75] mb-6">
-                      A personal note on why Binud Software Solutions was started, and how we approach every
-                      partnership.
-                    </p>
-
-                    <div className="mt-auto pt-5 border-t border-line">
-                      <span className="block text-ink font-semibold">Binud Panging</span>
-                      <span className="block text-sm text-muted mb-4">Founder &amp; CEO</span>
-                      <ArrowButton to="/about/founders-desk" variant="link" className="w-fit">
-                        Read the message
-                      </ArrowButton>
-                    </div>
-                  </div>
-                </motion.article>
-
               </div>
             </div>
           </section>

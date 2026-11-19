@@ -1,7 +1,41 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HiMenuAlt3, HiX, HiMail, HiPhone, HiChevronDown } from 'react-icons/hi';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { HiChevronDown } from 'react-icons/hi';
 import ArrowButton from './ArrowButton';
+
+const EASE = [0.76, 0, 0.24, 1];
+
+/* Mobile menu: the list fades in item by item once the panel has started opening */
+const listVariants = {
+  open: { transition: { staggerChildren: 0.05, delayChildren: 0.18 } },
+  closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+};
+const itemVariants = {
+  open: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+  closed: { opacity: 0, y: 14, transition: { duration: 0.2 } },
+};
+
+/* Two lines that turn into an X */
+const MenuIcon = ({ open }) => {
+  const t = { duration: 0.35, ease: EASE };
+  return (
+    <span aria-hidden="true" className="relative block w-[22px] h-[14px]">
+      <motion.span
+        className="absolute right-0 top-1/2 -mt-px h-[2px] rounded-full bg-current"
+        initial={false}
+        animate={open ? { y: 0, rotate: 45, width: 18, x: -2 } : { y: -4, rotate: 0, width: 22, x: 0 }}
+        transition={t}
+      />
+      <motion.span
+        className="absolute right-0 top-1/2 -mt-px h-[2px] rounded-full bg-current"
+        initial={false}
+        animate={open ? { y: 0, rotate: -45, width: 18, x: -2 } : { y: 4, rotate: 0, width: 14, x: 0 }}
+        transition={t}
+      />
+    </span>
+  );
+};
 
 /* Menu structure. Items with `children` open a dropdown of simple links. */
 const navLinks = [
@@ -73,8 +107,17 @@ const Navbar = () => {
     };
   }, [drawerOpen]);
 
-  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const toggleDrawer = useCallback(() => setDrawerOpen((o) => !o), []);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const reduce = useReducedMotion();
+
+  /* Close the mobile menu if the window grows to desktop width */
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const onChange = (e) => e.matches && setDrawerOpen(false);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   const isLinkActive = (path) => location.pathname === path;
   const isParentActive = (link) =>
@@ -215,13 +258,15 @@ const Navbar = () => {
 
               <button
                 type="button"
-                className="lg:hidden w-11 h-11 flex items-center justify-center rounded-[10px] border border-line bg-white text-ink hover:bg-sky transition-colors"
-                onClick={openDrawer}
-                aria-label="Open menu"
+                className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-colors duration-300 cursor-pointer ${
+                  drawerOpen ? 'bg-transparent text-ink hover:bg-sky hover:text-primary' : 'bg-sky text-ink hover:bg-primary-light'
+                }`}
+                onClick={toggleDrawer}
+                aria-label={drawerOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={drawerOpen}
                 aria-controls="mobile-drawer"
               >
-                <HiMenuAlt3 size={22} aria-hidden="true" />
+                <MenuIcon open={drawerOpen} />
               </button>
             </div>
           </div>
@@ -232,139 +277,131 @@ const Navbar = () => {
       <div aria-hidden="true" className="h-16 md:h-20" />
       <span id="main-content" tabIndex={-1} className="sr-only">Main content</span>
 
-      {/* ═══ Mobile drawer ═══ */}
-      <div
-        onClick={closeDrawer}
-        aria-hidden="true"
-        className={`fixed inset-0 z-[998] bg-navy/50 backdrop-blur-sm transition-opacity duration-300 ${
-          drawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      />
-
-      <div
-        id="mobile-drawer"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Site menu"
-        inert={!drawerOpen}
-        className={`fixed top-0 right-0 bottom-0 z-[999] flex flex-col w-full sm:w-[400px] bg-white transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          drawerOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex items-center justify-between px-5 h-16 border-b border-line">
-          <Link to="/" className="flex items-center gap-2.5" onClick={closeDrawer}>
-            <img
-              src="/logo-navbar.png"
-              alt="Binud Software Solutions"
-              width={470}
-              height={120}
-              className="h-10 w-auto object-contain"
-            />
-          </Link>
-          <button
-            type="button"
-            onClick={closeDrawer}
-            className="w-10 h-10 flex items-center justify-center rounded-[10px] border border-line hover:bg-sky text-ink transition-colors"
-            aria-label="Close menu"
+      {/* ═══ Mobile menu: full-screen panel under the header that wipes down from the top ═══ */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <motion.nav
+            key="mobile-drawer"
+            id="mobile-drawer"
+            aria-label="Site menu"
+            className="lg:hidden fixed inset-x-0 top-16 md:top-20 bottom-0 z-40 flex flex-col bg-white font-sans"
+            initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0% 0% 100% 0%)' }}
+            animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0% 0% 0% 0%)' }}
+            exit={reduce ? { opacity: 0 } : { clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: 0.4, ease: EASE, delay: 0.1 } }}
+            transition={{ duration: 0.55, ease: EASE }}
           >
-            <HiX size={20} aria-hidden="true" />
-          </button>
-        </div>
+            <motion.ul
+              className="flex-1 overflow-y-auto px-5 pt-4 pb-4 flex flex-col gap-0.5"
+              variants={listVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              <motion.li variants={itemVariants}>
+                <Link
+                  to="/"
+                  onClick={closeDrawer}
+                  className={`flex items-center w-full py-2.5 px-4 rounded-lg text-[15px] font-normal transition-colors ${
+                    location.pathname === '/' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky hover:text-primary'
+                  }`}
+                >
+                  Home
+                </Link>
+              </motion.li>
 
-        <div className="flex-1 overflow-y-auto px-5 py-4">
-          <ul className="flex flex-col gap-1">
-            <li>
-              <Link
-                to="/"
-                onClick={closeDrawer}
-                className={`flex items-center w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold ${
-                  location.pathname === '/' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky'
-                }`}
-              >
-                Home
-              </Link>
-            </li>
-            {navLinks.map((link) => {
-              const active = isParentActive(link);
-              const itemClass = `flex items-center justify-between w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold transition-colors ${
-                active ? 'bg-sky text-primary' : 'text-ink hover:bg-sky hover:text-primary'
-              }`;
+              {navLinks.map((link) => {
+                const active = isParentActive(link);
+                const itemClass = `flex items-center justify-between w-full py-2.5 px-4 rounded-lg text-[15px] font-normal transition-colors ${
+                  active ? 'bg-sky text-primary' : 'text-ink hover:bg-sky hover:text-primary'
+                }`;
 
-              if (!link.children) {
+                if (!link.children) {
+                  return (
+                    <motion.li key={link.name} variants={itemVariants}>
+                      <Link to={link.path} onClick={closeDrawer} className={itemClass}>
+                        {link.name}
+                      </Link>
+                    </motion.li>
+                  );
+                }
+
+                const expanded = openSubmenu === link.name;
+                const subId = `mobile-sub-${link.name.toLowerCase()}`;
                 return (
-                  <li key={link.name}>
-                    <Link to={link.path} onClick={closeDrawer} className={itemClass}>
-                      {link.name}
-                    </Link>
-                  </li>
+                  <motion.li key={link.name} variants={itemVariants}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenSubmenu(expanded ? null : link.name)}
+                      className={`${itemClass} cursor-pointer`}
+                      aria-expanded={expanded}
+                      aria-controls={subId}
+                    >
+                      <span>{link.name}</span>
+                      <HiChevronDown
+                        size={18}
+                        aria-hidden="true"
+                        className={`transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+
+                    {/* Submenu slides open smoothly */}
+                    <AnimatePresence initial={false}>
+                      {expanded && (
+                        <motion.div
+                          key="sub"
+                          id={subId}
+                          className="overflow-hidden"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        >
+                          <ul className="pt-0.5 pb-1 flex flex-col gap-0">
+                            {link.children.map((child) => (
+                              <li key={child.name}>
+                                <Link
+                                  to={child.path}
+                                  onClick={closeDrawer}
+                                  className="block py-2 px-4 rounded-lg text-[14px] font-normal text-body hover:text-primary hover:bg-sky transition-colors"
+                                >
+                                  {child.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.li>
                 );
-              }
+              })}
 
-              const expanded = openSubmenu === link.name;
-              return (
-                <li key={link.name}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenSubmenu(expanded ? null : link.name)}
-                    className={`${itemClass} cursor-pointer`}
-                    aria-expanded={expanded}
-                  >
-                    <span>{link.name}</span>
-                    <HiChevronDown
-                      size={18}
-                      aria-hidden="true"
-                      className={`transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
-                    />
-                  </button>
+              <motion.li variants={itemVariants}>
+                <Link
+                  to="/contact"
+                  onClick={closeDrawer}
+                  className={`flex items-center w-full py-2.5 px-4 rounded-lg text-[15px] font-normal transition-colors ${
+                    location.pathname === '/contact' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky hover:text-primary'
+                  }`}
+                >
+                  Contact
+                </Link>
+              </motion.li>
+            </motion.ul>
 
-                  {expanded && (
-                    <ul className="mt-1 mb-2 ml-4 pl-3 border-l-2 border-line flex flex-col gap-0.5">
-                      {link.children.map((child) => (
-                        <li key={child.name}>
-                          <Link
-                            to={child.path}
-                            onClick={closeDrawer}
-                            className="block py-2.5 px-3 rounded-lg text-sm font-medium text-body hover:text-primary hover:bg-sky transition-colors"
-                          >
-                            {child.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              );
-            })}
-            <li>
-              <Link
-                to="/contact"
-                onClick={closeDrawer}
-                className={`flex items-center w-full py-3.5 px-4 rounded-xl text-[15px] font-semibold ${
-                  location.pathname === '/contact' ? 'bg-sky text-primary' : 'text-ink hover:bg-sky'
-                }`}
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="p-5 border-t border-line bg-sky">
-          <ArrowButton to="/contact" variant="solid" className="w-full mb-4" onClick={closeDrawer}>
-            Get a Free Consultation
-          </ArrowButton>
-          <div className="flex flex-col gap-3 text-sm font-medium text-body">
-            <a href="mailto:binudp.dev@gmail.com" className="flex items-center gap-2.5 hover:text-primary transition-colors">
-              <HiMail className="text-primary shrink-0" size={18} aria-hidden="true" />
-              <span className="truncate">binudp.dev@gmail.com</span>
-            </a>
-            <a href="tel:+919706393924" className="flex items-center gap-2.5 hover:text-primary transition-colors">
-              <HiPhone className="text-primary shrink-0" size={18} aria-hidden="true" />
-              <span>+91 97063 93924</span>
-            </a>
-          </div>
-        </div>
-      </div>
+            <motion.div
+              className="p-5 border-t border-line bg-sky"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            >
+              <ArrowButton to="/contact" variant="solid" className="w-full" onClick={closeDrawer}>
+                Get a Free Consultation
+              </ArrowButton>
+            </motion.div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </>
   );
 };

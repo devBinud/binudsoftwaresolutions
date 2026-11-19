@@ -5,7 +5,7 @@ import { CLIENTS } from '../data/clients';
 const ClientMark = ({ client }) => {
   if (!client.logo) {
     return (
-      <span className="text-center text-base sm:text-xl font-bold tracking-tight text-[#4f6b79] leading-tight transition-colors duration-300 group-hover:text-primary">
+      <span className="text-center text-base sm:text-xl font-bold tracking-tight text-[#4f6b79] leading-tight">
         {client.name}
       </span>
     );
@@ -52,21 +52,9 @@ const ClientsSection = () => {
         >
           {CLIENTS.map((client) => (
             <li key={client.name} className="logo-cell">
-              {client.url ? (
-                <a
-                  href={client.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${client.name} (opens in a new tab)`}
-                  className="group flex h-full w-full items-center justify-center px-4"
-                >
-                  <ClientMark client={client} />
-                </a>
-              ) : (
-                <div className="group flex h-full w-full items-center justify-center px-4">
-                  <ClientMark client={client} />
-                </div>
-              )}
+              <div className="flex h-full w-full items-center justify-center px-4">
+                <ClientMark client={client} />
+              </div>
             </li>
           ))}
         </motion.ul>
