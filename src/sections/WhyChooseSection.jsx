@@ -57,7 +57,7 @@ const CountUp = ({ value, countUp = true }) => {
 const StatCard = ({ stat }) => {
   const { icon: Icon, color } = icons[stat.icon] || icons.rocket;
   return (
-    <div className="relative bg-white border border-[#c9dbe4] rounded-[var(--radius-card)] p-6 sm:p-7 transition-[box-shadow,transform,border-color] duration-300 hover:-translate-y-1 hover:border-[#9fd6ee]">
+    <div className="relative bg-white border border-[#c9dbe4] rounded-[var(--radius-card)] p-6 sm:p-7">
       <Icon size={34} style={{ color }} aria-hidden="true" className="absolute top-6 right-6" />
       <p className="text-[#1e9e57] font-bold tracking-tight !leading-none !text-[2.4rem] sm:!text-[2.6rem]">
         {stat.prefix}
