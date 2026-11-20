@@ -83,7 +83,7 @@ const ProcessSection = () => {
       {/* ── Desktop: horizontal timeline with a full-width line ── */}
       <div className="relative hidden lg:block mt-10">
         {/* The line sits 76px from the top: right under the numbers */}
-        <span aria-hidden="true" className="absolute left-0 right-0 top-[76px] h-px bg-ink" />
+        <span aria-hidden="true" className="absolute left-0 right-0 top-[76px] h-px bg-[#c3d1db]" />
 
         <ol className="relative max-w-7xl mx-auto px-12 grid grid-cols-5 gap-6">
           {steps.map((step, i) => (
@@ -91,7 +91,7 @@ const ProcessSection = () => {
               <span className="h-[76px] flex items-end pb-3">
                 <StepNumber n={i + 1} className="text-[46px]" />
               </span>
-              <span aria-hidden="true" className="w-px h-9 bg-ink" />
+              <span aria-hidden="true" className="w-px h-9 bg-[#c3d1db]" />
               <Hexagon color={step.color} icon={step.icon} className="w-[108px] h-[122px] transition-transform duration-300 hover:-translate-y-1" />
               <h3 className="mt-6 max-w-[170px] min-h-[2.9em] text-[19px] font-semibold text-ink leading-[1.45]">{step.title}</h3>
               <p className="mt-4 max-w-[230px] !text-[15px] !leading-[1.95] text-[#1f2f3d]">{step.desc}</p>
@@ -103,7 +103,7 @@ const ProcessSection = () => {
       {/* ── Phones & tablets: vertical timeline ── */}
       <ol className="relative lg:hidden max-w-2xl mx-auto px-4 sm:px-6 mt-10">
         {/* Vertical line through the hexagon centres */}
-        <span aria-hidden="true" className="absolute top-10 bottom-10 left-[calc(1rem+38px)] sm:left-[calc(1.5rem+38px)] w-px bg-ink/70" />
+        <span aria-hidden="true" className="absolute top-10 bottom-10 left-[calc(1rem+38px)] sm:left-[calc(1.5rem+38px)] w-px bg-[#c3d1db]" />
 
         {steps.map((step, i) => (
           <motion.li key={step.title} {...rise(i)} className="relative flex gap-5 pb-9 last:pb-0">

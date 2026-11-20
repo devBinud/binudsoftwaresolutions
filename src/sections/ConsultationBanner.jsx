@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
+import ArrowButton from '../components/ArrowButton';
 
 /* Tiled rounded-square pattern for the background (slightly lighter than the base colour) */
 const tilePattern =
@@ -40,13 +40,9 @@ const ConsultationBanner = () => {
         <span aria-hidden="true" className="hidden lg:block self-stretch min-h-[140px] border-l-2 border-dashed border-white/80" />
 
         <div className="flex justify-center lg:block shrink-0 lg:pl-6">
-          <Link
-            to="/contact"
-            className="inline-flex items-center justify-center gap-2.5 h-[52px] min-w-[264px] px-8 rounded-[10px] bg-white text-primary text-[18px] font-semibold transition-colors duration-300 ease-in-out hover:bg-sky"
-          >
+          <ArrowButton to="/contact" variant="white" icon={FiArrowRight}>
             Book a Consultation
-            <FiArrowRight aria-hidden="true" />
-          </Link>
+          </ArrowButton>
         </div>
       </motion.div>
     </section>

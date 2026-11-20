@@ -30,8 +30,9 @@ const variants = {
 
 const sizes = {
   sm: { base: 'h-10 px-4 gap-2 text-[15px]', arrow: 15 },
-  md: { base: 'h-11 px-4 gap-2 text-[17px]', arrow: 17 },
-  lg: { base: 'h-12 px-5 gap-2.5 text-lg', arrow: 18 },
+  md: { base: 'h-11 px-5 gap-2 text-[16px]', arrow: 16 },
+  /* 'lg' kept as an alias of 'md' so every button on the site is the same size */
+  lg: { base: 'h-11 px-5 gap-2 text-[16px]', arrow: 16 },
 };
 
 const Spinner = ({ size }) => (

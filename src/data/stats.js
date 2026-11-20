@@ -1,4 +1,3 @@
-import { CLIENTS } from './clients';
 import { TECH_COUNT } from './technologies';
 
 /**
@@ -18,7 +17,7 @@ import { TECH_COUNT } from './technologies';
 export const STATS = [
   { value: 2021, label: 'Year Founded', icon: 'rocket', countUp: false },
   { value: 7, label: 'Core Service Lines', icon: 'grid' },
-  { value: CLIENTS.length, suffix: '+', label: 'Clients Served', icon: 'smile' },
+  { value: 40, suffix: '+', label: 'Clients Worldwide', icon: 'smile' },
   // Rounded down to the nearest 5, from the list in technologies.js
   { value: Math.floor(TECH_COUNT / 5) * 5, suffix: '+', label: 'Technologies in Our Stack', icon: 'chip' },
 ];

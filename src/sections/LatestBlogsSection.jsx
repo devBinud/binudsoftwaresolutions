@@ -34,7 +34,7 @@ const LatestBlogsSection = () => {
           id="blog-heading"
           title={<>Latest From <span className="text-gradient">Our Blog</span></>}
           description="Practical notes on software architecture, mobile development and AI from our engineering team."
-          action={<ArrowButton to="/blog">View All Posts</ArrowButton>}
+          action={<ArrowButton to="/blog" variant="solid">View All Posts</ArrowButton>}
           className="mb-14"
         />
 

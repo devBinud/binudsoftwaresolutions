@@ -210,7 +210,7 @@ const Services = () => {
                       ))}
                     </ul>
 
-                    <span className="mt-auto inline-flex items-center justify-center w-full h-11 rounded-[var(--radius-btn)] bg-accent text-white text-[15px] font-medium transition-colors duration-300 group-hover:bg-primary">
+                    <span className="mt-auto inline-flex items-center justify-center w-full h-11 rounded-[var(--radius-btn)] bg-accent text-white text-[16px] font-medium transition-colors duration-300 group-hover:bg-primary">
                       {service.link ? 'View Details' : 'Discuss Your Project'}
                     </span>
                   </div>

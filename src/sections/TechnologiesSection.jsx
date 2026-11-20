@@ -83,15 +83,15 @@ const TechnologiesSection = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="flex flex-wrap justify-center gap-x-5 gap-y-7 sm:gap-x-7"
+              className="grid grid-cols-3 gap-x-3 gap-y-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-7 sm:gap-y-7"
             >
               {group.items.map(({ name, icon: Icon, color }) => (
-                <li key={name} className="group w-[84px] sm:w-[92px] flex flex-col items-center gap-3">
+                <li key={name} className="group w-full sm:w-[92px] flex flex-col items-center gap-2.5 sm:gap-3">
                   <span
-                    className="w-[76px] h-[76px] sm:w-[90px] sm:h-[90px] rounded-[10px] flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
+                    className="w-full aspect-[4/3] sm:aspect-auto sm:w-[90px] sm:h-[90px] rounded-[10px] flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-1"
                     style={{ backgroundColor: tint(color === '#000000' || color === '#0b1b2b' ? '#64748b' : color) }}
                   >
-                    <Icon className="w-9 h-9 sm:w-11 sm:h-11" style={{ color }} aria-hidden="true" />
+                    <Icon className="w-10 h-10 sm:w-11 sm:h-11" style={{ color }} aria-hidden="true" />
                   </span>
                   <span className="text-center text-[14px] sm:text-[15px] font-medium text-ink leading-tight">{name}</span>
                 </li>

@@ -32,7 +32,7 @@ const WHATSAPP_URL = 'https://wa.me/919706393924';
 
 /* Shared size for the three tiles in the action row */
 const tile =
-  'h-[66px] w-full sm:w-[216px] rounded-[10px] flex items-center justify-center gap-3.5 transition-[background-color,border-color,color] duration-300 ease-in-out';
+  'h-11 px-5 rounded-[var(--radius-btn)] inline-flex items-center justify-center gap-2 whitespace-nowrap text-[16px] font-medium transition-[background-color,border-color,color] duration-300 ease-in-out';
 
 const HeroSection = () => {
   const reduce = useReducedMotion();
@@ -112,26 +112,23 @@ const HeroSection = () => {
           </motion.p>
 
           {/* Action row: WhatsApp card · Let's Talk · Google card */}
-          <motion.div {...rise(0.18)} className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-5">
+          <motion.div {...rise(0.18)} className="mt-8 flex flex-wrap gap-3">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className={`${tile} bg-white border border-[#cfd8de] hover:bg-[#effcf4] hover:border-[#25d366]`}
             >
-              <FaWhatsapp size={34} className="text-[#25d366] shrink-0" aria-hidden="true" />
-              <span className="flex flex-col text-left leading-none">
-                <span className="text-[15px] font-semibold text-ink">Chat With Us</span>
-                <span className="mt-1.5 text-[12px] font-medium tracking-[0.12em] uppercase text-muted">On WhatsApp</span>
-              </span>
+              <FaWhatsapp size={20} className="text-[#25d366] shrink-0" aria-hidden="true" />
+              <span className="text-ink">Chat on WhatsApp</span>
             </a>
 
             <Link
               to="/contact"
-              className={`${tile} order-first sm:order-none bg-primary text-white text-lg font-semibold hover:bg-primary-dark`}
+              className={`${tile} order-first sm:order-none bg-primary text-white hover:bg-primary-dark`}
             >
               Let&apos;s Talk
-              <FiArrowRight size={20} aria-hidden="true" />
+              <FiArrowRight size={17} aria-hidden="true" />
             </Link>
 
             <a
@@ -140,11 +137,8 @@ const HeroSection = () => {
               rel="noopener noreferrer"
               className={`${tile} bg-white border border-[#cfd8de] hover:bg-[#eef4ff] hover:border-[#4285f4]`}
             >
-              <FcGoogle size={38} className="shrink-0" aria-hidden="true" />
-              <span className="flex flex-col text-left leading-none">
-                <span className="text-[15px] font-semibold text-ink">Find Us on Google</span>
-                <span className="mt-1.5 text-[12px] font-medium tracking-[0.12em] uppercase text-muted">Business Profile</span>
-              </span>
+              <FcGoogle size={20} className="shrink-0" aria-hidden="true" />
+              <span className="text-ink">Find Us on Google</span>
             </a>
           </motion.div>
 

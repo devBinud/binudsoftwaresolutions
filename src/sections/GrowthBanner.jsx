@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import ArrowButton from '../components/ArrowButton';
 
 /* Flat illustration: a developer at a laptop with chat, settings and code bubbles */
 const DeveloperIllustration = ({ className = '' }) => (
@@ -107,13 +107,9 @@ const GrowthBanner = () => {
         <span aria-hidden="true" className="hidden lg:block self-stretch my-10 border-l-2 border-dashed border-white/70" />
 
         <div className="flex justify-center lg:block shrink-0">
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2.5 h-14 px-7 rounded-[10px] bg-white text-primary text-[17px] font-semibold transition-colors duration-300 ease-in-out hover:bg-sky"
-          >
+          <ArrowButton to="/contact" variant="white" icon={FiArrowRight}>
             Start Your Project
-            <FiArrowRight aria-hidden="true" />
-          </Link>
+          </ArrowButton>
         </div>
       </motion.div>
     </section>

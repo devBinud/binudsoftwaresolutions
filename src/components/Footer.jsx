@@ -164,22 +164,23 @@ const Footer = () => {
                 (+91) 97063 93924
               </a>
             </div>
+
+            <div className="flex flex-col items-start gap-3">
+              <Link to="/privacy" className={linkClass}>
+                Privacy Policy
+              </Link>
+              <Link to="/terms" className={linkClass}>
+                Terms of Use
+              </Link>
+            </div>
           </div>
 
         </div>
 
         {/* ── Bottom Bar ── */}
         <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#b9cfdc]">
-          <p className="!text-sm">© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
+          <p className="!text-sm order-last sm:order-none">© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
           <VisitorCounter />
-          <div className="flex items-center gap-8">
-            <Link to="/privacy" className="hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="hover:text-white transition-colors">
-              Terms of Use
-            </Link>
-          </div>
         </div>
 
       </div>

@@ -16,23 +16,17 @@ const itemVariants = {
   closed: { opacity: 0, y: 14, transition: { duration: 0.2 } },
 };
 
-/* Two lines that turn into an X */
+/* Classic three-line hamburger that turns into an X.
+   Each bar's resting position is a plain `top` value (3px / 9px / 15px in a 20px box),
+   so the closed icon never depends on a transform being applied. */
 const MenuIcon = ({ open }) => {
-  const t = { duration: 0.35, ease: EASE };
+  const bar =
+    'absolute left-0 block w-5 h-[2px] rounded-full bg-current transition-[top,transform,opacity] duration-300 ease-in-out';
   return (
-    <span aria-hidden="true" className="relative block w-[22px] h-[14px]">
-      <motion.span
-        className="absolute right-0 top-1/2 -mt-px h-[2px] rounded-full bg-current"
-        initial={false}
-        animate={open ? { y: 0, rotate: 45, width: 18, x: -2 } : { y: -4, rotate: 0, width: 22, x: 0 }}
-        transition={t}
-      />
-      <motion.span
-        className="absolute right-0 top-1/2 -mt-px h-[2px] rounded-full bg-current"
-        initial={false}
-        animate={open ? { y: 0, rotate: -45, width: 18, x: -2 } : { y: 4, rotate: 0, width: 14, x: 0 }}
-        transition={t}
-      />
+    <span aria-hidden="true" className="relative block w-5 h-[18px]">
+      <span className={`${bar} ${open ? 'top-[8px] rotate-45' : 'top-[2px]'}`} />
+      <span className={`${bar} top-[8px] ${open ? 'opacity-0 scale-x-0' : 'opacity-100'}`} />
+      <span className={`${bar} ${open ? 'top-[8px] -rotate-45' : 'top-[14px]'}`} />
     </span>
   );
 };
@@ -251,7 +245,7 @@ const Navbar = () => {
             <div className="flex items-center gap-3 shrink-0">
               <Link
                 to="/contact"
-                className="hidden sm:inline-flex items-center h-11 px-4 rounded-[var(--radius-btn)] bg-accent text-white text-[17px] font-medium transition-colors duration-300 ease-in-out hover:bg-primary"
+                className="hidden sm:inline-flex items-center h-11 px-5 rounded-[var(--radius-btn)] bg-accent text-white text-[16px] font-medium transition-colors duration-300 ease-in-out hover:bg-primary"
               >
                 Contact Us
               </Link>

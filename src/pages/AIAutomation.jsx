@@ -177,7 +177,7 @@ const labelClass = 'block text-sm font-medium text-ink mb-2';
 const inputClass =
   'w-full h-12 bg-white border border-line hover:border-[#b9dcee] rounded-xl px-4 text-ink placeholder:text-slate-400 focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none transition-[border-color,box-shadow] duration-200 text-[15px]';
 const backBtnClass =
-  'inline-flex items-center gap-2 h-12 px-5 rounded-[var(--radius-btn)] border border-line bg-white text-body hover:text-primary hover:border-primary font-medium text-[15px] transition-colors duration-300 cursor-pointer';
+  'inline-flex items-center gap-2 h-11 px-5 rounded-[var(--radius-btn)] border border-line bg-white text-body hover:text-primary hover:border-primary font-medium text-[16px] transition-colors duration-300 cursor-pointer';
 
 const AIAutomation = () => {
   const [surveyStep, setSurveyStep] = useState(1);

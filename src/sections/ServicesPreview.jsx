@@ -161,14 +161,14 @@ const ServicesPreview = () => {
         </div>
 
         <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch">
-          {/* Tab list: vertical panel on desktop, sideways-scrolling chips on phones/tablets */}
-          <div className="lg:col-span-4 rounded-[var(--radius-card)] border border-line bg-sky p-2.5 lg:p-5">
+          {/* Tab list: vertical panel on desktop, plain underline tabs (sideways-scrolling) on phones/tablets */}
+          <div className="lg:col-span-4 lg:flex lg:flex-col border-b border-line lg:border lg:rounded-[var(--radius-card)] lg:bg-sky lg:p-3">
             <div
               role="tablist"
               aria-label="Our services"
               aria-orientation="vertical"
               onKeyDown={onKeyDown}
-              className="flex lg:flex-col gap-1.5 lg:gap-2 overflow-x-auto lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,black_82%,transparent)] lg:[mask-image:none]"
+              className="flex lg:flex-1 lg:flex-col gap-6 lg:gap-1 overflow-x-auto lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,black_82%,transparent)] lg:[mask-image:none]"
             >
               {services.map((s, i) => {
                 const selected = i === active;
@@ -183,10 +183,10 @@ const ServicesPreview = () => {
                     aria-controls="service-panel"
                     tabIndex={selected ? 0 : -1}
                     onClick={() => setActive(i)}
-                    className={`shrink-0 text-left whitespace-nowrap lg:whitespace-normal rounded-[10px] px-4 py-3 lg:px-7 lg:py-[18px] text-[15px] lg:text-[17px] font-semibold transition-colors duration-300 ease-in-out cursor-pointer ${
+                    className={`relative shrink-0 lg:flex-1 flex items-center text-left whitespace-nowrap lg:whitespace-normal lg:rounded-[10px] py-3 lg:px-6 lg:py-2.5 text-[15px] lg:text-[16px] font-semibold transition-colors duration-300 ease-in-out cursor-pointer after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:rounded-full after:transition-colors lg:after:hidden ${
                       selected
-                        ? 'bg-primary text-white '
-                        : 'text-ink hover:bg-white hover:text-primary'
+                        ? 'text-primary after:bg-primary lg:bg-primary lg:text-white'
+                        : 'text-muted after:bg-transparent hover:text-primary lg:text-ink lg:hover:bg-white'
                     }`}
                   >
                     {s.name}
@@ -202,7 +202,7 @@ const ServicesPreview = () => {
             role="tabpanel"
             aria-labelledby={`service-tab-${active}`}
             tabIndex={0}
-            className="lg:col-span-8 rounded-[var(--radius-card)] border border-line bg-white p-6 sm:p-8 lg:p-10 lg:min-h-[480px]"
+            className="lg:col-span-8 rounded-[var(--radius-card)] border border-line bg-white p-6 sm:p-8 lg:p-10"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
