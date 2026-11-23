@@ -44,15 +44,14 @@ const NotFound = () => {
             </h2>
           </motion.div>
 
-          {/* Action Navigation Buttons - Single Line on Mobile */}
+          {/* Action Navigation Button */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto px-2"
+            className="flex justify-center"
           >
-            <ArrowButton to="/" variant="solid" className="justify-between">Back to Home</ArrowButton>
-            <ArrowButton to="/contact" className="justify-between">Contact Us</ArrowButton>
+            <ArrowButton to="/" variant="solid">Back to Home</ArrowButton>
           </motion.div>
         </div>
       </main>

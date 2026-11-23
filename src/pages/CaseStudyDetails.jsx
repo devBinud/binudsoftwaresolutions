@@ -1,37 +1,31 @@
 import { useParams, Navigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { FaReact, FaLaravel, FaNodeJs, FaDatabase, FaCreditCard, FaServer, FaLock, FaCode, FaGooglePlay } from 'react-icons/fa';
+import {
+  FiUser,
+  FiBriefcase,
+  FiSmartphone,
+  FiClock,
+  FiDownload,
+  FiCheck,
+  FiServer,
+  FiDatabase,
+  FiLock,
+  FiTarget,
+  FiAlertCircle,
+  FiArrowRight,
+  FiBookOpen,
+  FiCompass,
+} from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
-import PageBanner from '../components/PageBanner';
 import Footer from '../components/Footer';
 import ArrowButton from '../components/ArrowButton';
-import { 
-  FaChevronRight, 
-  FaDownload, 
-  FaCheck, 
-  FaDatabase, 
-  FaServer, 
-  FaMobileAlt, 
-  FaLock, 
-  FaUsers, 
-  FaShieldAlt,
-  FaMicrochip,
-  FaLightbulb,
-  FaChartLine,
-  FaReact,
-  FaLaravel,
-  FaNodeJs,
-  FaCreditCard,
-  FaCode
-} from 'react-icons/fa';
+import SectionHeading from '../components/SectionHeading';
+import PhoneScreen from '../components/PhoneScreen';
+import { Breadcrumbs } from '../components/PageBanner';
 
-// PDF Assets
 import kangkanPdf from '../assets/kangkan_case_studies.pdf';
-import gtnPdf from '../assets/givetheneedy_case_studies.pdf';
-
-// Import banner background image
-
-// Kangkan Images
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
 import k1 from '../assets/case_studies/kangkan_screenshot/1.webp';
 import k2 from '../assets/case_studies/kangkan_screenshot/2.webp';
@@ -42,26 +36,16 @@ import k6 from '../assets/case_studies/kangkan_screenshot/6.webp';
 import k7 from '../assets/case_studies/kangkan_screenshot/7.webp';
 import k8 from '../assets/case_studies/kangkan_screenshot/8.webp';
 
-// GiveTheNeedy Images
-import gtnLogo from '../assets/case_studies/givetheneedy_screenshot/logo.webp';
-import g1 from '../assets/case_studies/givetheneedy_screenshot/1.webp';
-import g2 from '../assets/case_studies/givetheneedy_screenshot/2.webp';
-import g3 from '../assets/case_studies/givetheneedy_screenshot/3.webp';
-import g4 from '../assets/case_studies/givetheneedy_screenshot/4.webp';
-import g5 from '../assets/case_studies/givetheneedy_screenshot/5.webp';
-import g6 from '../assets/case_studies/givetheneedy_screenshot/6.webp';
-import g7 from '../assets/case_studies/givetheneedy_screenshot/7.webp';
-import g8 from '../assets/case_studies/givetheneedy_screenshot/8.webp';
-
+/* ── Tech pill icons (brand colours) ── */
 const getTechIcon = (tech) => {
   const t = tech.toLowerCase();
   if (t.includes('react')) return FaReact;
   if (t.includes('laravel')) return FaLaravel;
   if (t.includes('node')) return FaNodeJs;
-  if (t.includes('mongodb') || t.includes('mysql') || t.includes('database') || t.includes('nosql')) return FaDatabase;
-  if (t.includes('razorpay') || t.includes('gateway') || t.includes('payment') || t.includes('credit')) return FaCreditCard;
+  if (t.includes('mongodb') || t.includes('mysql') || t.includes('database')) return FaDatabase;
+  if (t.includes('razorpay') || t.includes('payment')) return FaCreditCard;
   if (t.includes('express') || t.includes('server')) return FaServer;
-  if (t.includes('auth') || t.includes('security') || t.includes('lock') || t.includes('verified')) return FaLock;
+  if (t.includes('auth') || t.includes('security')) return FaLock;
   return FaCode;
 };
 
@@ -72,638 +56,507 @@ const getTechColor = (tech) => {
   if (t.includes('node')) return '#339933';
   if (t.includes('mongodb')) return '#47a248';
   if (t.includes('mysql')) return '#00758f';
-  if (t.includes('database') || t.includes('nosql')) return '#00758f';
-  if (t.includes('razorpay') || t.includes('gateway') || t.includes('payment') || t.includes('credit')) return '#0854d4';
-  if (t.includes('express')) return '#303030';
-  if (t.includes('auth') || t.includes('security') || t.includes('lock') || t.includes('verified')) return '#10b981';
-  return '#0ea5e9';
+  if (t.includes('razorpay') || t.includes('payment')) return '#0854d4';
+  return '#0077b6';
+};
+
+/* ── Case study content ── */
+const caseStudiesData = {
+  kangkan: {
+    name: 'Kangkan',
+    category: 'E-commerce Mobile App',
+    title: 'Kangkan: A Scalable Mobile-First E-commerce Platform',
+    subtitle: 'A unified React Native app for Android and iOS, powered by a Laravel REST API.',
+    logo: kangkanLogo,
+    pdf: kangkanPdf,
+    facts: [
+      { label: 'Client', value: 'Kangkan Retail Brands', icon: FiUser },
+      { label: 'Industry', value: 'E-commerce & Local Retail', icon: FiBriefcase },
+      { label: 'Platform', value: 'Android & iOS', icon: FiSmartphone },
+      { label: 'Duration', value: '13 Months', icon: FiClock },
+    ],
+    tech: ['React Native', 'Laravel', 'MySQL', 'Razorpay', 'REST APIs'],
+    // All screenshots are 166×296 with the phone at x 15–150, y 8–286 on a flat background
+    screenBox: { width: 166, height: 296, left: 15, top: 8, right: 150, bottom: 286 },
+    heroScreens: [k2, k1, k4],
+    screenshots: [k1, k2, k3, k4, k5, k6, k7, k8],
+    introduction:
+      'Kangkan is a mobile-first e-commerce platform built to deliver a seamless, scalable shopping experience while promoting culturally inspired and modern products. It combines high performance, usability and reliability, giving shoppers the same smooth experience on Android and iOS.',
+    problemContext:
+      'The rapid growth of e-commerce has raised expectations around speed, reliability and usability. Many emerging platforms struggle to handle concurrent users, keep latency low and process transactions reliably. The key challenge with Kangkan was a system that could serve many active shoppers at once while staying fast and responsive.',
+    objective: [
+      'Support concurrent user activity without performance degradation.',
+      'Provide a fast, intuitive and modern mobile shopping experience.',
+      'Ensure secure, validated and reliable payment processing.',
+      'Establish a strong technical foundation for future growth.',
+    ],
+    architecture: [
+      {
+        title: 'Mobile App',
+        tag: 'React Native',
+        desc: 'One codebase for Android and iOS, keeping the look and behaviour consistent while reducing development and maintenance effort.',
+        icon: FiSmartphone,
+      },
+      {
+        title: 'Backend Services',
+        tag: 'Laravel · REST',
+        desc: 'An MVC architecture with RESTful APIs for efficient, low-overhead communication between the app and the server.',
+        icon: FiServer,
+      },
+      {
+        title: 'Database',
+        tag: 'MySQL',
+        desc: 'An optimised relational schema with indexing and transactional integrity for fast lookups and safe, consistent data.',
+        icon: FiDatabase,
+      },
+      {
+        title: 'Payments',
+        tag: 'Razorpay',
+        desc: 'Server-side signature validation, webhook handling and clear fallback states for a safe, reliable checkout.',
+        icon: FiLock,
+      },
+    ],
+    optimizations: [
+      {
+        title: 'API Optimisation',
+        desc: 'Smaller payloads, fewer redundant requests and compressed responses for faster load times.',
+      },
+      {
+        title: 'Database Tuning',
+        desc: 'Indexing, eager loading of relations and refactored queries to cut latency on every screen.',
+      },
+      {
+        title: 'Concurrent Users',
+        desc: 'A stateless backend that serves many shoppers at once and scales horizontally when traffic grows.',
+      },
+      {
+        title: 'Mobile Performance',
+        desc: 'Controlled rendering, memoised lists and lean state management to avoid unnecessary re-renders.',
+      },
+    ],
+    challenges: [
+      {
+        title: 'Scalability & Load',
+        problem: 'Handling many active users at once without the app slowing down.',
+        solution: 'A stateless API design and structured database indexing.',
+      },
+      {
+        title: 'Checkout Latency',
+        problem: 'Keeping product browsing and checkout fast from start to finish.',
+        solution: 'Eager loading, API response caching and smaller payloads.',
+      },
+      {
+        title: 'Cross-Platform Feel',
+        problem: 'Giving Android and iOS users an experience that feels native on each.',
+        solution: 'Platform-specific UI tuning inside the shared React Native codebase.',
+      },
+      {
+        title: 'Payment Security',
+        problem: 'Processing every transaction securely and consistently.',
+        solution: 'Razorpay integration with robust server-side signature validation.',
+      },
+    ],
+    strategy:
+      'The interface is designed for simplicity and speed: intuitive navigation, effortless product discovery and a frictionless checkout. A mobile-first approach keeps the app fast and accessible across a wide range of devices and network conditions.',
+    outcome:
+      'Kangkan is live on the Google Play Store, with stable performance, smooth handling of user interactions and a reliable transaction system in production.',
+    learnings: [
+      'Scalability should be considered from the earliest stages of system design.',
+      'Backend efficiency directly shapes how fast the app feels to shoppers.',
+      'Clean RESTful API design plays a critical role in mobile performance.',
+      'Real-world usage and load testing reveal limits that are worth fixing early.',
+    ],
+    roadmap: [
+      'Redis caching to further improve API response times.',
+      'Load balancing for better scalability during traffic peaks.',
+      'Multi-vendor marketplace features to broaden the platform.',
+      'Analytics, telemetry and performance monitoring.',
+    ],
+  },
 };
 
 const CaseStudyDetails = () => {
   const { id } = useParams();
-
-  // Define static data with exact text and paths
-  const caseStudiesData = {
-    kangkan: {
-      title: 'Kangkan: A Scalable Mobile-First E-commerce Platform',
-      subtitle: 'Unified React Native Mobile App & Laravel REST API',
-      logo: kangkanLogo,
-      pdf: kangkanPdf,
-      primaryColor: '#274e85',
-      accentColor: '#1d3d6b',
-      gradient: 'from-[#274e85]/10 via-[#274e85]/5 to-transparent',
-      meta: {
-        client: 'Kangkan Retail Brands',
-        industry: 'E-commerce & Local Retail',
-        platform: 'Android & iOS (Cross-Platform)',
-        tech: 'React Native, Laravel, MySQL, Razorpay',
-        duration: '4 Months'
-      },
-      screenshots: [k1, k2, k3, k4, k5, k6, k7, k8],
-      introduction: 'Kangkan is a mobile-first e-commerce platform developed to deliver a seamless and scalable shopping experience while promoting culturally inspired and modern products. The application is designed to combine high performance, usability, and system reliability, ensuring a consistent experience across Android and iOS devices.',
-      problemContext: 'The rapid growth of e-commerce has increased user expectations around speed, reliability, and usability. At the same time, many emerging platforms face challenges in handling concurrent users, maintaining low latency, and ensuring stable transaction processing. The key challenge in building Kangkan was to design a system that could efficiently manage multiple active users while delivering a smooth and responsive shopping experience.',
-      objective: [
-        'Support concurrent user activity without performance degradation.',
-        'Provide a fast, intuitive, and modern mobile user experience.',
-        'Ensure secure, validated, and reliable payment processing.',
-        'Establish a strong technical foundation for future scalability.'
-      ],
-      architecture: [
-        {
-          title: 'Frontend (Mobile App)',
-          desc: 'Developed using React Native, enabling a unified codebase for both Android and iOS platforms. This ensures visual/functional consistency while reducing development overhead.',
-          icon: FaMobileAlt
-        },
-        {
-          title: 'Backend Services',
-          desc: 'Implemented using Laravel, following the Model-View-Controller (MVC) architecture. RESTful APIs facilitate highly efficient, low-overhead communication between client and server.',
-          icon: FaServer
-        },
-        {
-          title: 'Database System',
-          desc: 'MySQL relational database with optimized schema design, indexing, and transactional integrity validation to guarantee fast retrieval and zero data corruption.',
-          icon: FaDatabase
-        },
-        {
-          title: 'Payment Integration',
-          desc: 'Razorpay payment gateway configured with secure server-side validation, webhook handling, and comprehensive error fallback states for safe checkout.',
-          icon: FaLock
-        }
-      ],
-      optimizations: [
-        {
-          title: 'API Optimization',
-          desc: 'Efficient API design was implemented to reduce payload size, minimize redundant requests, compress responses, and improve overall response times.'
-        },
-        {
-          title: 'Database Tuning',
-          desc: 'Database queries were optimized using indexing, eager loading of relations, and query refactoring to ensure fast data retrieval and reduced latency.'
-        },
-        {
-          title: 'Concurrent User Handling',
-          desc: 'A stateless backend architecture was adopted to support multiple simultaneous users and enable efficient horizontal request scaling.'
-        },
-        {
-          title: 'Mobile Performance',
-          desc: 'The mobile app was optimized through controlled rendering, memoized lists, state management hooks, and minimizing unnecessary render cycles.'
-        }
-      ],
-      challenges: [
-        {
-          title: 'Scalability & Load',
-          desc: 'Ensuring that the system could handle multiple active users without performance degradation. Resolved via a stateless API design and structured indexing.'
-        },
-        {
-          title: 'Checkout Latency',
-          desc: 'Maintaining low latency across product browsing and checkout flows. Resolved by database eager-loading, API response caching, and payload minimization.'
-        },
-        {
-          title: 'Cross-Platform Feel',
-          desc: 'Delivering a consistent and natural native experience across Android and iOS platforms. Solved by tuning platform-specific UI overrides in React Native.'
-        },
-        {
-          title: 'Payment Security',
-          desc: 'Ensuring secure and consistent transaction processing. Achieved through Razorpay integration with robust server-side signature validation.'
-        }
-      ],
-      strategy: 'The platform was designed with a focus on simplicity and efficiency. The interface emphasizes intuitive navigation, streamlined product discovery, and a frictionless checkout process. A mobile-first approach ensures accessibility and performance across a wide range of devices and variable network conditions.',
-      outcome: 'Kangkan has been successfully deployed as a live application on the Google Play Store. The platform demonstrates stable performance, efficient handling of user interactions, and a reliable transaction system in a production environment.',
-      learnings: [
-        'Scalability should be considered from the early stages of system design.',
-        'Backend efficiency directly impacts overall perceived mobile user experience.',
-        'Clean RESTful API designs play a critical role in mobile application performance.',
-        'Real-world usage and load testing help identify and resolve system limitations.'
-      ],
-      roadmap: [
-        'Implementation of Redis caching mechanisms to further improve API response times.',
-        'Introduction of load balancing configurations for better scalability.',
-        'Expansion of platform capabilities for broader multi-vendor marketplace features.',
-        'Integration of telemetry, analytics, and performance monitoring systems.'
-      ]
-    },
-    givetheneedy: {
-      title: 'GiveTheNeedy: A Purpose-Driven Social Impact App',
-      subtitle: 'Event-Driven Node.js Engine & Flexible MongoDB NoSQL Stack',
-      logo: gtnLogo,
-      pdf: gtnPdf,
-      primaryColor: '#695dd3',
-      accentColor: '#574cbd',
-      gradient: 'from-[#695dd3]/10 via-[#695dd3]/5 to-transparent',
-      meta: {
-        client: 'GiveTheNeedy Foundation',
-        industry: 'Nonprofit, Social Good & NGO',
-        platform: 'Android & iOS (Cross-Platform)',
-        tech: 'React Native, Node.js, MongoDB, Express',
-        duration: '3 Months'
-      },
-      screenshots: [g1, g2, g3, g4, g5, g6, g7, g8],
-      introduction: 'GiveTheNeedy is a purpose-driven digital platform focused on creating meaningful social impact by connecting individuals who are willing to contribute with those in need. The application fosters a culture of compassion by enabling users to participate in humanitarian efforts through a seamless and transparent system.',
-      problemContext: 'Donation environments often suffer from a lack of transparency and visual connection to where resources are deployed. Giving needs to be simplified, immediate, and direct, ensuring donors that their contributions reach the intended recipient without intermediary friction.',
-      objective: [
-        'Bridge the gap between donors and beneficiaries efficiently.',
-        'Offer a highly reliable platform that simplifies the process of giving.',
-        'Ensure direct, measurable social impact and transparency for every campaign.',
-        'Create a secure environment to protect donor data and financial transactions.'
-      ],
-      architecture: [
-        {
-          title: 'Frontend (Mobile App)',
-          desc: 'Developed with React Native for Android and iOS. Delivers native look and feel, unified custom UI components, and optimized image processing layouts.',
-          icon: FaMobileAlt
-        },
-        {
-          title: 'Backend (API Engine)',
-          desc: 'Built using Node.js and Express, implementing a lightweight, event-driven architecture to coordinate notifications and transactions smoothly.',
-          icon: FaServer
-        },
-        {
-          title: 'Database System',
-          desc: 'MongoDB NoSQL document database, allowing flexible schema designs for various donation campaigns, user histories, and beneficiary records.',
-          icon: FaDatabase
-        },
-        {
-          title: 'Verified Authentication',
-          desc: 'Secure JWT authentication combined with strict permission levels, keeping volunteer profiles, admin roles, and donor databases encrypted.',
-          icon: FaLock
-        }
-      ],
-      optimizations: [
-        {
-          title: 'Verified Beneficiary System',
-          desc: 'Ensures absolute authenticity of causes, enabling verification checklists and audit trails to build strong donor trust.'
-        },
-        {
-          title: 'Real-Time Engagement',
-          desc: 'Keeps users dynamically informed about their contributions, campaign updates, and progress logs via integrated notifications.'
-        },
-        {
-          title: 'Secure Transactions',
-          desc: 'Employs safe encryption and transactional validation to process donations without payment leaks or intercept risks.'
-        },
-        {
-          title: 'Community-Centric Approach',
-          desc: 'Incorporates features that encourage volunteer coordination, local campaign sharing, and social networking for charity.'
-        }
-      ],
-      challenges: [
-        {
-          title: 'Fraud Prevention',
-          desc: 'Validating the legitimacy of beneficiaries. Solved by implementing an identity verification pipeline and automated NGO matching.'
-        },
-        {
-          title: 'Visualizing Direct Impact',
-          desc: 'Proving donation delivery to the donor. Solved by supporting live updates, visual receipts, and media attachments uploaded by volunteers.'
-        },
-        {
-          title: 'Variable Network Performance',
-          desc: 'Donors and volunteers in remote areas accessing the app. Solved by designing light payloads and supporting offline queues.'
-        },
-        {
-          title: 'Data Privacy',
-          desc: 'Ensuring anonymity for donors who request it. Achieved through strict object-level access controls in MongoDB.'
-        }
-      ],
-      strategy: 'GiveTheNeedy provides a centralized ecosystem where contributors and beneficiaries can interact securely and efficiently. The platform enables users to discover genuine causes, contribute resources, and track outcomes, thereby enhancing trust and engagement.',
-      outcome: 'GiveTheNeedy has transformed small acts of kindness into meaningful societal change, strengthening local community connections, promoting transparent aid distribution, and encouraging ongoing volunteer contributions.',
-      learnings: [
-        'NGO and beneficiary verification checks are fundamental to platform trust.',
-        'Event-driven backend logic helps dispatch real-time campaign updates smoothly.',
-        'A NoSQL database allows high agility when campaign metadata requirements shift.',
-        'Donor retention is highly correlated with transaction security and direct impact reports.'
-      ],
-      roadmap: [
-        'Integration of intelligent recommendation engines to match donors with matching interests.',
-        'Expansion of platform capabilities to wider geographic regions and local dialects.',
-        'Developing structural partnerships with global NGOs and civic institutions.',
-        'Introducing advanced analytics and KPI telemetry tracking for enterprise sponsors.'
-      ]
-    }
-  };
-
+  const reduce = useReducedMotion();
   const data = caseStudiesData[id];
 
   if (!data) {
     return <Navigate to="/case-studies" replace />;
   }
 
+  const fadeUp = (delay = 0) => ({
+    initial: reduce ? false : { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-60px' },
+    transition: { duration: 0.5, delay },
+  });
+
+  const pageUrl = `https://binudsoftwaresolutions.in/case-studies/case-study/${id}`;
   const caseStudyJsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Article',
-        'headline': data.title,
-        'description': data.introduction,
-        'image': 'https://binudsoftwaresolutions.in/og-image.png',
-        'author': { '@id': 'https://binudsoftwaresolutions.in/#organization' },
-        'publisher': { '@id': 'https://binudsoftwaresolutions.in/#organization' },
-        'mainEntityOfPage': `https://binudsoftwaresolutions.in/case-studies/case-study/${id}`
+        headline: data.title,
+        description: data.introduction,
+        image: 'https://binudsoftwaresolutions.in/og-image.png',
+        author: { '@id': 'https://binudsoftwaresolutions.in/#organization' },
+        publisher: { '@id': 'https://binudsoftwaresolutions.in/#organization' },
+        mainEntityOfPage: pageUrl,
       },
       {
         '@type': 'BreadcrumbList',
-        'itemListElement': [
-          {
-            '@type': 'ListItem',
-            'position': 1,
-            'name': 'Home',
-            'item': 'https://binudsoftwaresolutions.in/'
-          },
-          {
-            '@type': 'ListItem',
-            'position': 2,
-            'name': 'Case Studies',
-            'item': 'https://binudsoftwaresolutions.in/case-studies'
-          },
-          {
-            '@type': 'ListItem',
-            'position': 3,
-            'name': data.title,
-            'item': `https://binudsoftwaresolutions.in/case-studies/case-study/${id}`
-          }
-        ]
-      }
-    ]
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://binudsoftwaresolutions.in/' },
+          { '@type': 'ListItem', position: 2, name: 'Case Studies', item: 'https://binudsoftwaresolutions.in/case-studies' },
+          { '@type': 'ListItem', position: 3, name: data.title, item: pageUrl },
+        ],
+      },
+    ],
   };
 
+  const box = data.screenBox;
+
   return (
-    <div className="min-h-screen bg-slate-50/50 font-sans text-left">
-      <SEOHead
-        canonicalPath={`/case-studies/case-study/${id}`}
-        ogType="article"
-        jsonLd={caseStudyJsonLd}
-      />
+    <div className="min-h-screen bg-white font-sans text-left">
+      <SEOHead canonicalPath={`/case-studies/case-study/${id}`} ogType="article" jsonLd={caseStudyJsonLd} />
       <Navbar />
 
-      <PageBanner
-        crumbs={[
-          { name: 'Case Studies', path: '/case-studies' },
-          { name: id === 'kangkan' ? 'Kangkan' : 'GiveTheNeedy' },
-        ]}
-      />
+      {/* ═══ Hero ═══ */}
+      <section className="bg-sky overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-5 pb-14 md:pb-20">
+          <Breadcrumbs
+            crumbs={[{ name: 'Case Studies', path: '/case-studies' }, { name: data.name }]}
+            className="mb-8 md:mb-10"
+          />
 
-      {/* Main Overview Section */}
-      <section className="relative py-16 bg-white border-b border-slate-100 overflow-hidden">
-        {/* Decorative subtle background colors */}
-        <div className={`absolute top-0 right-0 w-[45%] h-[350px] bg-gradient-to-bl ${data.gradient} rounded-full blur-[100px] pointer-events-none`} />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Hero Left Content */}
-            <div className="lg:col-span-7">
-              
-              <h1 className="text-[28px] md:text-[34px] font-semibold text-ink leading-[1.15] tracking-tight mb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            {/* Text */}
+            <motion.div {...fadeUp()} className="lg:col-span-6">
+              <div className="flex items-center gap-3.5 mb-6">
+                <span className="w-14 h-14 rounded-2xl bg-white border border-line p-2 shrink-0">
+                  <img src={data.logo} alt={`${data.name} logo`} className="w-full h-full object-contain" />
+                </span>
+                <div>
+                  <p className="text-ink text-[17px] font-semibold leading-tight">{data.name}</p>
+                  <p className="text-muted text-sm mt-1">Case Study · {data.category}</p>
+                </div>
+              </div>
+
+              <h1 className="text-ink text-[30px] sm:text-[36px] lg:text-[42px] font-semibold leading-[1.15] tracking-tight">
                 {data.title}
               </h1>
-              
-              <p className="text-slate-400 text-lg font-bold mb-6 leading-snug">
-                {data.subtitle}
-              </p>
+              <p className="mt-5 text-body !text-[17px] leading-[1.75] max-w-xl">{data.subtitle}</p>
 
-              {/* Meta details list */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-y border-slate-100 my-8">
-                <div>
-                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Client</span>
-                  <span className="text-xs font-bold text-slate-800">{data.meta.client}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Industry</span>
-                  <span className="text-xs font-bold text-slate-800">{data.meta.industry}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Platform</span>
-                  <span className="text-xs font-bold text-slate-800">{data.meta.platform}</span>
-                </div>
-                <div>
-                  <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">Timeline</span>
-                  <span className="text-xs font-bold text-slate-800">{data.meta.duration}</span>
-                </div>
-              </div>
-
-              {/* PDF Download Action */}
-              <ArrowButton href={data.pdf} download icon={FaDownload}>
-                Download Full PDF Case Study
-              </ArrowButton>
-            </div>
-
-            {/* Hero Right: Brand Card */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="bg-white border border-slate-100 rounded-card p-8 max-w-sm w-full relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-24 h-24 rounded-full opacity-5 group-hover:scale-110 transition-transform duration-500" style={{ backgroundColor: data.primaryColor }} />
-                <div className="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center p-3.5 mb-6 mx-auto">
-                  <img src={data.logo} alt={`${data.title} - Official Client Application Logo`} className="w-full h-full object-contain" />
-                </div>
-                <h3 className="text-center font-semibold text-slate-800 text-lg tracking-tight mb-3">Technical Summary</h3>
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
-                  {data.meta.tech.split(',').map((techItem) => {
-                    const trimmed = techItem.trim();
-                    const TechIcon = getTechIcon(trimmed);
-                    const techColor = getTechColor(trimmed);
-                    return (
-                      <span 
-                        key={trimmed}
-                        className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
-                      >
-                        <TechIcon style={{ color: techColor }} size={11} />
-                        {trimmed}
-                      </span>
-                    );
-                  })}
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-xs text-slate-600 font-medium">
-                    <span className="w-6 h-6 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-bold">1</span>
-                    React Native Mobile Stack
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-slate-600 font-medium">
-                    <span className="w-6 h-6 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-bold">2</span>
-                    Production Deployed App
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-slate-600 font-medium">
-                    <span className="w-6 h-6 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 font-bold">3</span>
-                    Optimized Backend Architecture
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Visual Showcase (Auto-scroll Ticker) */}
-      <section className="py-20 bg-slate-50 border-b border-slate-100 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
-          <div className="text-center">
-            <h2 className="text-[26px] md:text-[32px] font-semibold text-ink tracking-tight leading-tight">
-              Production Mobile Showcase
-            </h2>
-            <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-lg mx-auto mt-2 font-medium">
-              A smooth auto-scrolling display of live application workflows. Hover over a screen to pause.
-            </p>
-          </div>
-        </div>
-
-        {/* Scrolling Ticker Wrapper */}
-        <div className="relative w-full overflow-hidden py-4">
-          {/* Left and Right Fade Overlays for Depth */}
-          <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent z-20 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent z-20 pointer-events-none" />
-
-          {/* Scrolling Track */}
-          <div className="ticker-track flex">
-            {/* Render screenshots twice for seamless infinite loop */}
-            {[...data.screenshots, ...data.screenshots].map((src, index) => (
-              <div 
-                key={index} 
-                className="w-[180px] sm:w-[220px] aspect-[9/19] rounded-card overflow-hidden border border-slate-200/80 bg-white shrink-0 mx-4 transition-all duration-300"
-              >
-                <img 
-                  src={src} 
-                  alt={`${data.title} - Production Mobile App Interface Screen ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Details Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            {/* Left Column: Narrative Details */}
-            <div className="lg:col-span-7 space-y-12">
-              
-              {/* Introduction */}
-              <div>
-                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
-                  <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
-                  1. Project Introduction
-                </h3>
-                <p className="text-slate-500 text-[15px] leading-relaxed font-medium">
-                  {data.introduction}
-                </p>
-              </div>
-
-              {/* Problem context */}
-              {data.problemContext && (
-                <div>
-                  <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
-                    <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
-                    2. Problem Context
-                  </h3>
-                  <p className="text-slate-500 text-[15px] leading-relaxed font-medium">
-                    {data.problemContext}
-                  </p>
-                </div>
-              )}
-
-              {/* Objectives list */}
-              <div>
-                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
-                  <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
-                  3. Key Project Objectives
-                </h3>
-                <ul className="space-y-3">
-                  {data.objective.map((obj, index) => (
-                    <li key={index} className="flex items-start gap-3 text-slate-500 text-[15px] font-medium leading-relaxed">
-                      <div className="w-5 h-5 rounded-full bg-slate-100 border border-slate-200 text-[#274e85] flex items-center justify-center shrink-0 mt-0.5">
-                        <FaCheck className="w-3 h-3" />
-                      </div>
-                      <span>{obj}</span>
+              <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technology used">
+                {data.tech.map((t) => {
+                  const TechIcon = getTechIcon(t);
+                  return (
+                    <li key={t} className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-white border border-line text-sm text-body">
+                      <TechIcon size={14} style={{ color: getTechColor(t) }} aria-hidden="true" />
+                      {t}
                     </li>
-                  ))}
-                </ul>
+                  );
+                })}
+              </ul>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <ArrowButton href={data.pdf} download variant="solid" icon={FiDownload}>
+                  Download PDF Case Study
+                </ArrowButton>
+                <ArrowButton to="/contact">Start a Similar Project</ArrowButton>
               </div>
+            </motion.div>
 
-              {/* UX Strategy */}
-              {data.strategy && (
-                <div>
-                  <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
-                    <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
-                    4. User Experience Strategy
-                  </h3>
-                  <p className="text-slate-500 text-[15px] leading-relaxed font-medium">
-                    {data.strategy}
-                  </p>
-                </div>
-              )}
+            {/* Phones */}
+            <motion.div {...fadeUp(0.1)} className="lg:col-span-6">
+              <div
+                className="relative h-[400px] sm:h-[460px] lg:h-[520px] rounded-[28px] overflow-hidden"
+                style={{ background: 'linear-gradient(140deg, #ffffff 0%, #dcf0fa 50%, #b9e0f4 100%)' }}
+              >
+                <span aria-hidden="true" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-white/60 blur-3xl" />
+                <span aria-hidden="true" className="absolute -right-24 -top-24 w-72 h-72 rounded-full border border-white/80" />
+                <span aria-hidden="true" className="absolute -right-8 -top-8 w-40 h-40 rounded-full border border-white/70" />
+                <span
+                  aria-hidden="true"
+                  className="absolute left-6 bottom-6 w-32 h-24"
+                  style={{ backgroundImage: 'radial-gradient(rgba(0,119,182,0.3) 1.2px, transparent 1.4px)', backgroundSize: '14px 14px' }}
+                />
 
-              {/* Outcomes */}
-              <div>
-                <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-4 flex items-center gap-2">
-                  <span className="w-2.5 h-6 rounded-full" style={{ backgroundColor: data.primaryColor }} />
-                  5. Project Outcome & Metrics
-                </h3>
-                <div className="bg-slate-50 border border-slate-100 rounded-card p-6">
-                  <div className="flex gap-4 items-start mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-green-500 shrink-0">
-                      <FaChartLine className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-slate-800 font-semibold text-sm">Successful Deliverable</h4>
-                      <p className="text-slate-500 text-[14px] leading-relaxed font-medium mt-1">
-                        {data.outcome}
-                      </p>
-                    </div>
+                <div className="absolute inset-0 flex items-center justify-center pt-12 sm:pt-6">
+                  <div className="flex items-center">
+                    {data.heroScreens.map((src, i) => {
+                      const pose = [
+                        'z-0 w-28 sm:w-32 lg:w-36 rounded-[15px] -mr-8 sm:-mr-10 translate-y-8 -rotate-[9deg]',
+                        'z-10 w-36 sm:w-40 lg:w-44 rounded-[19px]',
+                        'z-0 w-28 sm:w-32 lg:w-36 rounded-[15px] -ml-8 sm:-ml-10 translate-y-8 rotate-[9deg]',
+                      ][i];
+                      return (
+                        <PhoneScreen
+                          key={src}
+                          src={src}
+                          box={box}
+                          alt={i === 1 ? `${data.name} app home screen` : ''}
+                          className={`${pose} shadow-[0_30px_55px_-18px_rgba(6,36,58,0.45)] ring-1 ring-black/10`}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
 
-            </div>
-
-            {/* Right Column: Architecture & Optimizations */}
-            <div className="lg:col-span-5 space-y-12">
-              
-              {/* Architecture stack cards */}
-              <div>
-                <h3 className="text-xl font-semibold text-ink tracking-tight mb-6">
-                  System Architecture
-                </h3>
-                <div className="space-y-4">
-                  {data.architecture.map((arch, index) => {
-                    const ArchIcon = arch.icon;
-                    return (
-                      <div key={index} className="bg-white border border-slate-100 rounded-card p-5 flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/50 flex items-center justify-center text-slate-500 shrink-0">
-                          <ArchIcon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="text-ink font-semibold text-sm">{arch.title}</h4>
-                          <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{arch.desc}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* Status badge */}
+                <div className="absolute left-5 top-5 inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-white/95 text-sm font-medium text-ink shadow-[0_6px_18px_-8px_rgba(6,36,58,0.25)]">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true" />
+                  Live on Google Play
                 </div>
               </div>
-
-              {/* Optimizations or considerations cards */}
-              <div>
-                <h3 className="text-xl font-semibold text-ink tracking-tight mb-6">
-                  Engineering &amp; Optimization
-                </h3>
-                <div className="space-y-4">
-                  {data.optimizations.map((opt, index) => (
-                    <div key={index} className="border-l-[3px] pl-4 py-1.5" style={{ borderColor: data.primaryColor }}>
-                      <h4 className="text-slate-800 font-semibold text-xs uppercase tracking-wider">{opt.title}</h4>
-                      <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{opt.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
+            </motion.div>
           </div>
+
+          {/* Project facts */}
+          <motion.dl {...fadeUp(0.15)} className="mt-10 md:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {data.facts.map(({ label, value, icon: FactIcon }) => (
+              <div key={label} className="bg-white border border-line rounded-card p-4 sm:p-5 flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary-light text-primary flex items-center justify-center shrink-0" aria-hidden="true">
+                  <FactIcon size={19} />
+                </span>
+                <div className="min-w-0">
+                  <dt className="text-[13px] text-muted">{label}</dt>
+                  <dd className="mt-0.5 text-[15px] sm:text-base font-semibold text-ink leading-snug">{value}</dd>
+                </div>
+              </div>
+            ))}
+          </motion.dl>
         </div>
       </section>
 
-      {/* Challenges Section */}
-      <section className="py-20 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="text-center mb-16">
-            <h2 className="text-[26px] md:text-[32px] font-semibold text-ink tracking-tight leading-tight">
-              Solving Complex Challenges
-            </h2>
-            <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-lg mx-auto mt-2">
-              Every major milestone brings technical roadblocks. Here is how our engineering team overcame them.
-            </p>
-          </div>
+      {/* ═══ Overview: challenge + goals ═══ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+          <motion.div {...fadeUp()} className="lg:col-span-7">
+            <span className="block text-primary text-sm font-medium mb-3">Project Overview</span>
+            <h2 className="section-title">About the project</h2>
+            <p className="mt-5 text-body !text-[16px] md:!text-[17px] leading-[1.8]">{data.introduction}</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {data.challenges.map((chal, index) => (
-              <div key={index} className="bg-white border border-slate-100 rounded-card p-6 flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 shrink-0">
-                  <FaShieldAlt className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-ink font-semibold text-sm">{chal.title}</h4>
-                  <p className="text-slate-500 text-[13px] leading-relaxed font-medium mt-1">{chal.desc}</p>
-                </div>
+            <h3 className="mt-10 text-ink text-xl md:text-[22px] font-semibold tracking-tight">The challenge</h3>
+            <p className="mt-3 text-body !text-[16px] md:!text-[17px] leading-[1.8]">{data.problemContext}</p>
+          </motion.div>
+
+          <motion.aside {...fadeUp(0.1)} className="lg:col-span-5">
+            <div className="bg-sky border border-line rounded-card p-7 sm:p-8 lg:sticky lg:top-28">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-11 h-11 rounded-xl bg-primary text-white flex items-center justify-center" aria-hidden="true">
+                  <FiTarget size={20} />
+                </span>
+                <h3 className="text-ink text-xl font-semibold tracking-tight">Project goals</h3>
               </div>
+              <ul className="space-y-4">
+                {data.objective.map((obj) => (
+                  <li key={obj} className="flex items-start gap-3 text-body !text-[15px] leading-relaxed">
+                    <span className="w-6 h-6 rounded-full bg-white border border-line text-primary flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+                      <FiCheck size={14} />
+                    </span>
+                    <span>{obj}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.aside>
+        </div>
+      </section>
+
+      {/* ═══ App screens ═══ */}
+      <section className="py-16 md:py-24 bg-sky overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <SectionHeading
+            title={<>Inside the <span className="text-gradient">App</span></>}
+            description="Real screens from the live app, from browsing and product details to cart, checkout and order tracking. Hover to pause."
+            align="center"
+            className="mb-12"
+          />
+        </div>
+
+        <div className="relative">
+          <div aria-hidden="true" className="absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-sky to-transparent z-10 pointer-events-none" />
+          <div aria-hidden="true" className="absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-sky to-transparent z-10 pointer-events-none" />
+          <div className="ticker-track py-6">
+            {[...data.screenshots, ...data.screenshots].map((src, index) => (
+              <PhoneScreen
+                key={index}
+                src={src}
+                box={box}
+                alt={index < data.screenshots.length ? `${data.name} app screen ${index + 1}` : ''}
+                className="w-[150px] sm:w-[170px] rounded-[18px] mx-3 sm:mx-4 shrink-0 shadow-[0_20px_40px_-18px_rgba(6,36,58,0.35)] ring-1 ring-black/10"
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Learnings & Future Roadmap */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            
-            {/* Key Learnings */}
-            <div>
-              <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-8 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500">
-                  <FaLightbulb className="w-5 h-5" />
-                </div>
-                Key Engineering Learnings
-              </h3>
-              <div className="space-y-4">
-                {data.learnings.map((learn, index) => (
-                  <div key={index} className="flex gap-3 items-start">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mt-1">L{index + 1}.</span>
-                    <p className="text-slate-500 text-[14px] leading-relaxed font-medium">{learn}</p>
+      {/* ═══ Architecture ═══ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <SectionHeading
+            title={<>How We <span className="text-gradient">Built It</span></>}
+            description="A clean, four-part architecture chosen for speed today and room to grow tomorrow."
+            className="mb-12"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {data.architecture.map(({ title, tag, desc, icon: ArchIcon }, i) => (
+              <motion.article
+                key={title}
+                {...fadeUp(i * 0.06)}
+                className="bg-white border border-line rounded-card p-6 sm:p-7 flex flex-col transition-colors duration-300 hover:border-[#9fd6ee]"
+              >
+                <span className="w-12 h-12 rounded-xl bg-primary-light text-primary flex items-center justify-center mb-5" aria-hidden="true">
+                  <ArchIcon size={22} />
+                </span>
+                <h3 className="text-ink text-lg font-semibold tracking-tight">{title}</h3>
+                <span className="mt-1 text-primary text-sm font-medium">{tag}</span>
+                <p className="mt-3 text-body !text-[15px] leading-[1.7]">{desc}</p>
+              </motion.article>
+            ))}
+          </div>
+
+          {/* Engineering & optimisation */}
+          <motion.div {...fadeUp()} className="mt-14 md:mt-16 rounded-[24px] bg-navy text-white p-7 sm:p-10 lg:p-12 relative overflow-hidden">
+            <span aria-hidden="true" className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-primary/30 blur-3xl" />
+            <div className="relative">
+              <h3 className="text-white text-2xl md:text-[28px] font-semibold tracking-tight">Engineering &amp; optimisation</h3>
+              <p className="mt-3 text-white/75 max-w-2xl">The details that keep the app fast and stable under real-world traffic.</p>
+
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+                {data.optimizations.map((opt, i) => (
+                  <div key={opt.title} className="lg:border-l lg:border-white/15 lg:pl-6 first:lg:border-l-0 first:lg:pl-0">
+                    <span className="block text-[#7cc8ec] text-sm font-semibold tracking-wider">{String(i + 1).padStart(2, '0')}</span>
+                    <h4 className="mt-2 text-white text-lg font-semibold">{opt.title}</h4>
+                    <p className="mt-2 text-white/75 !text-[15px] leading-[1.7]">{opt.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
 
-            {/* Future Scope */}
-            <div className="pt-8 lg:pt-0 border-t lg:border-t-0 lg:pl-16 lg:border-l border-slate-100">
-              <h3 className="text-xl md:text-[22px] font-semibold text-ink tracking-tight mb-8 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500">
-                  <FaMicrochip className="w-5 h-5" />
-                </div>
-                Future Roadmap Scope
-              </h3>
-              <div className="space-y-4">
-                {data.roadmap.map((road, index) => (
-                  <div key={index} className="flex gap-3 items-start">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mt-1">R{index + 1}.</span>
-                    <p className="text-slate-500 text-[14px] leading-relaxed font-medium">{road}</p>
+      {/* ═══ Challenges ═══ */}
+      <section className="py-16 md:py-24 bg-sky">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <SectionHeading
+            title={<>Challenges We <span className="text-gradient">Solved</span></>}
+            description="Every serious product hits roadblocks. Here is what stood in the way, and how we got past it."
+            align="center"
+            className="mb-12"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            {data.challenges.map((chal, i) => (
+              <motion.article
+                key={chal.title}
+                {...fadeUp((i % 2) * 0.06)}
+                className="bg-white border border-line rounded-card p-6 sm:p-8"
+              >
+                <h3 className="text-ink text-xl font-semibold tracking-tight">{chal.title}</h3>
+                <div className="mt-5 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <FiAlertCircle size={19} className="text-muted shrink-0 mt-0.5" aria-hidden="true" />
+                    <p className="text-body !text-[15px] leading-relaxed">
+                      <span className="font-semibold text-ink">Challenge: </span>
+                      {chal.problem}
+                    </p>
                   </div>
-                ))}
-              </div>
-            </div>
-
+                  <div className="flex items-start gap-3 rounded-xl bg-primary-light/70 px-4 py-3.5">
+                    <FiArrowRight size={19} className="text-primary shrink-0 mt-0.5" aria-hidden="true" />
+                    <p className="text-body !text-[15px] leading-relaxed">
+                      <span className="font-semibold text-primary">Solution: </span>
+                      {chal.solution}
+                    </p>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Stay Connected CTA Section */}
-      <section className="py-16 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div 
-            className="rounded-card p-8 md:p-12 text-center text-white relative overflow-hidden"
-            style={{ backgroundColor: data.primaryColor }}
+      {/* ═══ Approach & outcome ═══ */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <motion.article {...fadeUp()} className="bg-sky border border-line rounded-card p-7 sm:p-10">
+            <span className="block text-primary text-sm font-medium mb-3">Our Approach</span>
+            <h2 className="text-ink text-2xl md:text-[28px] font-semibold tracking-tight">User experience strategy</h2>
+            <p className="mt-4 text-body !text-[16px] leading-[1.8]">{data.strategy}</p>
+          </motion.article>
+
+          <motion.article
+            {...fadeUp(0.1)}
+            className="rounded-card p-7 sm:p-10 text-white relative overflow-hidden bg-gradient-to-br from-primary via-deep to-navy"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />
-            
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <h3 className="text-white text-[22px] md:text-2xl font-semibold tracking-tight mb-4">
-                Interested in building a similar app?
-              </h3>
-              <p className="text-white/80 text-sm md:text-base font-medium mb-8">
-                Let's discuss how we can architect a high-performance, scalable cross-platform application tailored to your project requirements.
+            <span aria-hidden="true" className="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-white/15" />
+            <div className="relative">
+              <span className="block text-[#bfe6f7] text-sm font-medium mb-3">The Outcome</span>
+              <h2 className="text-white text-2xl md:text-[28px] font-semibold tracking-tight">Live and performing</h2>
+              <p className="mt-4 text-white/85 !text-[16px] leading-[1.8]">{data.outcome}</p>
+              <span className="mt-6 inline-flex items-center gap-2 h-10 px-4 rounded-full bg-white/10 border border-white/20 text-sm font-medium">
+                <FaGooglePlay size={14} aria-hidden="true" />
+                Available on Google Play
+              </span>
+            </div>
+          </motion.article>
+        </div>
+      </section>
+
+      {/* ═══ Learnings & roadmap ═══ */}
+      <section className="pb-16 md:pb-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {[
+            { title: 'Key learnings', icon: FiBookOpen, items: data.learnings },
+            { title: "What's next", icon: FiCompass, items: data.roadmap },
+          ].map(({ title, icon: BlockIcon, items }, b) => (
+            <motion.article key={title} {...fadeUp(b * 0.1)} className="bg-white border border-line rounded-card p-7 sm:p-10">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-11 h-11 rounded-xl bg-primary-light text-primary flex items-center justify-center" aria-hidden="true">
+                  <BlockIcon size={20} />
+                </span>
+                <h2 className="text-ink text-xl md:text-[22px] font-semibold tracking-tight">{title}</h2>
+              </div>
+              <ol className="space-y-4">
+                {items.map((item, i) => (
+                  <li key={item} className="flex items-start gap-4">
+                    <span className="text-primary text-sm font-semibold tabular-nums mt-[3px] w-6 shrink-0">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-body !text-[15px] leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ol>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="pb-16 md:pb-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <motion.div {...fadeUp()} className="relative overflow-hidden rounded-[28px] bg-navy px-6 py-12 sm:px-12 md:py-16 text-center">
+            <span aria-hidden="true" className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-primary/35 blur-3xl" />
+            <div className="relative max-w-2xl mx-auto">
+              <h2 className="text-white text-[26px] md:text-[34px] font-semibold tracking-tight leading-tight">
+                Planning an app like {data.name}?
+              </h2>
+              <p className="mt-4 text-white/80 !text-[16px] md:!text-[17px] leading-[1.75]">
+                Let&apos;s talk about your idea and how we can build a fast, scalable app for Android and iOS that your
+                customers will love.
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <ArrowButton to="/contact" size="lg" className="w-full sm:w-auto justify-between">
-                  Start a Conversation
-                </ArrowButton>
-                <ArrowButton href={data.pdf} download variant="ghost" size="lg" icon={FaDownload} className="w-full sm:w-auto justify-between">
-                  Get PDF Copy
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                <ArrowButton to="/contact" variant="white">Start a Conversation</ArrowButton>
+                <ArrowButton href={data.pdf} download variant="ghost" icon={FiDownload}>
+                  Download PDF
                 </ArrowButton>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

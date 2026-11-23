@@ -125,7 +125,7 @@ const SiteLightbox = ({ sites, startIndex, onClose }) => {
 const WebsiteCard = ({ site, onOpen }) => (
   <motion.article
     variants={cardVariants}
-    className="bg-white border border-line rounded-card overflow-hidden hover:border-[#9fd6ee] hover:-translate-y-1 transition-[transform,box-shadow,border-color] duration-300 flex flex-col h-full text-left"
+    className="bg-white border border-line rounded-card overflow-hidden hover:border-[#9fd6ee] hover:shadow-[0_16px_40px_-16px_rgba(3,47,49,0.18)] transition-[box-shadow,border-color] duration-300 flex flex-col h-full text-left"
   >
     {/* Screenshot on a coloured panel; hover blurs it and shows an expand button, click opens the lightbox */}
     <button
@@ -135,7 +135,7 @@ const WebsiteCard = ({ site, onOpen }) => (
       className="group relative block w-full overflow-hidden cursor-zoom-in focus-visible:-outline-offset-4"
       style={{ backgroundColor: site.stageColor }}
     >
-      <div className="p-[6%] transition duration-300 group-hover:blur-[3px] group-hover:scale-[1.03] group-focus-visible:blur-[3px]">
+      <div className="p-[6%] transform-gpu will-change-[filter,transform] transition-[filter,scale] duration-300 group-hover:blur-[3px] group-hover:scale-[1.03] group-focus-visible:blur-[3px]">
         <img
           src={site.image}
           alt={`${site.name} website homepage`}

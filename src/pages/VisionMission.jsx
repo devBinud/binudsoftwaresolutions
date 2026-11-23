@@ -1,41 +1,40 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { FiCheck } from 'react-icons/fi';
+import { FiAward, FiEye, FiTrendingUp, FiZap, FiShield, FiUsers } from 'react-icons/fi';
 import SEOHead from '../components/SEOHead';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PageBanner from '../components/PageBanner';
 import ArrowButton from '../components/ArrowButton';
 
-const missionPoints = [
-  'Turn complex business challenges into simple, scalable software',
-  'Write clean, well-tested code that stands the test of time',
-  'Communicate honestly, with clear estimates and no hidden surprises',
-  'Stay a long-term partner as your business and technology grow',
-];
-
 const coreValues = [
   {
     title: 'Quality Craftsmanship',
+    icon: FiAward,
     desc: 'Clean code and solid architecture designed to last, not just to ship.',
   },
   {
     title: 'Transparency',
+    icon: FiEye,
     desc: 'Honest estimates, regular demos and no hidden technical debt.',
   },
   {
     title: 'Long-Term Partnership',
+    icon: FiTrendingUp,
     desc: 'We measure success by how your business grows long after launch.',
   },
   {
     title: 'Practical Innovation',
+    icon: FiZap,
     desc: 'Modern stacks and AI where they add real value, never hype for its own sake.',
   },
   {
     title: 'Ownership',
+    icon: FiShield,
     desc: 'We take responsibility for outcomes, timelines and the security of your product.',
   },
   {
     title: 'People First',
+    icon: FiUsers,
     desc: 'Every decision starts with the people who will use what we build.',
   },
 ];
@@ -81,37 +80,28 @@ const VisionMission = () => {
             {/* Vision */}
             <motion.article
               {...fadeUp()}
-              className="bg-sky border border-line rounded-card p-7 sm:p-9 md:p-10 text-left flex flex-col"
+              className="bg-[#eaf7f0] rounded-[24px] p-7 sm:p-9 md:p-10 text-left"
             >
-              <span className="block text-primary text-sm font-medium mb-3">Our Vision</span>
-              <h3 className="text-ink text-[22px] md:text-2xl font-semibold leading-snug tracking-tight mb-5">
+              <h3 className="text-ink text-2xl md:text-[28px] font-semibold tracking-tight mb-3">Our Vision</h3>
+              <p className="text-ink/85 !text-[16px] md:!text-[17px] leading-[1.7]">
                 To be the most trusted technology partner from Northeast India, building software that helps
-                businesses everywhere grow with confidence.
-              </h3>
-              <p className="text-body !text-[16px] leading-[1.8]">
-                We imagine a future where every business, from a local startup to a global enterprise, has access
-                to world-class engineering that is reliable, secure and built to last.
+                businesses everywhere grow with confidence. We imagine a future where every business, from a local
+                startup to a global enterprise, has access to world-class engineering that is reliable, secure and
+                built to last.
               </p>
             </motion.article>
 
             {/* Mission */}
             <motion.article
               {...fadeUp(0.1)}
-              className="bg-sky border border-line rounded-card p-7 sm:p-9 md:p-10 text-left flex flex-col"
+              className="bg-[#e3eff5] rounded-[24px] p-7 sm:p-9 md:p-10 text-left"
             >
-              <span className="block text-primary text-sm font-medium mb-3">Our Mission</span>
-              <h3 className="text-ink text-[22px] md:text-2xl font-semibold leading-snug tracking-tight mb-5">
+              <h3 className="text-ink text-2xl md:text-[28px] font-semibold tracking-tight mb-3">Our Mission</h3>
+              <p className="text-ink/85 !text-[16px] md:!text-[17px] leading-[1.7]">
                 To convert complex challenges into scalable, elegant technology solutions that drive real business
-                growth.
-              </h3>
-              <ul className="space-y-3">
-                {missionPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-3 text-body !text-[16px] leading-relaxed">
-                    <FiCheck size={17} className="text-primary shrink-0 mt-1" aria-hidden="true" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
+                growth. We write clean, well-tested code, communicate honestly with clear estimates and no hidden
+                surprises, and stay a long-term partner as your business and technology grow.
+              </p>
             </motion.article>
           </div>
         </div>
@@ -129,15 +119,22 @@ const VisionMission = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {coreValues.map((value, i) => (
               <motion.article
                 key={value.title}
-                {...fadeUp((i % 3) * 0.06)}
-                className="bg-white border border-line rounded-card p-7 text-left"
+                {...fadeUp((i % 2) * 0.06)}
+                className="bg-white rounded-card p-6 sm:p-8 text-left shadow-[0_10px_30px_-12px_rgba(3,47,49,0.14)]"
               >
-                <span className="block w-8 h-[3px] rounded-full bg-primary mb-5" aria-hidden="true" />
-                <h3 className="text-ink text-xl font-semibold tracking-tight mb-2.5">{value.title}</h3>
+                <div className="flex items-center gap-4 mb-4">
+                  <span
+                    className="w-14 h-14 shrink-0 flex items-center justify-center rounded-xl bg-primary text-white"
+                    aria-hidden="true"
+                  >
+                    <value.icon size={26} />
+                  </span>
+                  <h3 className="text-ink text-xl md:text-[22px] font-semibold tracking-tight">{value.title}</h3>
+                </div>
                 <p className="text-body !text-[16px] leading-[1.75]">{value.desc}</p>
               </motion.article>
             ))}
@@ -152,15 +149,12 @@ const VisionMission = () => {
             Let&apos;s build something that lasts
           </h2>
           <p className="text-body !text-[16px] md:!text-[17px] leading-[1.8] mb-8">
-            Work with a team that shares your ambition, or read a personal note from our founder on why we do what
-            we do.
+            Work with a team that shares your ambition and cares about getting it right, from the first idea to
+            long after launch.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <ArrowButton to="/contact" variant="solid" className="justify-between">
+          <div className="flex justify-center">
+            <ArrowButton to="/contact" variant="solid">
               Book a Consultation
-            </ArrowButton>
-            <ArrowButton to="/about/founders-desk" className="justify-between">
-              From Founder&apos;s Desk
             </ArrowButton>
           </div>
         </motion.div>

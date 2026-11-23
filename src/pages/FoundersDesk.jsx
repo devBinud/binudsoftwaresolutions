@@ -31,15 +31,40 @@ const FoundersDesk = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-4 lg:sticky lg:top-28 w-full max-w-sm mx-auto lg:max-w-none bg-white border border-slate-200 rounded-card overflow-hidden"
+            className="lg:col-span-4 lg:sticky lg:top-28 w-full max-w-[300px] lg:max-w-[320px] mx-auto pb-8"
           >
-            <div className="relative aspect-[4/5] bg-gradient-to-b from-[#e6f5fc] to-[#cfe0f5] overflow-hidden">
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0077b6]/10 to-transparent" />
-              <img
-                src={founderPhoto}
-                alt="Binud Panging - Founder & CEO"
-                className="relative w-full h-full object-cover object-bottom"
-              />
+            {/* Portrait: the photo is a transparent cut-out, so the head rises above the top of the blue panel */}
+            <div className="relative">
+              {/* Brand panel behind the photo, starting about a third of the way down */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-0 top-[34%] rounded-[28px] bg-gradient-to-br from-primary via-deep to-navy overflow-hidden"
+              >
+                <img
+                  src="/logo.png"
+                  alt=""
+                  className="absolute -right-8 -top-8 w-36 opacity-40 select-none pointer-events-none"
+                />
+                <span className="absolute -left-10 -top-10 w-36 h-36 rounded-full border border-white/15" />
+                <span className="absolute -left-4 -top-4 w-24 h-24 rounded-full border border-white/10" />
+              </div>
+
+              {/* Bottom corners clipped to match the panel; the top stays open so the head can overflow */}
+              <div className="relative rounded-b-[28px] overflow-hidden">
+                <img
+                  src={founderPhoto}
+                  alt="Binud Panging - Founder & CEO"
+                  width={433}
+                  height={576}
+                  className="relative w-full h-auto"
+                />
+              </div>
+
+              {/* Name tag */}
+              <div className="absolute left-1/2 -translate-x-1/2 -bottom-7 w-[85%] bg-white rounded-2xl px-5 py-3 text-center shadow-[0_12px_30px_-10px_rgba(3,47,49,0.25)]">
+                <span className="block text-ink text-[16px] font-semibold leading-tight">Binud Panging</span>
+                <span className="block text-muted text-[13px] mt-0.5">Founder &amp; CEO</span>
+              </div>
             </div>
           </motion.aside>
 
@@ -75,7 +100,8 @@ const FoundersDesk = () => {
               <p>
                 Every engagement starts with listening, because technology only matters when it solves a real
                 problem for real people. It has been a privilege to work with ambitious teams along the way, from
-                Kangkan, a culture-inspired e-commerce brand, to GiveTheNeedy, a platform built for social good.
+                Kangkan, a culture-inspired e-commerce brand, to Ashoka IAS Academy, a coaching institute shaping
+                future civil servants.
                 Each project has reminded us that the best software comes from true partnership.
               </p>
               <p>

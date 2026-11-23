@@ -16,19 +16,16 @@ import {
   FaServer,
   FaLock
 } from 'react-icons/fa';
+import { FiUser, FiBriefcase, FiClock } from 'react-icons/fi';
 
 // Import assets for Kangkan Case Study
 import kangkanLogo from '../assets/case_studies/kangkan_screenshot/app_logo.webp';
 import kangkanHome from '../assets/case_studies/kangkan_screenshot/1.webp';
 import kangkanCategories from '../assets/case_studies/kangkan_screenshot/2.webp';
 import kangkanCart from '../assets/case_studies/kangkan_screenshot/4.webp';
-// GiveTheNeedy
-import gtnLogo from '../assets/case_studies/givetheneedy_screenshot/logo.webp';
-import gtnDonations from '../assets/case_studies/givetheneedy_screenshot/2.webp';
-import gtnWelcome from '../assets/case_studies/givetheneedy_screenshot/6.webp';
-import gtnHome from '../assets/case_studies/givetheneedy_screenshot/7.webp';
 import ArrowButton from '../components/ArrowButton';
 import WebsitesShowcase from '../sections/WebsitesShowcase';
+import PhoneScreen from '../components/PhoneScreen';
 
 const portfolioJsonLd = {
   '@context': 'https://schema.org',
@@ -47,12 +44,6 @@ const portfolioJsonLd = {
             'position': 1,
             'url': 'https://binudsoftwaresolutions.in/case-studies/case-study/kangkan',
             'name': 'Kangkan: Scalable Mobile-First E-commerce Platform'
-          },
-          {
-            '@type': 'ListItem',
-            'position': 2,
-            'url': 'https://binudsoftwaresolutions.in/case-studies/case-study/givetheneedy',
-            'name': 'GiveTheNeedy: Purpose-Driven Social Impact App'
           }
         ]
       }
@@ -114,32 +105,16 @@ const Portfolio = () => {
       description: 'A premium, culture-inspired mobile e-commerce platform designed to handle massive concurrent traffic, utilizing a stateless backend API and optimized Razorpay checkout integrations.',
       logo: kangkanLogo,
       screens: [kangkanCategories, kangkanHome, kangkanCart],
-      stageColor: '#eadfdf', // matches the screenshots' background so the phones float
+      // Each 166×296 screenshot has the phone at x 15–150, y 8–286 on a flat background
+      screenBox: { width: 166, height: 296, left: 15, top: 8, right: 150, bottom: 286 },
+      stage: 'linear-gradient(140deg, #fbf5f4 0%, #efe3e2 50%, #e0cbc9 100%)',
+      dotColor: 'rgba(122, 52, 52, 0.28)',
       platforms: ['Android', 'iOS'],
       tech: ['React Native', 'Laravel', 'MySQL', 'Razorpay', 'REST APIs'],
       facts: [
-        { label: 'Client', value: 'Kangkan Retail Brands' },
-        { label: 'Industry', value: 'E-commerce & Retail' },
-        { label: 'Timeline', value: '4 months' },
-      ],
-    },
-    {
-      id: 'givetheneedy',
-      name: 'GiveTheNeedy',
-      category: 'Social Impact Mobile App',
-      title: 'GiveTheNeedy: A Purpose-Driven Social Impact App',
-      description: 'A donation platform that connects people who want to give with those in need, through a simple, transparent flow, backed by an event-driven Node.js engine and a flexible MongoDB data layer.',
-      logo: gtnLogo,
-      screens: [gtnHome, gtnWelcome, gtnDonations],
-      // These screenshots are device mockups on coloured strips: crop them into rounded frames
-      framed: true,
-      stageColor: '#ecebfb',
-      platforms: ['Android', 'iOS'],
-      tech: ['React Native', 'Node.js', 'Express', 'MongoDB'],
-      facts: [
-        { label: 'Client', value: 'GiveTheNeedy Foundation' },
-        { label: 'Industry', value: 'Nonprofit & Social Good' },
-        { label: 'Timeline', value: '3 months' },
+        { label: 'Client', value: 'Kangkan Retail Brands', icon: FiUser },
+        { label: 'Industry', value: 'E-commerce & Retail', icon: FiBriefcase },
+        { label: 'Duration', value: '13 months', icon: FiClock },
       ],
     },
   ];
@@ -162,7 +137,7 @@ const Portfolio = () => {
         crumbs={[{ name: 'Case Studies' }]}
         variant="caseStudies"
         description={[
-          'Real projects we have designed, built and shipped, from a culture-inspired e-commerce app to a social impact platform for Android and iOS.',
+          'Real projects we have designed, built and shipped, from a culture-inspired e-commerce app for Android and iOS to live websites for businesses across Assam.',
           'Each case study walks through the challenge, our approach, the technology we chose and the results it delivered.',
         ]}
       />
@@ -187,9 +162,19 @@ const Portfolio = () => {
                   to={link}
                   tabIndex={-1}
                   aria-hidden="true"
-                  className={`relative block min-h-[300px] sm:min-h-[380px] lg:min-h-[460px] overflow-hidden ${flip ? 'lg:order-2' : ''}`}
-                  style={{ backgroundColor: cs.stageColor }}
+                  className={`relative block min-h-[420px] sm:min-h-[460px] lg:min-h-[520px] overflow-hidden ${flip ? 'lg:order-2' : ''}`}
+                  style={{ background: cs.stage }}
                 >
+                  {/* Decoration: soft glow behind the phones, rings top-right, dot grid bottom-left */}
+                  <span aria-hidden="true" className="absolute left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-white/55 blur-3xl" />
+                  <span aria-hidden="true" className="absolute -right-24 -top-24 w-72 h-72 rounded-full border border-white/70" />
+                  <span aria-hidden="true" className="absolute -right-8 -top-8 w-40 h-40 rounded-full border border-white/60" />
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-6 bottom-6 w-32 h-24"
+                    style={{ backgroundImage: `radial-gradient(${cs.dotColor} 1.2px, transparent 1.4px)`, backgroundSize: '14px 14px' }}
+                  />
+
                   <div className="absolute top-5 left-5 flex gap-2 z-20">
                     {cs.platforms.map((platform) => {
                       const { icon: PlatformIcon, color } = platformIcons[platform];
@@ -205,20 +190,26 @@ const Portfolio = () => {
                     })}
                   </div>
 
-                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 sm:gap-5 transition-transform duration-500 ease-out group-hover:-translate-y-2">
-                    {cs.screens.map((screen, i) => {
-                      const centre = i === 1;
-                      const size = centre
-                        ? 'relative z-10 w-32 sm:w-40 lg:w-44 translate-y-6'
-                        : 'w-28 sm:w-32 lg:w-36 translate-y-16';
-                      return cs.framed ? (
-                        <div key={screen} className={`${size} aspect-[185/296] rounded-[18px] overflow-hidden bg-white`}>
-                          <img src={screen} alt="" loading="lazy" className="w-full h-full object-cover scale-[1.14]" />
-                        </div>
-                      ) : (
-                        <img key={screen} src={screen} alt="" loading="lazy" className={size} />
-                      );
-                    })}
+                  {/* Three phones fanned out: the centre one in front, the side ones tilted behind it.
+                      On hover the fan opens slightly; the card itself never moves. */}
+                  <div className="absolute inset-0 flex items-center justify-center pt-16 lg:pt-10">
+                    <div className="flex items-center">
+                      {cs.screens.map((screen, i) => {
+                        const pose = [
+                          'relative z-0 w-28 sm:w-32 lg:w-36 rounded-[15px] -mr-8 sm:-mr-10 translate-y-8 -rotate-[9deg] group-hover:-translate-x-2 group-hover:-rotate-[12deg]',
+                          'relative z-10 w-36 sm:w-40 lg:w-44 rounded-[19px] group-hover:-translate-y-2',
+                          'relative z-0 w-28 sm:w-32 lg:w-36 rounded-[15px] -ml-8 sm:-ml-10 translate-y-8 rotate-[9deg] group-hover:translate-x-2 group-hover:rotate-[12deg]',
+                        ][i];
+                        return (
+                          <PhoneScreen
+                            key={screen}
+                            src={screen}
+                            box={cs.screenBox}
+                            className={`${pose} shadow-[0_30px_55px_-18px_rgba(70,25,25,0.45)] ring-1 ring-black/10 transition-transform duration-500 ease-out`}
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
                 </Link>
 
@@ -243,11 +234,14 @@ const Portfolio = () => {
                     {cs.description}
                   </p>
 
-                  <dl className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 py-5 border-y border-line">
-                    {cs.facts.map((fact) => (
-                      <div key={fact.label} className="min-w-0">
-                        <dt className="text-sm text-muted">{fact.label}</dt>
-                        <dd className="mt-1 text-[15px] font-medium text-ink leading-snug">{fact.value}</dd>
+                  <dl className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {cs.facts.map(({ label, value, icon: FactIcon }) => (
+                      <div key={label} className="min-w-0 rounded-xl bg-sky border border-line px-4 py-3.5">
+                        <dt className="flex items-center gap-1.5 text-[13px] text-muted">
+                          <FactIcon size={14} className="text-primary shrink-0" aria-hidden="true" />
+                          {label}
+                        </dt>
+                        <dd className="mt-1.5 text-[15px] font-semibold text-ink leading-snug">{value}</dd>
                       </div>
                     ))}
                   </dl>

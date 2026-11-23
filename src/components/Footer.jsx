@@ -178,8 +178,8 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom Bar ── */}
-        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#b9cfdc]">
-          <p className="!text-sm order-last sm:order-none">© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
+        <div className="pt-6 border-t border-white/10 flex flex-col items-center justify-center gap-3 text-center text-sm text-[#b9cfdc]">
+          <p className="!text-sm">© {new Date().getFullYear()} Binud Software Solutions. All rights reserved.</p>
           <VisitorCounter />
         </div>
 

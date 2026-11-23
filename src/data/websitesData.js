@@ -4,6 +4,7 @@
 import ashokaImage from '../assets/projects/ashoka_ias_academy_screen.webp';
 import cureoImage from '../assets/projects/cureo_homeopathy_screen.webp';
 import dimaNiwasImage from '../assets/projects/dima_niwas_campsite_screen.webp';
+import osmossionImage from '../assets/projects/osmossion_dialysis_screen.webp';
 
 export const websites = [
   {
@@ -32,5 +33,14 @@ export const websites = [
       'A nature-first website for a lakeside campsite and restaurant, built to show off the stay and bring bookings straight to WhatsApp.',
     image: dimaNiwasImage,
     stageColor: '#d8c6a2',
+  },
+  {
+    id: 'osmossion-dialysis-care',
+    name: 'Osmossion Dialysis Care',
+    url: 'https://www.osmossion.com/',
+    description:
+      'A calm, reassuring website for a dialysis centre in Nagaon that educates patients on kidney health and makes booking an appointment easy.',
+    image: osmossionImage,
+    stageColor: '#c4b3d8',
   },
 ];

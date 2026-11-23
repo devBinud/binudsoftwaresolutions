@@ -1,10 +1,21 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HiChevronDown } from 'react-icons/hi';
+import { HiChevronDown, HiPhone, HiMail } from 'react-icons/hi';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import ArrowButton from './ArrowButton';
 
 const EASE = [0.76, 0, 0.24, 1];
+
+/* Top bar contact details */
+const PHONE = { label: '+91 97063 93924', href: 'tel:+919706393924' };
+const EMAIL = 'binudsoftwaresolutions@gmail.com';
+const socialLinks = [
+  { name: 'Facebook', href: 'https://facebook.com', icon: FaFacebookF },
+  { name: 'Instagram', href: 'https://instagram.com', icon: FaInstagram },
+  { name: 'YouTube', href: 'https://youtube.com', icon: FaYoutube },
+  { name: 'LinkedIn', href: 'https://linkedin.com', icon: FaLinkedinIn },
+];
 
 /* Mobile menu: the list fades in item by item once the panel has started opening */
 const listVariants = {
@@ -36,6 +47,7 @@ const navLinks = [
   {
     name: 'Services',
     path: '/services',
+    bold: true, // the only bold item in the desktop menu
     children: [
       { name: 'Web Development', path: '/services' },
       { name: 'Mobile App Development', path: '/services' },
@@ -56,13 +68,11 @@ const navLinks = [
       { name: 'Gallery', path: '/gallery' },
     ],
   },
+  { name: 'Blog', path: '/blog' },
   {
     name: 'Resources',
-    path: '/blog',
-    children: [
-      { name: 'Blog', path: '/blog' },
-      { name: 'Coding Guides', path: '/coding-guides' },
-    ],
+    path: '/coding-guides',
+    children: [{ name: 'Coding Guides', path: '/coding-guides' }],
   },
 ];
 
@@ -131,7 +141,8 @@ const Navbar = () => {
   };
 
   const linkBase =
-    'relative inline-flex items-center gap-1 h-full text-[16px] font-semibold transition-colors duration-200 whitespace-nowrap';
+    'relative inline-flex items-center gap-1 h-full text-[16px] transition-colors duration-200 whitespace-nowrap';
+  const weight = (link) => (link.bold ? 'font-semibold' : 'font-normal');
 
   return (
     <>
@@ -142,7 +153,44 @@ const Navbar = () => {
         Skip to content
       </a>
 
-      <header className="fixed left-0 right-0 top-0 z-50 font-sans">
+      {/* The contact strip (desktop only, 44px) slides out of view once the page is scrolled,
+          leaving only the nav bar. */}
+      <header
+        className={`fixed left-0 right-0 top-0 z-50 font-sans transition-transform duration-300 ease-in-out ${
+          scrolled ? 'lg:-translate-y-11' : 'translate-y-0'
+        }`}
+      >
+        {/* Contact strip (desktop only) */}
+        <div className="hidden lg:block bg-deep text-white">
+          <div className="max-w-7xl mx-auto px-12 h-11 flex items-center justify-between text-[14px]">
+            <div className="flex items-center gap-7">
+              <a href={PHONE.href} className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+                <HiPhone size={16} aria-hidden="true" />
+                {PHONE.label}
+              </a>
+              <a href={`mailto:${EMAIL}`} className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+                <HiMail size={16} aria-hidden="true" />
+                {EMAIL}
+              </a>
+            </div>
+            <ul className="flex items-center gap-1">
+              {socialLinks.map(({ name, href, icon: Icon }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="w-8 h-8 flex items-center justify-center rounded-full text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         <nav
           aria-label="Main"
           className={`transition-[background-color,box-shadow] duration-300 ${
@@ -175,7 +223,7 @@ const Navbar = () => {
                     <li key={link.name} className="h-full flex items-center">
                       <Link
                         to={link.path}
-                        className={`${linkBase} ${colour}`}
+                        className={`${linkBase} ${weight(link)} ${colour}`}
                         aria-current={active ? 'page' : undefined}
                       >
                         {link.name}
@@ -195,7 +243,7 @@ const Navbar = () => {
                     onBlur={handleBlur}
                     onKeyDown={(e) => handleMenuKeyDown(e, link.name)}
                   >
-                    <span className={`${linkBase} ${colour}`}>
+                    <span className={`${linkBase} ${weight(link)} ${colour}`}>
                       <Link to={link.path} className="py-2">
                         {link.name}
                       </Link>
@@ -268,7 +316,7 @@ const Navbar = () => {
       </header>
 
       {/* Reserves the header's height so page content starts below it */}
-      <div aria-hidden="true" className="h-16 md:h-20" />
+      <div aria-hidden="true" className="h-16 md:h-20 lg:h-[124px]" />
       <span id="main-content" tabIndex={-1} className="sr-only">Main content</span>
 
       {/* ═══ Mobile menu: full-screen panel under the header that wipes down from the top ═══ */}

@@ -60,18 +60,12 @@ export const ROUTE_SEO = {
   '/case-studies': {
     title: 'Case Studies & Portfolio | Binud Software Solutions',
     description:
-      'Real projects we have designed, built and shipped, including the Kangkan e-commerce app and the GiveTheNeedy social impact platform for Android and iOS.',
+      'Real projects we have designed, built and shipped, including the Kangkan e-commerce app for Android and iOS and live websites for businesses across Assam.',
   },
   '/case-studies/case-study/kangkan': {
     title: 'Kangkan E-commerce App Case Study | Binud Software Solutions',
     description:
       'How we built Kangkan, a scalable mobile-first e-commerce app for Android and iOS using React Native, Laravel, MySQL and Razorpay payments.',
-    ogType: 'article',
-  },
-  '/case-studies/case-study/givetheneedy': {
-    title: 'GiveTheNeedy App Case Study | Binud Software Solutions',
-    description:
-      'How we built GiveTheNeedy, a social impact app for Android and iOS that connects donors with verified people in need, using React Native, Node.js and MongoDB.',
     ogType: 'article',
   },
   '/blog': {
